@@ -534,74 +534,217 @@ body .hero:after{
 
 <script>
 const ADMIN_PASSWORD = "server123456";
-const KEY="server_rp_apps_v2",ADMIN_PASSWORD="CHANGE_THIS_PASSWORD";
-const $=id=>document.getElementById(id);
-function apps(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch{return[]}}function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
-function openForm(t){$("type").value=t;$("formTitle").textContent="📝 "+t+" ansøgning";$("formWrap").classList.add("active");$("formWrap").scrollIntoView({behavior:"smooth"})}
-function closeForm(){$("formWrap").classList.remove("active")}
-function submitApplication(e){e.preventDefault();let a=apps();a.push({id:crypto.randomUUID(),type:$("type").value,name:$("name").value.trim(),discord:$("discord").value.trim(),age:$("age").value,discordId:$("discordId").value.trim(),about:$("about").value.trim(),reason:$("reason").value.trim(),experience:$("experience").value.trim(),why:$("why").value.trim(),status:"pending",date:new Date().toLocaleString("da-DK")});save(a);e.target.reset();closeForm();toast("✅ Ansøgningen er sendt!");render()}
-function login(){if($("password").value===ADMIN_PASSWORD){sessionStorage.setItem("server_admin","1");showPanel()}else toast("❌ Forkert password")}
-function showPanel(){$("login").style.display="none";$("panel").style.display="block";render()}function logout(){sessionStorage.removeItem("server_admin");$("panel").style.display="none";$("login").style.display="block";$("password").value=""}
-function render(){let a=apps(),q=($("search")?.value||"").toLowerCase();$("total").textContent=a.length;$("pending").textContent=a.filter(x=>x.status==="pending").length;$("approved").textContent=a.filter(x=>x.status==="approved").length;$("denied").textContent=a.filter(x=>x.status==="denied").length;let f=a.filter(x=>JSON.stringify(x).toLowerCase().includes(q)).reverse();$("list").innerHTML=f.length?f.map(card).join(""):'<div class="card">📭 Ingen ansøgninger fundet.</div>'}
-function card(a){let st=a.status==="approved"?"GODKENDT":a.status==="denied"?"AFVIST":"AFVENTER";return `<div class="submission"><div class="top"><div><h3>${esc(a.name)}</h3><div class="muted">${esc(a.type)}</div></div><span class="status ${a.status}">${st}</span></div><div class="info"><div class="ibox"><small>Discord</small>${esc(a.discord)}</div><div class="ibox"><small>Discord ID</small>${esc(a.discordId)}</div><div class="ibox"><small>Alder</small>${esc(a.age)}</div></div>${ans("Om personen",a.about)}${ans("Hvorfor søger personen?",a.reason)}${ans("Erfaring",a.experience)}${ans("Bidrag",a.why)}<div class="muted">Sendt: ${esc(a.date)}</div><div class="actions">${a.status!=="approved"?`<button class="btn" onclick="status('${a.id}','approved')">✅ Godkend</button>`:""}${a.status!=="denied"?`<button class="btn" onclick="status('${a.id}','denied')">❌ Afvis</button>`:""}<button class="btn" onclick="status('${a.id}','pending')">↩️ Afventer</button><button class="btn" onclick="del('${a.id}')">🗑️ Slet</button></div></div>`}
-function ans(t,v){return `<div class="answer"><b>${t}</b><p>${esc(v)}</p></div>`}function status(id,s){let a=apps(),x=a.find(v=>v.id===id);if(x){x.status=s;save(a);render();toast(s==="approved"?"✅ Godkendt — Discord-botten kan give rollen.":s==="denied"?"❌ Afvist.":"↩️ Sat til afventer.")}}
-function del(id){if(confirm("Slet ansøgningen?")){save(apps().filter(x=>x.id!==id));render();toast("🗑️ Slettet")}}function exportData(){let b=new Blob([JSON.stringify(apps(),null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="server-rp-ansogninger.json";a.click();URL.revokeObjectURL(u)}
-function toast(m){$("toast").textContent=m;$("toast").classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>$("toast").classList.remove("show"),2600)}
-function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
-$("password").addEventListener("keydown",e=>{if(e.key==="Enter")login()});if(sessionStorage.getItem("server_admin")==="1")showPanel();
+const KEY = "server_rp_apps_v2";
+const ADMIN_KEY = "server_admin";
 
-function saveRoleSetting(){
-    const role = document.getElementById("approvedRole").value;
-    localStorage.setItem("server_rp_approved_role", role);
-    showToast("🎭 Godkendelsesrolle gemt: " + role);
+const $ = id => document.getElementById(id);
+
+function getApps(){
+    try{
+        const data = JSON.parse(localStorage.getItem(KEY));
+        return Array.isArray(data) ? data : [];
+    }catch(e){
+        return [];
+    }
 }
 
-function bulkApprove(){
-    if(!confirm("Godkend alle ventende ansøgninger?")) return;
-    const apps = getApplications().map(a => {
-        if(a.status === "pending"){
-            a.status = "approved";
-            a.approvedRole = localStorage.getItem("server_rp_approved_role") || "Staff";
-            a.approvedAt = new Date().toLocaleString("da-DK");
-        }
-        return a;
-    });
-    saveApplications(apps);
-    renderApplications();
-    showToast("⚡ Alle ventende ansøgninger er godkendt.");
+function saveApps(data){
+    localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-function clearDenied(){
-    if(!confirm("Slet ALLE afviste ansøgninger?")) return;
-    saveApplications(getApplications().filter(a => a.status !== "denied"));
-    renderApplications();
-    showToast("🧹 Afviste ansøgninger er ryddet.");
+function makeId(){
+    if(window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
-function adminBackup(){
-    const data = JSON.stringify({
-        exportedAt:new Date().toISOString(),
-        applications:getApplications()
-    },null,2);
-    const blob = new Blob([data],{type:"application/json"});
+function openForm(type){
+    $("type").value = type;
+    $("formTitle").textContent = "📝 " + type + " ansøgning";
+    $("formWrap").classList.add("active");
+    setTimeout(() => $("formWrap").scrollIntoView({behavior:"smooth", block:"start"}), 50);
+}
+
+function closeForm(){
+    $("formWrap").classList.remove("active");
+}
+
+function submitApplication(e){
+    e.preventDefault();
+
+    const app = {
+        id: makeId(),
+        type: $("type").value,
+        name: $("name").value.trim(),
+        discord: $("discord").value.trim(),
+        age: $("age").value,
+        discordId: $("discordId").value.trim(),
+        about: $("about").value.trim(),
+        reason: $("reason").value.trim(),
+        experience: $("experience").value.trim(),
+        why: $("why").value.trim(),
+        status: "pending",
+        approvedRole: "",
+        date: new Date().toLocaleString("da-DK")
+    };
+
+    const data = getApps();
+    data.push(app);
+    saveApps(data);
+
+    e.target.reset();
+    closeForm();
+    toast("✅ Ansøgningen er sendt!");
+    render();
+}
+
+function login(){
+    const password = $("password").value;
+
+    if(password === ADMIN_PASSWORD){
+        sessionStorage.setItem(ADMIN_KEY, "1");
+        $("password").value = "";
+        showPanel();
+        toast("🔓 Admin adgang godkendt");
+    }else{
+        toast("❌ Forkert password");
+        $("password").focus();
+    }
+}
+
+function showPanel(){
+    $("login").style.display = "none";
+    $("panel").style.display = "block";
+    render();
+}
+
+function logout(){
+    sessionStorage.removeItem(ADMIN_KEY);
+    $("panel").style.display = "none";
+    $("login").style.display = "block";
+    toast("🚪 Du er logget ud");
+}
+
+function render(){
+    const data = getApps();
+    const q = ($( "search")?.value || "").toLowerCase().trim();
+
+    $("total").textContent = data.length;
+    $("pending").textContent = data.filter(a => a.status === "pending").length;
+    $("approved").textContent = data.filter(a => a.status === "approved").length;
+    $("denied").textContent = data.filter(a => a.status === "denied").length;
+
+    const filtered = data.filter(a => {
+        if(!q) return true;
+        return JSON.stringify(a).toLowerCase().includes(q);
+    }).slice().reverse();
+
+    $("list").innerHTML = filtered.length
+        ? filtered.map(card).join("")
+        : '<div class="card">📭 Ingen ansøgninger fundet.</div>';
+}
+
+function card(a){
+    const st = a.status === "approved" ? "GODKENDT" : a.status === "denied" ? "AFVIST" : "AFVENTER";
+
+    return `<div class="submission">
+        <div class="top">
+            <div>
+                <h3>${esc(a.name)}</h3>
+                <div class="muted">${esc(a.type)}</div>
+            </div>
+            <span class="status ${esc(a.status)}">${st}</span>
+        </div>
+
+        <div class="info">
+            <div class="ibox"><small>Discord</small>${esc(a.discord)}</div>
+            <div class="ibox"><small>Discord ID</small>${esc(a.discordId)}</div>
+            <div class="ibox"><small>Alder</small>${esc(a.age)}</div>
+        </div>
+
+        ${ans("Om personen", a.about)}
+        ${ans("Hvorfor søger personen?", a.reason)}
+        ${ans("Erfaring", a.experience)}
+        ${ans("Hvorfor skal vi vælge dig?", a.why)}
+
+        ${a.approvedRole ? `<div class="muted">🎭 Godkendelsesrolle: ${esc(a.approvedRole)}</div>` : ""}
+        <div class="muted">Sendt: ${esc(a.date)}</div>
+
+        <div class="actions">
+            ${a.status !== "approved" ? `<button class="btn primary" onclick="setStatus('${a.id}','approved')">✅ Godkend</button>` : ""}
+            ${a.status !== "denied" ? `<button class="btn" onclick="setStatus('${a.id}','denied')">❌ Afvis</button>` : ""}
+            <button class="btn" onclick="setStatus('${a.id}','pending')">↩️ Afventer</button>
+            <button class="btn" onclick="deleteApp('${a.id}')">🗑️ Slet</button>
+        </div>
+    </div>`;
+}
+
+function ans(title,value){
+    return `<div class="answer"><b>${title}</b><p>${esc(value)}</p></div>`;
+}
+
+function setStatus(id,status){
+    const data = getApps();
+    const app = data.find(a => a.id === id);
+    if(!app) return;
+
+    app.status = status;
+
+    if(status === "approved"){
+        app.approvedRole = localStorage.getItem("server_rp_approved_role") || "Staff";
+        app.approvedAt = new Date().toLocaleString("da-DK");
+    }else if(status !== "approved"){
+        app.approvedRole = "";
+        app.approvedAt = "";
+    }
+
+    saveApps(data);
+    render();
+
+    if(status === "approved") toast("✅ Godkendt — rolle: " + app.approvedRole);
+    else if(status === "denied") toast("❌ Ansøgningen er afvist");
+    else toast("↩️ Ansøgningen er sat til afventer");
+}
+
+function deleteApp(id){
+    if(!confirm("Slet ansøgningen?")) return;
+    saveApps(getApps().filter(a => a.id !== id));
+    render();
+    toast("🗑️ Ansøgningen er slettet");
+}
+
+function exportData(){
+    const blob = new Blob([JSON.stringify(getApps(), null, 2)], {type:"application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href=url;
-    a.download="server-rp-admin-backup.json";
+    a.href = url;
+    a.download = "server-rp-ansogninger.json";
+    document.body.appendChild(a);
     a.click();
+    a.remove();
     URL.revokeObjectURL(url);
-    showToast("💾 Admin-backup hentet.");
+    toast("⬇️ Ansøgninger eksporteret");
 }
 
-function showOnlyPending(){
-    currentFilter="pending";
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    renderApplications();
+function esc(v){
+    return String(v ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
-function showAllApplications(){
-    currentFilter="all";
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    renderApplications();
+function toast(message){
+    const el = $("toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
 }
+
+$("password").addEventListener("keydown", e => {
+    if(e.key === "Enter") login();
+});
+
+if(sessionStorage.getItem(ADMIN_KEY) === "1") showPanel();
 </script></body></html>
