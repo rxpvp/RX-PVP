@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RX PvP | Admin</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(circle at 50% -10%,#4b1010 0,#07070a 40%);
+    color:#fff;
+    padding:40px 6%;
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#999;
+    margin-bottom:30px;
+}
+
+.topbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+button{
+    border:0;
+    border-radius:10px;
+    padding:13px 18px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.red{
+    background:linear-gradient(135deg,#ff1f1f,#ff4a4a);
+    color:white;
+}
+
+.dark{
+    background:#15161b;
+    color:white;
+    border:1px solid #303139;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:#101116;
+    border:1px solid #29292f;
+    border-radius:15px;
+    padding:20px;
+}
+
+.stat span{
+    display:block;
+    color:#999;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:28px;
+}
+
+.applications{
+    display:grid;
+    gap:15px;
+}
+
+.application{
+    background:
+        linear-gradient(180deg,#121319,#0d0e12);
+    border:1px solid #29292f;
+    border-radius:16px;
+    padding:22px;
+}
+
+.application:hover{
+    border-color:#ff1f1f;
+}
+
+.application-header{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.application h2{
+    margin:0;
+    font-size:22px;
+}
+
+.badge{
+    display:inline-block;
+    background:rgba(255,31,31,.12);
+    color:#ff5b5b;
+    border:1px solid rgba(255,31,31,.35);
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.info-box{
+    background:#08090c;
+    border:1px solid #29292f;
+    border-radius:10px;
+    padding:12px;
+}
+
+.info-box small{
+    display:block;
+    color:#777;
+    margin-bottom:5px;
+}
+
+.info-box b{
+    word-break:break-word;
+}
+
+.answer{
+    background:#08090c;
+    border:1px solid #29292f;
+    border-radius:10px;
+    padding:15px;
+    margin-top:10px;
+}
+
+.answer strong{
+    display:block;
+    margin-bottom:7px;
+    color:#ff4a4a;
+}
+
+.answer p{
+    margin:0;
+    color:#ccc;
+    line-height:1.5;
+    white-space:pre-wrap;
+}
+
+.delete{
+    background:#1b0b0b;
+    color:#ff5555;
+    border:1px solid #5b1d1d;
+}
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    color:#888;
+    background:#101116;
+    border:1px solid #29292f;
+    border-radius:16px;
+}
+
+@media(max-width:800px){
+
+    body{
+        padding:25px 5%;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .info{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔴 RX PVP ADMIN</h1>
+
+<div class="subtitle">
+    Ansøgninger modtaget på hjemmesiden
+</div>
+
+<div class="topbar">
+
+    <button class="red" onclick="loadApplications()">
+        🔄 Opdater
+    </button>
+
+    <button class="dark" onclick="deleteAll()">
+        🗑️ Slet alle
+    </button>
+
+    <button class="dark" onclick="window.location.href='index.html'">
+        🏠 Til hjemmesiden
+    </button>
+
+</div>
+
+<div class="stats">
+
+    <div class="stat">
+        <span>ALLE ANSØGNINGER</span>
+        <strong id="total">0</strong>
+    </div>
+
+    <div class="stat">
+        <span>STAFF</span>
+        <strong id="staff">0</strong>
+    </div>
+
+    <div class="stat">
+        <span>DEVELOPER</span>
+        <strong id="developer">0</strong>
+    </div>
+
+    <div class="stat">
+        <span>ANDRE</span>
+        <strong id="other">0</strong>
+    </div>
+
+</div>
+
+<div id="applications" class="applications"></div>
+
+<script>
+
+function loadApplications(){
+
+    const container =
+        document.getElementById("applications");
+
+    let applications =
+        JSON.parse(
+            localStorage.getItem("rxpvpApplications")
+        ) || [];
+
+    document.getElementById("total").textContent =
+        applications.length;
+
+    document.getElementById("staff").textContent =
+        applications.filter(
+            app => app.type === "Staff"
+        ).length;
+
+    document.getElementById("developer").textContent =
+        applications.filter(
+            app => app.type === "Developer"
+        ).length;
+
+    document.getElementById("other").textContent =
+        applications.filter(
+            app =>
+                app.type !== "Staff" &&
+                app.type !== "Developer"
+        ).length;
+
+    if(applications.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                <h2>📭 Ingen ansøgninger</h2>
+                <p>Der er ikke blevet sendt nogen ansøgninger endnu.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    applications
+        .slice()
+        .reverse()
+        .forEach((app,index)=>{
+
+            const realIndex =
+                applications.length - 1 - index;
+
+            const div =
+                document.createElement("div");
+
+            div.className = "application";
+
+            div.innerHTML = `
+
+                <div class="application-header">
+
+                    <div>
+                        <h2>
+                            📝 ${escapeHTML(app.name)}
+                        </h2>
+                    </div>
+
+                    <span class="badge">
+                        ${escapeHTML(app.type)}
+                    </span>
+
+                </div>
+
+                <div class="info">
+
+                    <div class="info-box">
+                        <small>DISCORD</small>
+                        <b>${escapeHTML(app.discord)}</b>
+                    </div>
+
+                    <div class="info-box">
+                        <small>ALDER</small>
+                        <b>${escapeHTML(app.age)}</b>
+                    </div>
+
+                    <div class="info-box">
+                        <small>DATO</small>
+                        <b>${escapeHTML(app.date)}</b>
+                    </div>
+
+                </div>
+
+                <div class="answer">
+
+                    <strong>👤 Fortæl lidt om dig selv</strong>
+
+                    <p>${escapeHTML(app.about)}</p>
+
+                </div>
+
+                <div class="answer">
+
+                    <strong>🎯 Hvorfor skal vi vælge dig?</strong>
+
+                    <p>${escapeHTML(app.reason)}</p>
+
+                </div>
+
+                <div class="answer">
+
+                    <strong>💼 Erfaring</strong>
+
+                    <p>${escapeHTML(app.experience || "Ingen erfaring angivet.")}</p>
+
+                </div>
+
+                <br>
+
+                <button
+                    class="delete"
+                    onclick="deleteApplication(${realIndex})">
+
+                    🗑️ Slet ansøgning
+
+                </button>
+
+            `;
+
+            container.appendChild(div);
+
+        });
+}
+
+
+function deleteApplication(index){
+
+    if(
+        !confirm(
+            "Er du sikker på, at du vil slette denne ansøgning?"
+        )
+    ){
+        return;
+    }
+
+    let applications =
+        JSON.parse(
+            localStorage.getItem("rxpvpApplications")
+        ) || [];
+
+    applications.splice(index,1);
+
+    localStorage.setItem(
+        "rxpvpApplications",
+        JSON.stringify(applications)
+    );
+
+    loadApplications();
+}
+
+
+function deleteAll(){
+
+    let applications =
+        JSON.parse(
+            localStorage.getItem("rxpvpApplications")
+        ) || [];
+
+    if(applications.length === 0){
+        alert("Der er ingen ansøgninger at slette.");
+        return;
+    }
+
+    if(
+        !confirm(
+            "ADVARSEL!\n\nVil du virkelig slette ALLE ansøgninger?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem("rxpvpApplications");
+
+    loadApplications();
+}
+
+
+function escapeHTML(text){
+
+    if(text === undefined || text === null){
+        return "";
+    }
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+loadApplications();
+
+</script>
+
+</body>
+</html>
