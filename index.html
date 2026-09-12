@@ -3,748 +3,1968 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SERVER RP | Ansøgninger</title>
-<style>
-:root{--bg:#05070b;--panel:rgba(12,16,23,.84);--line:rgba(255,255,255,.09);--text:#f5f7fb;--muted:#8e98a8;--a:#7c5cff;--b:#00d4ff;--good:#31e981;--bad:#ff4d67}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% 0%,#11172b 0,#05070e 38%,#020308 100%);color:var(--text);font-family:Arial,sans-serif;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-5;background:linear-gradient(115deg,rgba(139,92,246,.08),transparent 32%,rgba(34,211,238,.06) 65%,transparent),repeating-linear-gradient(0deg,transparent 0 49px,rgba(255,255,255,.018) 50px),repeating-linear-gradient(90deg,transparent 0 49px,rgba(255,255,255,.018) 50px)}
-body:after{content:"";position:fixed;inset:0;z-index:-4;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.62) 100%)}
-.grid{position:fixed;inset:-30%;z-index:-3;opacity:.22;background-image:linear-gradient(rgba(34,211,238,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.07) 1px,transparent 1px);background-size:70px 70px;transform:perspective(500px) rotateX(58deg) translateY(20%);animation:gridmove 16s linear infinite}
-.orb{position:fixed;border-radius:50%;filter:blur(85px);z-index:-2;opacity:.38;animation:float 12s ease-in-out infinite}.o1{width:420px;height:420px;background:#6d28d9;left:-150px;top:8%}.o2{width:360px;height:360px;background:#0891b2;right:-130px;top:42%;animation-delay:-5s}
-@keyframes float{50%{transform:translateY(-45px) translateX(35px)}}@keyframes gridmove{to{transform:perspective(500px) rotateX(58deg) translateY(30%)}}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 6%;background:rgba(3,5,12,.64);backdrop-filter:blur(24px);border-bottom:1px solid rgba(139,92,246,.18);box-shadow:0 10px 50px rgba(0,0,0,.25)}
-.logo{font-weight:1000;letter-spacing:2px;font-size:21px}.logo span{color:var(--b)}nav a{color:#b9c1ce;text-decoration:none;margin-left:22px;font-weight:800;font-size:13px}nav a:hover{color:white}
-.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:130px 20px 80px;position:relative}.badge{display:inline-flex;gap:8px;align-items:center;padding:9px 14px;border:1px solid rgba(124,92,255,.35);border-radius:99px;background:rgba(124,92,255,.1);font-size:11px;font-weight:900;letter-spacing:1.5px}.dot{width:7px;height:7px;background:var(--good);border-radius:50%;box-shadow:0 0 15px var(--good)}
-.hero h1{font-size:clamp(58px,11vw,135px);line-height:.88;margin:24px 0 20px;letter-spacing:-7px;text-shadow:0 20px 70px rgba(0,0,0,.55)}.hero h1 span{background:linear-gradient(100deg,#fff,var(--b),var(--a));-webkit-background-clip:text;color:transparent}.hero p{max-width:700px;margin:auto;color:var(--muted);font-size:18px;line-height:1.7}.buttons{margin-top:30px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:white;font-weight:900;cursor:pointer;margin:5px;transition:.2s;background:#111722}.btn:hover{transform:translateY(-3px);border-color:rgba(124,92,255,.6);box-shadow:0 12px 35px rgba(0,0,0,.3)}.primary{border:0;background:linear-gradient(135deg,var(--a),#4f8cff);box-shadow:0 10px 35px rgba(124,92,255,.25)}
-section{max-width:1180px;margin:auto;padding:100px 6%}h2{font-size:38px;margin:0 0 10px}.sub{color:var(--muted);margin:0 0 35px}
-.cards,.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.apps{grid-template-columns:1fr 1fr}.card,.app,.submission,.stat{padding:25px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(18,23,36,.82),rgba(6,9,16,.72));backdrop-filter:blur(18px);transition:.25s;box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 20px 60px rgba(0,0,0,.18)}.card:hover,.app:hover{transform:translateY(-5px);border-color:rgba(124,92,255,.35)}.ico{font-size:28px}.card h3,.app h3{margin:15px 0 8px}.card p,.app p{color:var(--muted);line-height:1.6}.app{position:relative;overflow:hidden}.app:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.035),transparent 65%);transform:translateX(-100%);transition:.5s}.app:hover:before{transform:translateX(100%)}.app:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-90px;top:-90px;background:rgba(124,92,255,.18);filter:blur(28px)}
-.form-wrap{display:none;margin-top:30px;padding:30px;border:1px solid rgba(124,92,255,.35);border-radius:22px;background:rgba(8,11,17,.9)}.form-wrap.active{display:block}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.group{margin-bottom:16px}.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:900;margin-bottom:7px}input,select,textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:11px;background:#070a0f;color:white;outline:none;font:inherit}input:focus,select:focus,textarea:focus{border-color:var(--a);box-shadow:0 0 20px rgba(124,92,255,.12)}textarea{min-height:125px;resize:vertical}.notice{padding:14px;border-radius:12px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.16);color:#b8dce5;margin-bottom:18px;font-size:13px;line-height:1.5}
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:14px}.rule{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.rule b{display:block;margin-bottom:6px}.rule span{color:var(--muted);line-height:1.5}.discord{padding:35px;border-radius:24px;border:1px solid rgba(124,92,255,.3);background:linear-gradient(120deg,rgba(124,92,255,.13),rgba(0,212,255,.05),rgba(10,13,19,.9))}
-.admin-login{max-width:450px;margin:auto;padding:30px;border:1px solid var(--line);border-radius:20px;background:var(--panel)}.admin-panel{display:none}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:25px 0}.num{font-size:34px;font-weight:1000;color:var(--b)}.muted{color:var(--muted);font-size:13px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.toolbar input{flex:1;min-width:220px}.list{display:grid;gap:15px}.submission{background:var(--panel)}.top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.status{padding:7px 11px;border-radius:99px;font-size:11px;font-weight:1000}.pending{background:rgba(255,190,50,.1);color:#ffd56b}.approved{background:rgba(49,233,129,.1);color:var(--good)}.denied{background:rgba(255,77,103,.1);color:#ff8295}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.ibox{padding:12px;border-radius:10px;background:#070a0f;border:1px solid var(--line)}.ibox small{display:block;color:#707988;margin-bottom:4px}.answer{margin-top:15px}.answer b{color:#a998ff}.answer p{white-space:pre-wrap;color:#c0c7d2;line-height:1.55}.actions{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line);padding-top:17px;margin-top:17px}.actions .btn{margin:0}.toast{position:fixed;right:20px;bottom:20px;padding:15px 18px;border:1px solid var(--line);background:#111722;border-radius:12px;display:none;z-index:100}.toast.show{display:block}footer{text-align:center;padding:55px 20px;border-top:1px solid var(--line);color:#657080}
-@media(max-width:800px){nav div:last-child{display:none}.cards,.apps,.rules,.form-grid,.stats,.info{grid-template-columns:1fr}.hero h1{letter-spacing:-5px}.hero p{font-size:16px}section{padding:70px 6%}}
 
-/* ===== ULTRA FUTURE APPLICATION LOOK ===== */
-body{
-    overflow-x:hidden;
+<style>
+:root {
+    --bg: #07020d;
+    --bg2: #10051a;
+    --card: rgba(20, 8, 30, 0.82);
+    --line: rgba(255, 70, 190, 0.22);
+    --pink: #ff3cac;
+    --pink2: #ff70c7;
+    --blue: #36bfff;
+    --green: #35e28a;
+    --red: #ff4567;
+    --text: #ffffff;
+    --muted: #a99eb1;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: var(--text);
     background:
-      radial-gradient(circle at 15% 20%,rgba(0,119,255,.22),transparent 28%),
-      radial-gradient(circle at 85% 10%,rgba(0,210,255,.15),transparent 25%),
-      linear-gradient(135deg,#020814 0%,#06152d 48%,#020713 100%);
+        radial-gradient(circle at 15% 20%, rgba(255, 0, 170, 0.25), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(0, 170, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 50% 80%, rgba(255, 0, 130, 0.16), transparent 35%),
+        linear-gradient(135deg, #050107, #12051d 50%, #020811);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
-body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-1;
-    opacity:.35;
+
+/* BAGGRUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
     background-image:
-      linear-gradient(rgba(50,170,255,.07) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(50,170,255,.07) 1px,transparent 1px);
-    background-size:55px 55px;
-    transform:perspective(500px) rotateX(55deg) scale(1.8) translateY(35%);
-    transform-origin:center bottom;
-}
-body:after{
-    content:"";
-    position:fixed;
-    width:700px;height:700px;
-    left:50%;top:35%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(0,132,255,.12),transparent 65%);
-    filter:blur(20px);
-    pointer-events:none;
-    z-index:-1;
-    animation:pulseBlue 6s ease-in-out infinite;
-}
-@keyframes pulseBlue{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.9)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}}
-
-nav{
-    background:rgba(2,8,20,.72)!important;
-    border-bottom:1px solid rgba(55,175,255,.22)!important;
-    box-shadow:0 10px 50px rgba(0,90,255,.12);
-}
-.logo span,.hero h1 span,.application-type,.answer-box h4,.stat-number{
-    color:#31b7ff!important;
-    text-shadow:0 0 22px rgba(0,157,255,.5);
-}
-.hero{
-    min-height:78vh;
-    position:relative;
-}
-.hero:before{
-    content:"APPLICATIONS // ONLINE";
-    position:absolute;
-    top:115px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:10px;
-    letter-spacing:5px;
-    color:rgba(74,190,255,.55);
-    white-space:nowrap;
-}
-.hero h1{
-    text-transform:uppercase;
-    text-shadow:0 0 55px rgba(0,130,255,.18);
-}
-.tag{
-    background:rgba(0,130,255,.09)!important;
-    border-color:rgba(49,183,255,.35)!important;
-    color:#9cddff!important;
-}
-.btn.primary{
-    background:linear-gradient(135deg,#087cff,#31c5ff)!important;
-    box-shadow:0 12px 40px rgba(0,130,255,.28)!important;
-}
-.card,.application-card,.application-form,.admin-login,.admin-application,.stat,.admin-empty,.modal-box{
-    background:linear-gradient(145deg,rgba(10,24,47,.88),rgba(3,10,22,.94))!important;
-    border-color:rgba(67,168,255,.17)!important;
-    backdrop-filter:blur(18px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 20px 70px rgba(0,50,120,.12);
-}
-.application-card{
-    position:relative;
-    overflow:hidden;
-}
-.application-card:before{
-    content:"";
-    position:absolute;
-    width:180px;height:180px;
-    right:-90px;top:-90px;
-    border-radius:50%;
-    background:rgba(0,151,255,.13);
-    filter:blur(15px);
-}
-.application-card:hover{
-    border-color:rgba(49,183,255,.55)!important;
-    box-shadow:0 20px 60px rgba(0,130,255,.18)!important;
-}
-.application-card button{
-    position:relative;
-}
-.application-form.active{
-    animation:formIn .45s ease both;
-}
-@keyframes formIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.form-group input,.form-group textarea,.admin-input,.search-input,.edit-input,.edit-textarea{
-    background:rgba(1,7,16,.78)!important;
-    border-color:rgba(67,168,255,.2)!important;
-}
-.form-group input:focus,.form-group textarea:focus,.admin-input:focus,.search-input:focus,.edit-input:focus,.edit-textarea:focus{
-    border-color:#159cff!important;
-    box-shadow:0 0 25px rgba(0,145,255,.18)!important;
-}
-footer{
-    background:rgba(1,6,14,.55);
-    border-color:rgba(67,168,255,.14)!important;
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 55px 55px;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    z-index: -2;
 }
 
-
-.admin-control-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-    margin:20px 0;
-}
-.admin-control{
-    padding:20px;
-    border:1px solid rgba(50,180,255,.2);
-    border-radius:16px;
-    background:rgba(3,15,31,.72);
-}
-.control-title{font-weight:900;font-size:17px;margin-bottom:12px}
-.control-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.admin-control select{
-    flex:1;min-width:180px;padding:13px;border-radius:10px;
-    border:1px solid #234b6d;background:#050d19;color:white;
-}
-.admin-control small{display:block;color:#7fa1ba;margin-top:12px;line-height:1.5}
-@media(max-width:800px){.admin-control-grid{grid-template-columns:1fr}}
-</style>
-
-<style>
-/* ===== NEXT-GEN SERVER RP APPLICATION UI ===== */
-:root{
-  --electric:#21b7ff;
-  --ice:#9ee8ff;
-  --deep:#020814;
-  --glass:rgba(5,18,38,.68);
-}
-body{background:#020814!important}
-body:before{
-  background-image:
-    linear-gradient(rgba(33,183,255,.045) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(33,183,255,.045) 1px,transparent 1px)!important;
-  background-size:42px 42px!important;
-  transform:perspective(700px) rotateX(62deg) scale(2) translateY(38%)!important;
-  animation:gridMove 14s linear infinite;
-}
-@keyframes gridMove{to{background-position:0 42px,42px 0}}
-
-body:after{
-  width:900px!important;height:900px!important;
-  background:conic-gradient(from 90deg,transparent,rgba(0,150,255,.16),transparent 35%,rgba(0,220,255,.10),transparent 65%)!important;
-  filter:blur(45px)!important;
-  animation:orb 12s ease-in-out infinite!important;
-}
-@keyframes orb{
-  0%,100%{transform:translate(-50%,-50%) rotate(0deg) scale(.8)}
-  50%{transform:translate(-50%,-50%) rotate(180deg) scale(1.12)}
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 170, 0.12);
+    filter: blur(130px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -3;
 }
 
-/* Floating futuristic particles */
-body .hero:after{
-  content:"✦  ·  ✧     ·       ✦        ·   ✧     ·        ✦";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  color:rgba(100,215,255,.3);
-  font-size:24px;
-  letter-spacing:42px;
-  line-height:95px;
-  overflow:hidden;
-  animation:stars 18s linear infinite;
-}
-@keyframes stars{from{transform:translateY(0)}to{transform:translateY(-95px)}}
+/* NAV */
 
-/* Hero HUD */
-.hero>div{position:relative;z-index:2}
-.hero>div:before{
-  content:"SERVER RP  /  APPLICATION NETWORK  /  ONLINE";
-  display:block;
-  margin:0 auto 22px;
-  width:max-content;
-  max-width:90vw;
-  padding:8px 14px;
-  border:1px solid rgba(33,183,255,.25);
-  border-radius:4px;
-  background:rgba(0,120,255,.06);
-  color:rgba(158,232,255,.72);
-  font:700 9px Arial,sans-serif;
-  letter-spacing:3px;
-  box-shadow:0 0 25px rgba(0,150,255,.08);
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 72px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(7, 2, 13, 0.78);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
 }
 
-/* Scanline */
-.hero>div:after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  width:1px;
-  height:100%;
-  background:linear-gradient(transparent,rgba(50,200,255,.35),transparent);
-  opacity:.45;
+.logo {
+    font-size: 23px;
+    font-weight: 1000;
+    letter-spacing: 2px;
 }
 
-/* Cards become holographic */
-.application-grid{perspective:1200px}
-.application-card{
-  transform-style:preserve-3d;
-  overflow:hidden!important;
-  min-height:230px;
-  position:relative;
-}
-.application-card:after{
-  content:"";
-  position:absolute;
-  top:-100%;
-  left:-60%;
-  width:45%;
-  height:300%;
-  transform:rotate(25deg);
-  background:linear-gradient(90deg,transparent,rgba(150,235,255,.11),transparent);
-  transition:.7s;
-}
-.application-card:hover:after{left:130%}
-.application-card:hover{
-  transform:translateY(-9px) rotateX(2deg) rotateY(-2deg)!important;
-}
-.application-card h3{
-  font-size:24px!important;
-  letter-spacing:-.5px;
-}
-.application-card p{min-height:60px}
-
-/* Application number */
-.application-card:before{
-  content:"01";
-  width:auto!important;height:auto!important;
-  right:18px!important;top:14px!important;
-  background:none!important;
-  filter:none!important;
-  color:rgba(70,190,255,.16);
-  font:bold 54px Arial,sans-serif;
-}
-.application-card:nth-child(2):before{content:"02"}
-.application-card:nth-child(3):before{content:"03"}
-.application-card:nth-child(4):before{content:"04"}
-
-/* Button futuristic sweep */
-.btn{position:relative;overflow:hidden}
-.btn:after{
-  content:"";
-  position:absolute;
-  top:0;left:-120%;
-  width:80%;height:100%;
-  transform:skewX(-25deg);
-  background:rgba(255,255,255,.16);
-  transition:.55s;
-}
-.btn:hover:after{left:140%}
-
-/* Form header */
-.application-form{
-  position:relative;
-  overflow:hidden;
-}
-.application-form:before{
-  content:"SECURE APPLICATION CHANNEL";
-  position:absolute;
-  right:25px;top:22px;
-  font-size:9px;
-  letter-spacing:2px;
-  color:rgba(80,200,255,.5);
-}
-.application-form h3{color:#eaf9ff}
-
-/* Tiny live status */
-.tag:before{
-  content:"● ";
-  color:#48e1ff;
-  animation:blink 1.2s infinite;
-}
-@keyframes blink{50%{opacity:.25}}
-
-/* Mobile */
-@media(max-width:800px){
-  .hero>div:before{font-size:7px;letter-spacing:2px}
-  .hero:after{font-size:16px;letter-spacing:22px}
-}
-</style>
-
-<style>
-/* ===== RX PINK // NEON APPLICATION THEME ===== */
-:root{
-  --electric:#ff2bd6;
-  --ice:#ffd1f7;
-  --deep:#09000d;
-  --glass:rgba(28,3,32,.72);
-}
-html{scroll-behavior:smooth}
-body{
-  background:
-    radial-gradient(circle at 15% 15%,rgba(255,0,180,.25),transparent 30%),
-    radial-gradient(circle at 85% 30%,rgba(140,0,255,.22),transparent 32%),
-    radial-gradient(circle at 50% 90%,rgba(255,40,160,.16),transparent 35%),
-    #08000d!important;
-  color:#fff;
-}
-body:before{
-  background-image:
-    linear-gradient(rgba(255,43,214,.055) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,43,214,.055) 1px,transparent 1px)!important;
-  background-size:45px 45px!important;
-  transform:perspective(700px) rotateX(62deg) scale(2) translateY(38%)!important;
-  animation:pinkGrid 12s linear infinite;
-}
-@keyframes pinkGrid{to{background-position:0 45px,45px 0}}
-
-body:after{
-  width:850px!important;
-  height:850px!important;
-  background:
-    conic-gradient(from 20deg,
-      transparent,
-      rgba(255,43,214,.18),
-      transparent 28%,
-      rgba(185,50,255,.16),
-      transparent 58%,
-      rgba(255,43,214,.14),
-      transparent)!important;
-  filter:blur(42px)!important;
-  animation:pinkOrb 10s ease-in-out infinite!important;
-}
-@keyframes pinkOrb{
-  0%,100%{transform:translate(-50%,-50%) rotate(0) scale(.78)}
-  50%{transform:translate(-50%,-50%) rotate(180deg) scale(1.12)}
+.logo span {
+    color: var(--pink);
+    text-shadow: 0 0 25px rgba(255, 60, 172, 0.8);
 }
 
-nav{
-  background:rgba(9,0,13,.86)!important;
-  border-bottom-color:rgba(255,43,214,.28)!important;
-  box-shadow:0 10px 40px rgba(255,0,180,.08);
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 14px;
+    font-weight: 800;
+    transition: 0.2s;
 }
-.logo span,.hero h1 span,footer strong{
-  color:#ff49df!important;
-  text-shadow:0 0 25px rgba(255,43,214,.65)!important;
-}
-nav a:hover{color:#ff62e5!important}
 
-.hero>div:before{
-  content:"SERVER RP  /  APPLICATION NETWORK  /  ONLINE";
-  border-color:rgba(255,43,214,.35);
-  background:rgba(255,0,180,.08);
-  color:#ffb9f1;
-  box-shadow:0 0 30px rgba(255,43,214,.12);
+nav a:hover {
+    color: var(--pink);
 }
-.hero>div:after{
-  background:linear-gradient(transparent,#ff38d8,transparent);
-}
-.tag{
-  background:rgba(255,43,214,.12)!important;
-  border-color:rgba(255,92,225,.38)!important;
-  color:#ffc1f2!important;
-}
-.tag:before{
-  color:#ff5cdd!important;
-}
-.primary{
-  background:linear-gradient(135deg,#ff149f,#ff3bdf,#9f20ff)!important;
-  box-shadow:0 12px 40px rgba(255,20,180,.32)!important;
-}
-.primary:hover{
-  box-shadow:0 18px 55px rgba(255,20,180,.58)!important;
-}
-.secondary:hover{
-  border-color:#ff36d5!important;
-  color:#ff7ce7!important;
-}
-.application-card,
-.application-form,
-.admin-control,
-.stat,
-.admin-application,
-.admin-login{
-  border-color:rgba(255,43,214,.22)!important;
-  background:
-    linear-gradient(145deg,rgba(28,4,34,.86),rgba(10,1,16,.92))!important;
-  box-shadow:inset 0 1px rgba(255,255,255,.035),0 15px 50px rgba(170,0,150,.08);
-}
-.application-card:hover{
-  border-color:rgba(255,43,214,.65)!important;
-  box-shadow:0 18px 55px rgba(255,20,180,.16)!important;
-}
-.application-form{
-  box-shadow:0 20px 70px rgba(255,0,180,.12)!important;
-}
-.application-form:before{
-  color:rgba(255,92,225,.58)!important;
-}
-.application-type,.answer-box h4{color:#ff62df!important}
-.filter-btn.active,.filter-btn:hover{
-  background:#ff20b9!important;
-  border-color:#ff20b9!important;
-}
-.admin-control select{
-  border-color:#63235c!important;
-  background:#120316!important;
-}
-.success-btn{background:#a81b7c!important}
-.mobile-menu{
-  background:rgba(13,1,18,.98)!important;
-  border-color:rgba(255,43,214,.4)!important;
-}
-.mobile-apply{
-  background:linear-gradient(135deg,#ff149f,#ff3bdf)!important;
-}
-body .hero:after{
-  content:"✦   ·   ✧      ·      ✦       ·    ✧    ·       ✦";
-  color:rgba(255,130,230,.34);
-}
-</style>
 
+/* HERO */
 
-<style>
-.rp-features{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin:0 0 25px;
+.hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 120px 20px 70px;
+    position: relative;
 }
-.rp-features div{
-  padding:16px;
-  border:1px solid rgba(255,43,214,.18);
-  border-radius:14px;
-  background:rgba(20,2,25,.62);
-  backdrop-filter:blur(10px);
-}
-.rp-features b{display:block;color:#ff61df;font-size:12px;letter-spacing:1px}
-.rp-features span{display:block;color:#9e839d;font-size:12px;margin-top:6px}
-@media(max-width:800px){.rp-features{grid-template-columns:1fr 1fr}}
-</style>
 
-
-<style>
-#adminSystemStatus{
-    padding:10px 12px;
-    border:1px solid rgba(255,43,214,.2);
-    border-radius:10px;
-    background:rgba(255,43,214,.05);
+.hero-content {
+    max-width: 850px;
 }
-.admin-security-note{
-    margin-top:12px;
-    padding:12px;
-    border-radius:10px;
-    background:rgba(255,43,214,.06);
-    border:1px solid rgba(255,43,214,.14);
-    color:#c7a9c4;
-    font-size:12px;
-    line-height:1.5;
+
+.badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 60, 172, 0.4);
+    background: rgba(255, 60, 172, 0.08);
+    color: #ff9cda;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    box-shadow: 0 0 35px rgba(255, 60, 172, 0.12);
+}
+
+.hero h1 {
+    margin: 25px 0 10px;
+    font-size: clamp(65px, 13vw, 150px);
+    line-height: 0.85;
+    letter-spacing: -8px;
+    font-weight: 1000;
+}
+
+.hero h1 span {
+    color: var(--pink);
+    text-shadow:
+        0 0 25px rgba(255, 60, 172, 0.7),
+        0 0 80px rgba(255, 60, 172, 0.35);
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 30px auto;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* BUTTONS */
+
+.btn {
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 23px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 900;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.primary {
+    background: linear-gradient(135deg, #ff239f, #ff4dc0);
+    box-shadow: 0 12px 35px rgba(255, 60, 172, 0.3);
+}
+
+.primary:hover {
+    box-shadow: 0 15px 50px rgba(255, 60, 172, 0.55);
+}
+
+.secondary {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+}
+
+.green {
+    background: linear-gradient(135deg, #159b5a, #35e28a);
+}
+
+.red {
+    background: linear-gradient(135deg, #bd1837, #ff4567);
+}
+
+.blue {
+    background: linear-gradient(135deg, #168bd0, #36bfff);
+}
+
+/* SECTIONS */
+
+section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 90px 7%;
+}
+
+.section-title {
+    margin-bottom: 35px;
+}
+
+.section-title h2 {
+    font-size: 40px;
+    margin: 0 0 8px;
+}
+
+.section-title p {
+    color: var(--muted);
+}
+
+/* APPLICATION CARDS */
+
+.application-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.application-card {
+    position: relative;
+    padding: 28px;
+    border-radius: 20px;
+    background: linear-gradient(
+        145deg,
+        rgba(25, 9, 36, 0.95),
+        rgba(10, 5, 17, 0.95)
+    );
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: 0.25s;
+}
+
+.application-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -90px;
+    top: -90px;
+    background: rgba(255, 60, 172, 0.15);
+    filter: blur(45px);
+    border-radius: 50%;
+}
+
+.application-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 60, 172, 0.6);
+    box-shadow: 0 20px 60px rgba(255, 60, 172, 0.12);
+}
+
+.application-icon {
+    font-size: 35px;
+}
+
+.application-card h3 {
+    margin: 15px 0 8px;
+    font-size: 24px;
+}
+
+.application-card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.application-card .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* FORM */
+
+.form-box {
+    display: none;
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(12, 5, 18, 0.95);
+    border: 1px solid rgba(255, 60, 172, 0.3);
+    box-shadow: 0 20px 70px rgba(0,0,0,0.35);
+}
+
+.form-box.active {
+    display: block;
+}
+
+.form-box h3 {
+    font-size: 27px;
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 900;
+    font-size: 14px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 11px;
+    border: 1px solid #35243d;
+    background: #08040c;
+    color: white;
+    outline: none;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 18px rgba(255,60,172,0.15);
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+select option {
+    background: #100719;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.message {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.message.show {
+    display: block;
+}
+
+.success {
+    color: #7dffb9;
+    background: rgba(53,226,138,0.1);
+    border: 1px solid rgba(53,226,138,0.3);
+}
+
+.error {
+    color: #ff8ca2;
+    background: rgba(255,69,103,0.1);
+    border: 1px solid rgba(255,69,103,0.3);
+}
+
+/* ADMIN */
+
+.admin-area {
+    max-width: 1200px;
+    margin: auto;
+    padding: 100px 7%;
+}
+
+.admin-login {
+    max-width: 470px;
+    margin: auto;
+    padding: 32px;
+    border-radius: 22px;
+    background: rgba(13,5,20,0.95);
+    border: 1px solid rgba(255,60,172,0.35);
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+
+.admin-login h2 {
+    margin-top: 0;
+}
+
+.admin-login p {
+    color: var(--muted);
+}
+
+.admin-panel {
+    display: none;
+}
+
+.admin-panel.active {
+    display: block;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.admin-header h2 {
+    margin: 0;
+    font-size: 35px;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    padding: 22px;
+    border-radius: 17px;
+    background: var(--card);
+    border: 1px solid var(--line);
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 1000;
+    color: var(--pink);
+}
+
+.stat-label {
+    margin-top: 5px;
+    color: var(--muted);
+}
+
+/* ADMIN TOOLS */
+
+.admin-tools {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.search {
+    flex: 1;
+    min-width: 240px;
+}
+
+.filter {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #100719;
+    color: white;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.filter.active {
+    background: var(--pink);
+    border-color: var(--pink);
+}
+
+/* APPLICATION */
+
+.admin-list {
+    display: grid;
+    gap: 18px;
+}
+
+.admin-application {
+    padding: 25px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #13091b, #09040e);
+    border: 1px solid var(--line);
+}
+
+.admin-application.pending {
+    border-left: 4px solid #ffb020;
+}
+
+.admin-application.approved {
+    border-left: 4px solid var(--green);
+}
+
+.admin-application.denied {
+    border-left: 4px solid var(--red);
+}
+
+.application-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.application-top h3 {
+    margin: 0 0 6px;
+}
+
+.type {
+    color: var(--pink2);
+    font-weight: 900;
+}
+
+.status {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 1000;
+}
+
+.status.pending {
+    background: rgba(255,176,32,0.12);
+    color: #ffc65d;
+}
+
+.status.approved {
+    background: rgba(53,226,138,0.12);
+    color: #65efa0;
+}
+
+.status.denied {
+    background: rgba(255,69,103,0.12);
+    color: #ff7189;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.info {
+    padding: 13px;
+    border-radius: 10px;
+    background: #08040c;
+    border: 1px solid #29202e;
+}
+
+.info small {
+    display: block;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.info strong {
+    word-break: break-word;
+}
+
+.answer {
+    margin-top: 18px;
+}
+
+.answer h4 {
+    color: var(--pink2);
+    margin-bottom: 7px;
+}
+
+.answer p {
+    color: #bbb;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.role-box {
+    margin-top: 20px;
+    padding: 17px;
+    border-radius: 12px;
+    background: rgba(53,226,138,0.06);
+    border: 1px solid rgba(53,226,138,0.2);
+}
+
+.role-box strong {
+    color: var(--green);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0,0,0,0.82);
+    padding: 20px;
+    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: min(700px, 100%);
+    padding: 30px;
+    border-radius: 20px;
+    background: #100719;
+    border: 1px solid rgba(255,60,172,0.4);
+}
+
+.modal-box h3 {
+    margin-top: 0;
+}
+
+.role-select {
+    margin-top: 10px;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 5000;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: #12091a;
+    border: 1px solid rgba(255,60,172,0.4);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.toast.show {
+    display: block;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 50px 20px;
+    border-top: 1px solid var(--line);
+    color: #706775;
+}
+
+footer strong {
+    color: var(--pink);
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    nav {
+        padding: 0 5%;
+    }
+
+    nav div:last-child {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 65px;
+        letter-spacing: -5px;
+    }
+
+    section,
+    .admin-area {
+        padding: 70px 5%;
+    }
+
+    .application-grid,
+    .stats,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .form-buttons .btn,
+    .hero-buttons .btn {
+        width: 100%;
+    }
 }
 </style>
 </head>
+
 <body>
-<div class="grid"></div><div class="orb o1"></div><div class="orb o2"></div>
-<nav><div class="logo">SERVER <span>RP</span></div><div><a href="#home">FORSIDE</a><a href="#server">SERVER</a><a href="#applications">ANSØG</a><a href="#admin">ADMIN</a></div></nav>
 
-<header class="hero" id="home"><div><div class="badge"><i class="dot"></i> SERVER RP • OFFICIAL</div><h1>JOIN <span>SERVER</span></h1><p>En seriøs RP-server med fokus på god roleplay, aktive staff og et stærkt community. Ansøg direkte her fra hjemmesiden.</p><div class="buttons"><a class="btn primary" href="#applications">📝 SE ANSØGNINGER</a><a class="btn" href="https://discord.gg/rxpvp" target="_blank">💬 DISCORD</a></div></div></header>
+<nav>
+    <div class="logo">
+        SERVER <span>RP</span>
+    </div>
 
-<section id="server"><h2>Hvorfor SERVER RP?</h2><p class="sub">Bygget til spillere der tager RP seriøst.</p><div class="cards">
-<div class="card"><div class="ico">🎭</div><h3>Seriøs Roleplay</h3><p>Gennemtænkte situationer, fair regler og plads til både nye og erfarne RP-spillere.</p></div>
-<div class="card"><div class="ico">🛡️</div><h3>Aktivt Staff</h3><p>Et team der hjælper spillerne, håndterer reports og holder serveren fair.</p></div>
-<div class="card"><div class="ico">🚀</div><h3>Under udvikling</h3><p>Nye features, jobs, events og forbedringer bliver løbende tilføjet.</p></div>
-</div></section>
+    <div>
+        <a href="#home">Forside</a>
+        <a href="#applications">Ansøgninger</a>
+        <a href="#admin">Admin</a>
+    </div>
+</nav>
 
-<section id="applications"><h2>Ansøgninger</h2><p class="sub">Vælg den rolle du vil søge. Svar ordentligt og vær seriøs.</p><div class="apps">
-<div class="app"><h3>🛡️ Staff</h3><p>Bliv en del af staff-teamet og hjælp med at holde serveren seriøs.</p><button class="btn primary" onclick="openForm('Staff')">Ansøg som Staff</button></div>
-<div class="app"><h3>💻 Developer</h3><p>Har du udviklingserfaring og vil du være med til at bygge serveren?</p><button class="btn primary" onclick="openForm('Developer')">Ansøg som Developer</button></div>
-<div class="app"><h3>🎬 Content Creator</h3><p>Lav content, clips og promover serveren gennem dit indhold.</p><button class="btn primary" onclick="openForm('Content Creator')">Ansøg som Creator</button></div>
-<div class="app"><h3>🚓 Job / Faction</h3><p>Ansøg til en særlig faction, afdeling eller anden RP-funktion.</p><button class="btn primary" onclick="openForm('Job / Faction')">Ansøg nu</button></div>
+<header class="hero" id="home">
+    <div class="hero-content">
+
+        <div class="badge">
+            ✦ OFFICIAL SERVER RP
+        </div>
+
+        <h1>
+            SERVER <span>RP</span>
+        </h1>
+
+        <p>
+            Velkommen til SERVER RP.
+            Her kan du sende din ansøgning og blive en del
+            af vores community.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="btn primary" href="#applications">
+                📝 SEND ANSØGNING
+            </a>
+
+            <a class="btn secondary" href="#admin">
+                🔐 ADMIN PANEL
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<section id="applications">
+
+    <div class="section-title">
+        <h2>📝 Ansøgninger</h2>
+        <p>
+            Vælg den position du vil søge.
+        </p>
+    </div>
+
+    <div class="application-grid">
+
+        <div class="application-card">
+            <div class="application-icon">👮</div>
+            <h3>Staff</h3>
+            <p>
+                Bliv en del af SERVER RP Staff Team
+                og hjælp med at holde serveren seriøs.
+            </p>
+
+            <button class="btn primary"
+                onclick="openApplication('Staff')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <div class="application-icon">💻</div>
+            <h3>Developer</h3>
+            <p>
+                Har du erfaring med scripts,
+                FiveM eller udvikling?
+            </p>
+
+            <button class="btn primary"
+                onclick="openApplication('Developer')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <div class="application-icon">🎥</div>
+            <h3>Content Creator</h3>
+            <p>
+                Lav videoer, clips og content
+                for SERVER RP.
+            </p>
+
+            <button class="btn primary"
+                onclick="openApplication('Content Creator')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <div class="application-icon">🤝</div>
+            <h3>Partner</h3>
+            <p>
+                Vil du samarbejde med SERVER RP?
+                Send en partnerskabsansøgning.
+            </p>
+
+            <button class="btn primary"
+                onclick="openApplication('Partnerskab')">
+                Ansøg nu
+            </button>
+        </div>
+
+    </div>
+
+    <div class="form-box" id="applicationForm">
+
+        <h3 id="formTitle">
+            📝 Ansøgning
+        </h3>
+
+        <form onsubmit="submitApplication(event)">
+
+            <input type="hidden" id="applicationType">
+
+            <div class="form-group">
+                <label>Dit navn</label>
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="Dit navn"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Discord navn</label>
+                <input
+                    id="discord"
+                    type="text"
+                    placeholder="fx Amar"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Discord ID</label>
+                <input
+                    id="discordId"
+                    type="text"
+                    placeholder="Dit Discord ID"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Alder</label>
+                <input
+                    id="age"
+                    type="number"
+                    min="1"
+                    max="100"
+                    placeholder="Din alder"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Fortæl lidt om dig selv</label>
+                <textarea
+                    id="about"
+                    placeholder="Skriv lidt om dig selv..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Hvorfor søger du?</label>
+                <textarea
+                    id="reason"
+                    placeholder="Hvorfor skal vi vælge dig?"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Din erfaring</label>
+                <textarea
+                    id="experience"
+                    placeholder="Fortæl om tidligere erfaring..."
+                ></textarea>
+            </div>
+
+            <div class="form-buttons">
+
+                <button class="btn primary" type="submit">
+                    🚀 SEND ANSØGNING
+                </button>
+
+                <button
+                    class="btn secondary"
+                    type="button"
+                    onclick="closeApplication()"
+                >
+                    Luk
+                </button>
+
+            </div>
+
+            <div class="message success" id="successMessage">
+                ✅ Din ansøgning er sendt!
+            </div>
+
+            <div class="message error" id="errorMessage">
+                ❌ Der skete en fejl.
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+<section id="admin">
+
+    <div class="admin-login" id="adminLogin">
+
+        <h2>🔐 Admin</h2>
+
+        <p>
+            Kun staff og admins skal bruge dette panel.
+        </p>
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Admin kode"
+        >
+
+        <button
+            class="btn primary"
+            style="width:100%;margin-top:12px"
+            onclick="loginAdmin()"
+        >
+            🔐 LOG IND
+        </button>
+
+        <div class="message error" id="loginError">
+            ❌ Forkert admin kode.
+        </div>
+
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+
+        <div class="admin-header">
+
+            <div>
+                <h2>⚡ Admin Center</h2>
+                <p style="color:var(--muted)">
+                    Administrer alle SERVER RP ansøgninger.
+                </p>
+            </div>
+
+            <button
+                class="btn secondary"
+                onclick="logoutAdmin()"
+            >
+                🚪 Log ud
+            </button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-number" id="total">0</div>
+                <div class="stat-label">
+                    Alle
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="pending">0</div>
+                <div class="stat-label">
+                    Afventer
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="approved">0</div>
+                <div class="stat-label">
+                    Godkendt
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="denied">0</div>
+                <div class="stat-label">
+                    Afvist
+                </div>
+            </div>
+
+        </div>
+
+        <div class="admin-tools">
+
+            <input
+                class="search"
+                id="search"
+                type="text"
+                placeholder="🔎 Søg efter navn, Discord eller type..."
+                oninput="renderApplications()"
+            >
+
+            <button
+                class="filter active"
+                onclick="setFilter('all', this)"
+            >
+                Alle
+            </button>
+
+            <button
+                class="filter"
+                onclick="setFilter('pending', this)"
+            >
+                Afventer
+            </button>
+
+            <button
+                class="filter"
+                onclick="setFilter('approved', this)"
+            >
+                Godkendt
+            </button>
+
+            <button
+                class="filter"
+                onclick="setFilter('denied', this)"
+            >
+                Afvist
+            </button>
+
+            <button
+                class="filter"
+                onclick="exportApplications()"
+            >
+                ⬇ Eksportér
+            </button>
+
+        </div>
+
+        <div
+            class="admin-list"
+            id="applicationList"
+        ></div>
+
+    </div>
+
+</section>
+
+<div class="modal" id="roleModal">
+
+    <div class="modal-box">
+
+        <h3>👑 Godkend ansøgning</h3>
+
+        <p style="color:var(--muted)">
+            Vælg hvilken rolle personen skal have.
+        </p>
+
+        <label>
+            Rolle
+        </label>
+
+        <select id="roleSelect" class="role-select">
+
+            <option value="Staff">
+                👮 Staff
+            </option>
+
+            <option value="Moderator">
+                🛡️ Moderator
+            </option>
+
+            <option value="Trial Staff">
+                🔰 Trial Staff
+            </option>
+
+            <option value="Developer">
+                💻 Developer
+            </option>
+
+            <option value="Content Creator">
+                🎥 Content Creator
+            </option>
+
+            <option value="Partner">
+                🤝 Partner
+            </option>
+
+        </select>
+
+        <div class="form-buttons" style="margin-top:20px">
+
+            <button
+                class="btn secondary"
+                onclick="closeRoleModal()"
+            >
+                Annuller
+            </button>
+
+            <button
+                class="btn green"
+                onclick="confirmApproval()"
+            >
+                ✅ Godkend
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
-<div class="form-wrap" id="formWrap"><h3 id="formTitle">📝 Ansøgning</h3><div class="notice">⚠️ Skriv med dine egne ord. Ansøgninger med meget lidt indhold eller tydelig AI-tekst kan blive afvist.</div>
-<form onsubmit="submitApplication(event)"><input type="hidden" id="type"><div class="form-grid">
-<div class="group"><label>Navn</label><input id="name" required placeholder="Dit navn"></div><div class="group"><label>Discord</label><input id="discord" required placeholder="Dit Discord navn"></div>
-<div class="group"><label>Alder</label><input id="age" type="number" min="1" max="100" required placeholder="Din alder"></div><div class="group"><label>Discord ID</label><input id="discordId" required placeholder="Dit Discord ID"></div>
-<div class="group full"><label>Fortæl om dig selv</label><textarea id="about" required placeholder="Hvem er du? Hvad interesserer du dig for?"></textarea></div>
-<div class="group full"><label>Hvorfor søger du?</label><textarea id="reason" required placeholder="Hvorfor vil du have rollen?"></textarea></div>
-<div class="group full"><label>Erfaring</label><textarea id="experience" required placeholder="Fortæl om tidligere RP/staff/dev/content erfaring."></textarea></div>
-<div class="group full"><label>Hvorfor skal vi vælge dig?</label><textarea id="why" required placeholder="Hvad kan du bidrage med?"></textarea></div>
-</div><button class="btn primary" type="submit">🚀 SEND ANSØGNING</button><button class="btn" type="button" onclick="closeForm()">Luk</button></form></div></section>
 
-<section><div class="discord"><h2>💬 Discord</h2><p class="sub">Nyheder, tickets, events og community samlet ét sted.</p><a class="btn primary" href="https://discord.gg/rxpvp" target="_blank">JOIN DISCORD</a></div></section>
+<div class="toast" id="toast"></div>
 
-<section id="admin"><div class="admin-login" id="login"><h2>🔐 Admin</h2><p class="sub">Kun staff/admins skal bruge denne del.</p><input id="password" type="password" placeholder="Admin password"><button class="btn primary" style="width:100%" onclick="login()">Log ind</button></div>
-<div class="admin-panel" id="panel"><h2>Admin Dashboard</h2><p class="sub">Godkend, afvis og administrer ansøgninger. Discord-roller kræver bot/backend.</p>
-<div class="stats"><div class="stat"><div class="num" id="total">0</div><div class="muted">Alle</div></div><div class="stat"><div class="num" id="pending">0</div><div class="muted">Afventer</div></div><div class="stat"><div class="num" id="approved">0</div><div class="muted">Godkendt</div></div><div class="stat"><div class="num" id="denied">0</div><div class="muted">Afvist</div></div></div>
-<div class="toolbar"><input id="search" placeholder="🔎 Søg..." oninput="render()"><button class="btn" onclick="exportData()">⬇️ Eksportér</button><button class="btn" onclick="logout()">Log ud</button></div><div class="list" id="list"></div></div></section>
-<footer><b>SERVER RP</b> · Official Application System · 2026</footer><div class="toast" id="toast"></div>
+<footer>
+    <strong>SERVER RP</strong>
+    <br>
+    <br>
+    Official Application System · © 2026
+</footer>
 
 <script>
+
+/* =========================================
+   INDSTILLINGER
+========================================= */
+
 const ADMIN_PASSWORD = "server123456";
-const KEY = "server_rp_apps_v2";
-const ADMIN_KEY = "server_admin";
 
-const $ = id => document.getElementById(id);
+const STORAGE_KEY = "server_rp_applications";
 
-function getApps(){
-    try{
-        const data = JSON.parse(localStorage.getItem(KEY));
-        return Array.isArray(data) ? data : [];
-    }catch(e){
+let currentFilter = "all";
+let approvalId = null;
+
+
+/* =========================================
+   APPLICATIONER
+========================================= */
+
+function getApplications() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || [];
+
+    } catch {
+
         return [];
     }
 }
 
-function saveApps(data){
-    localStorage.setItem(KEY, JSON.stringify(data));
+
+function saveApplications(applications) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(applications)
+    );
 }
 
-function makeId(){
-    if(window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
-    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+
+/* =========================================
+   ÅBN ANSØGNING
+========================================= */
+
+function openApplication(type) {
+
+    const form =
+        document.getElementById("applicationForm");
+
+    document.getElementById("applicationType").value =
+        type;
+
+    document.getElementById("formTitle").textContent =
+        "📝 " + type + " ansøgning";
+
+    document.getElementById("successMessage")
+        .classList.remove("show");
+
+    document.getElementById("errorMessage")
+        .classList.remove("show");
+
+    form.classList.add("active");
+
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
-function openForm(type){
-    $("type").value = type;
-    $("formTitle").textContent = "📝 " + type + " ansøgning";
-    $("formWrap").classList.add("active");
-    setTimeout(() => $("formWrap").scrollIntoView({behavior:"smooth", block:"start"}), 50);
+
+function closeApplication() {
+
+    document
+        .getElementById("applicationForm")
+        .classList.remove("active");
 }
 
-function closeForm(){
-    $("formWrap").classList.remove("active");
-}
 
-function submitApplication(e){
-    e.preventDefault();
+/* =========================================
+   SEND ANSØGNING
+========================================= */
 
-    const app = {
-        id: makeId(),
-        type: $("type").value,
-        name: $("name").value.trim(),
-        discord: $("discord").value.trim(),
-        age: $("age").value,
-        discordId: $("discordId").value.trim(),
-        about: $("about").value.trim(),
-        reason: $("reason").value.trim(),
-        experience: $("experience").value.trim(),
-        why: $("why").value.trim(),
+function submitApplication(event) {
+
+    event.preventDefault();
+
+    const application = {
+
+        id: Date.now(),
+
+        type:
+            document
+            .getElementById("applicationType")
+            .value,
+
+        name:
+            document
+            .getElementById("name")
+            .value
+            .trim(),
+
+        discord:
+            document
+            .getElementById("discord")
+            .value
+            .trim(),
+
+        discordId:
+            document
+            .getElementById("discordId")
+            .value
+            .trim(),
+
+        age:
+            Number(
+                document
+                .getElementById("age")
+                .value
+            ),
+
+        about:
+            document
+            .getElementById("about")
+            .value
+            .trim(),
+
+        reason:
+            document
+            .getElementById("reason")
+            .value
+            .trim(),
+
+        experience:
+            document
+            .getElementById("experience")
+            .value
+            .trim(),
+
         status: "pending",
-        approvedRole: "",
-        date: new Date().toLocaleString("da-DK")
+
+        role: "",
+
+        date:
+            new Date()
+            .toLocaleString("da-DK")
     };
 
-    const data = getApps();
-    data.push(app);
-    saveApps(data);
+    try {
 
-    e.target.reset();
-    closeForm();
-    toast("✅ Ansøgningen er sendt!");
-    render();
-}
+        const applications =
+            getApplications();
 
-function login(){
-    const password = $("password").value;
+        applications.push(application);
 
-    if(password === ADMIN_PASSWORD){
-        sessionStorage.setItem(ADMIN_KEY, "1");
-        $("password").value = "";
-        showPanel();
-        toast("🔓 Admin adgang godkendt");
-    }else{
-        toast("❌ Forkert password");
-        $("password").focus();
+        saveApplications(applications);
+
+        event.target.reset();
+
+        document
+            .getElementById("successMessage")
+            .classList.add("show");
+
+        renderApplications();
+
+        showToast("✅ Ansøgning sendt!");
+
+    } catch {
+
+        document
+            .getElementById("errorMessage")
+            .classList.add("show");
     }
 }
 
-function showPanel(){
-    $("login").style.display = "none";
-    $("panel").style.display = "block";
-    render();
+
+/* =========================================
+   ADMIN LOGIN
+========================================= */
+
+function loginAdmin() {
+
+    const password =
+        document
+        .getElementById("adminPassword")
+        .value;
+
+    const error =
+        document
+        .getElementById("loginError");
+
+    if (password === ADMIN_PASSWORD) {
+
+        sessionStorage.setItem(
+            "server_admin",
+            "true"
+        );
+
+        error.classList.remove("show");
+
+        document
+            .getElementById("adminLogin")
+            .style.display = "none";
+
+        document
+            .getElementById("adminPanel")
+            .classList.add("active");
+
+        renderApplications();
+
+        showToast("✅ Admin adgang godkendt!");
+
+    } else {
+
+        error.classList.add("show");
+
+        showToast("❌ Forkert kode!");
+    }
 }
 
-function logout(){
-    sessionStorage.removeItem(ADMIN_KEY);
-    $("panel").style.display = "none";
-    $("login").style.display = "block";
-    toast("🚪 Du er logget ud");
+
+function logoutAdmin() {
+
+    sessionStorage.removeItem(
+        "server_admin"
+    );
+
+    document
+        .getElementById("adminPanel")
+        .classList.remove("active");
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "block";
+
+    document
+        .getElementById("adminPassword")
+        .value = "";
 }
 
-function render(){
-    const data = getApps();
-    const q = ($( "search")?.value || "").toLowerCase().trim();
 
-    $("total").textContent = data.length;
-    $("pending").textContent = data.filter(a => a.status === "pending").length;
-    $("approved").textContent = data.filter(a => a.status === "approved").length;
-    $("denied").textContent = data.filter(a => a.status === "denied").length;
+/* =========================================
+   FILTER
+========================================= */
 
-    const filtered = data.filter(a => {
-        if(!q) return true;
-        return JSON.stringify(a).toLowerCase().includes(q);
-    }).slice().reverse();
+function setFilter(filter, button) {
 
-    $("list").innerHTML = filtered.length
-        ? filtered.map(card).join("")
-        : '<div class="card">📭 Ingen ansøgninger fundet.</div>';
+    currentFilter = filter;
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(function(item) {
+
+            item.classList.remove("active");
+
+        });
+
+    button.classList.add("active");
+
+    renderApplications();
 }
 
-function card(a){
-    const st = a.status === "approved" ? "GODKENDT" : a.status === "denied" ? "AFVIST" : "AFVENTER";
 
-    return `<div class="submission">
-        <div class="top">
-            <div>
-                <h3>${esc(a.name)}</h3>
-                <div class="muted">${esc(a.type)}</div>
+/* =========================================
+   RENDER
+========================================= */
+
+function renderApplications() {
+
+    const list =
+        document.getElementById(
+            "applicationList"
+        );
+
+    const applications =
+        getApplications();
+
+    document.getElementById("total").textContent =
+        applications.length;
+
+    document.getElementById("pending").textContent =
+        applications.filter(
+            app => app.status === "pending"
+        ).length;
+
+    document.getElementById("approved").textContent =
+        applications.filter(
+            app => app.status === "approved"
+        ).length;
+
+    document.getElementById("denied").textContent =
+        applications.filter(
+            app => app.status === "denied"
+        ).length;
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        applications.filter(function(app) {
+
+            const filterOK =
+                currentFilter === "all" ||
+                app.status === currentFilter;
+
+            const searchOK =
+                !search ||
+                (
+                    app.name +
+                    " " +
+                    app.discord +
+                    " " +
+                    app.discordId +
+                    " " +
+                    app.type
+                )
+                .toLowerCase()
+                .includes(search);
+
+            return filterOK && searchOK;
+        });
+
+    if (!filtered.length) {
+
+        list.innerHTML = `
+            <div class="admin-application">
+                <h3>📭 Ingen ansøgninger</h3>
+                <p style="color:var(--muted)">
+                    Der er ingen ansøgninger her endnu.
+                </p>
             </div>
-            <span class="status ${esc(a.status)}">${st}</span>
-        </div>
+        `;
 
-        <div class="info">
-            <div class="ibox"><small>Discord</small>${esc(a.discord)}</div>
-            <div class="ibox"><small>Discord ID</small>${esc(a.discordId)}</div>
-            <div class="ibox"><small>Alder</small>${esc(a.age)}</div>
-        </div>
-
-        ${ans("Om personen", a.about)}
-        ${ans("Hvorfor søger personen?", a.reason)}
-        ${ans("Erfaring", a.experience)}
-        ${ans("Hvorfor skal vi vælge dig?", a.why)}
-
-        ${a.approvedRole ? `<div class="muted">🎭 Godkendelsesrolle: ${esc(a.approvedRole)}</div>` : ""}
-        <div class="muted">Sendt: ${esc(a.date)}</div>
-
-        <div class="actions">
-            ${a.status !== "approved" ? `<button class="btn primary" onclick="setStatus('${a.id}','approved')">✅ Godkend</button>` : ""}
-            ${a.status !== "denied" ? `<button class="btn" onclick="setStatus('${a.id}','denied')">❌ Afvis</button>` : ""}
-            <button class="btn" onclick="setStatus('${a.id}','pending')">↩️ Afventer</button>
-            <button class="btn" onclick="deleteApp('${a.id}')">🗑️ Slet</button>
-        </div>
-    </div>`;
-}
-
-function ans(title,value){
-    return `<div class="answer"><b>${title}</b><p>${esc(value)}</p></div>`;
-}
-
-function setStatus(id,status){
-    const data = getApps();
-    const app = data.find(a => a.id === id);
-    if(!app) return;
-
-    app.status = status;
-
-    if(status === "approved"){
-        app.approvedRole = localStorage.getItem("server_rp_approved_role") || "Staff";
-        app.approvedAt = new Date().toLocaleString("da-DK");
-    }else if(status !== "approved"){
-        app.approvedRole = "";
-        app.approvedAt = "";
+        return;
     }
 
-    saveApps(data);
-    render();
-
-    if(status === "approved") toast("✅ Godkendt — rolle: " + app.approvedRole);
-    else if(status === "denied") toast("❌ Ansøgningen er afvist");
-    else toast("↩️ Ansøgningen er sat til afventer");
+    list.innerHTML =
+        filtered
+        .slice()
+        .reverse()
+        .map(createApplicationHTML)
+        .join("");
 }
 
-function deleteApp(id){
-    if(!confirm("Slet ansøgningen?")) return;
-    saveApps(getApps().filter(a => a.id !== id));
-    render();
-    toast("🗑️ Ansøgningen er slettet");
+
+/* =========================================
+   APPLICATION HTML
+========================================= */
+
+function createApplicationHTML(app) {
+
+    let statusText = "AFVENTER";
+
+    if (app.status === "approved") {
+        statusText = "GODKENDT";
+    }
+
+    if (app.status === "denied") {
+        statusText = "AFVIST";
+    }
+
+    return `
+        <div class="admin-application ${app.status}">
+
+            <div class="application-top">
+
+                <div>
+                    <h3>
+                        ${escapeHTML(app.name)}
+                    </h3>
+
+                    <div class="type">
+                        ${escapeHTML(app.type)}
+                    </div>
+                </div>
+
+                <span class="status ${app.status}">
+                    ${statusText}
+                </span>
+
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info">
+                    <small>Discord</small>
+                    <strong>
+                        ${escapeHTML(app.discord)}
+                    </strong>
+                </div>
+
+                <div class="info">
+                    <small>Discord ID</small>
+                    <strong>
+                        ${escapeHTML(app.discordId)}
+                    </strong>
+                </div>
+
+                <div class="info">
+                    <small>Alder</small>
+                    <strong>
+                        ${escapeHTML(app.age)}
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="answer">
+                <h4>Om personen</h4>
+                <p>
+                    ${escapeHTML(app.about)}
+                </p>
+            </div>
+
+            <div class="answer">
+                <h4>Hvorfor skal vi vælge personen?</h4>
+                <p>
+                    ${escapeHTML(app.reason)}
+                </p>
+            </div>
+
+            <div class="answer">
+                <h4>Erfaring</h4>
+                <p>
+                    ${escapeHTML(
+                        app.experience || "Ikke udfyldt"
+                    )}
+                </p>
+            </div>
+
+            ${
+                app.role
+                ?
+                `
+                <div class="role-box">
+                    👑 Rolle:
+                    <strong>
+                        ${escapeHTML(app.role)}
+                    </strong>
+                </div>
+                `
+                :
+                ""
+            }
+
+            <div class="admin-actions">
+
+                ${
+                    app.status !== "approved"
+                    ?
+                    `
+                    <button
+                        class="btn green"
+                        onclick="openApproval(${app.id})"
+                    >
+                        ✅ Godkend
+                    </button>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    app.status !== "denied"
+                    ?
+                    `
+                    <button
+                        class="btn red"
+                        onclick="denyApplication(${app.id})"
+                    >
+                        ❌ Afvis
+                    </button>
+                    `
+                    :
+                    ""
+                }
+
+                <button
+                    class="btn secondary"
+                    onclick="setPending(${app.id})"
+                >
+                    ↩ Afventer
+                </button>
+
+                <button
+                    class="btn secondary"
+                    onclick="deleteApplication(${app.id})"
+                >
+                    🗑 Slet
+                </button>
+
+            </div>
+
+        </div>
+    `;
 }
 
-function exportData(){
-    const blob = new Blob([JSON.stringify(getApps(), null, 2)], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "server-rp-ansogninger.json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+
+/* =========================================
+   GODKEND + ROLLE
+========================================= */
+
+function openApproval(id) {
+
+    approvalId = id;
+
+    document
+        .getElementById("roleModal")
+        .classList.add("active");
+}
+
+
+function closeRoleModal() {
+
+    approvalId = null;
+
+    document
+        .getElementById("roleModal")
+        .classList.remove("active");
+}
+
+
+function confirmApproval() {
+
+    if (!approvalId) {
+        return;
+    }
+
+    const role =
+        document
+        .getElementById("roleSelect")
+        .value;
+
+    const applications =
+        getApplications();
+
+    const index =
+        applications.findIndex(
+            app => app.id === approvalId
+        );
+
+    if (index === -1) {
+        return;
+    }
+
+    applications[index].status =
+        "approved";
+
+    applications[index].role =
+        role;
+
+    applications[index].approvedAt =
+        new Date()
+        .toLocaleString("da-DK");
+
+    saveApplications(applications);
+
+    closeRoleModal();
+
+    renderApplications();
+
+    showToast(
+        "✅ Godkendt — rolle: " + role
+    );
+}
+
+
+/* =========================================
+   AFVIS
+========================================= */
+
+function denyApplication(id) {
+
+    const applications =
+        getApplications();
+
+    const index =
+        applications.findIndex(
+            app => app.id === id
+        );
+
+    if (index === -1) {
+        return;
+    }
+
+    applications[index].status =
+        "denied";
+
+    applications[index].role =
+        "";
+
+    saveApplications(applications);
+
+    renderApplications();
+
+    showToast("❌ Ansøgningen er afvist.");
+}
+
+
+/* =========================================
+   AFVENTER
+========================================= */
+
+function setPending(id) {
+
+    const applications =
+        getApplications();
+
+    const index =
+        applications.findIndex(
+            app => app.id === id
+        );
+
+    if (index === -1) {
+        return;
+    }
+
+    applications[index].status =
+        "pending";
+
+    applications[index].role =
+        "";
+
+    saveApplications(applications);
+
+    renderApplications();
+
+    showToast("↩ Ansøgningen er sat til afventer.");
+}
+
+
+/* =========================================
+   SLET
+========================================= */
+
+function deleteApplication(id) {
+
+    if (
+        !confirm(
+            "Er du sikker på at du vil slette ansøgningen?"
+        )
+    ) {
+        return;
+    }
+
+    const applications =
+        getApplications()
+        .filter(app => app.id !== id);
+
+    saveApplications(applications);
+
+    renderApplications();
+
+    showToast("🗑 Ansøgningen er slettet.");
+}
+
+
+/* =========================================
+   EXPORT
+========================================= */
+
+function exportApplications() {
+
+    const data =
+        JSON.stringify(
+            getApplications(),
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [data],
+            {
+                type: "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        "server-rp-ansogninger.json";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
     URL.revokeObjectURL(url);
-    toast("⬇️ Ansøgninger eksporteret");
+
+    showToast("⬇ Ansøgninger eksporteret.");
 }
 
-function esc(v){
-    return String(v ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+/* =========================================
+   SIKKER HTML
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
-function toast(message){
-    const el = $("toast");
-    el.textContent = message;
-    el.classList.add("show");
-    clearTimeout(window.toastTimer);
-    window.toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+    window.toastTimer =
+        setTimeout(function() {
+
+            toast.classList.remove("show");
+
+        }, 3000);
 }
 
-$("password").addEventListener("keydown", e => {
-    if(e.key === "Enter") login();
-});
 
-if(sessionStorage.getItem(ADMIN_KEY) === "1") showPanel();
-</script></body></html>
+/* =========================================
+   ENTER PÅ ADMIN KODE
+========================================= */
+
+document
+    .getElementById("adminPassword")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+                loginAdmin();
+            }
+
+        }
+    );
+
+
+/* =========================================
+   MODAL KLIK
+========================================= */
+
+document
+    .getElementById("roleModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target.id === "roleModal"
+            ) {
+                closeRoleModal();
+            }
+
+        }
+    );
+
+
+/* =========================================
+   AUTO LOGIN
+========================================= */
+
+if (
+    sessionStorage.getItem(
+        "server_admin"
+    ) === "true"
+) {
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "none";
+
+    document
+        .getElementById("adminPanel")
+        .classList.add("active");
+
+    renderApplications();
+}
+
+</script>
+
+</body>
+</html>
