@@ -1,33 +1,46 @@
 <?php
 
-session_start();
+require_once "config.php";
 
-if (!isset($_SESSION["rx_admin"]) || $_SESSION["rx_admin"] !== true) {
-    header("Location: admin-login.php");
-    exit;
-}
 
-$dataFile = __DIR__ . "/data/applications.json";
+/*
+==================================================
+LOGIN
+==================================================
+*/
 
-$applications = [];
+if (isset($_POST["login"])) {
 
-if (file_exists($dataFile)) {
+    $password = $_POST["password"] ?? "";
 
-    $json = file_get_contents($dataFile);
+    if (
+        hash_equals(
+            ADMIN_PASSWORD,
+            $password
+        )
+    ) {
 
-    $decoded = json_decode($json, true);
+        $_SESSION["rx_admin"] = true;
 
-    if (is_array($decoded)) {
-        $applications = $decoded;
+        header("Location: admin.php");
+        exit;
+
+    } else {
+
+        $loginError = "❌ Forkert password.";
+
     }
+
 }
 
-usort($applications, function($a, $b){
 
-    return strtotime($b["created_at"] ?? "") -
-           strtotime($a["created_at"] ?? "");
+/*
+==================================================
+CHECK LOGIN
+==================================================
+*/
 
-});
+if (!isset($_SESSION["rx_admin"])) {
 
 ?>
 
@@ -37,7 +50,336 @@ usort($applications, function($a, $b){
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>RX PvP | Admin Login</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-family:Arial,sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #4b1010,
+            #07070a 55%
+        );
+
+    color:white;
+
+}
+
+.login{
+
+    width:100%;
+    max-width:420px;
+
+    margin:20px;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    background:#101116;
+
+    border:1px solid #29292f;
+
+    box-shadow:
+        0 20px 70px
+        rgba(0,0,0,.5);
+
+}
+
+.logo{
+
+    text-align:center;
+
+    font-size:35px;
+
+    font-weight:950;
+
+    margin-bottom:10px;
+
+}
+
+.logo span{
+
+    color:#ff3d3d;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#999;
+
+    margin-bottom:30px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    border:1px solid #303139;
+
+    background:#08090c;
+
+    color:white;
+
+    outline:none;
+
+    margin-bottom:15px;
+
+}
+
+input:focus{
+
+    border-color:#ff1f1f;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff1f1f,
+            #ff4a4a
+        );
+
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+}
+
+.error{
+
+    margin-bottom:20px;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    background:rgba(255,31,31,.1);
+
+    border:1px solid #ff1f1f;
+
+    color:#ff8585;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login">
+
+    <div class="logo">
+        RX <span>PVP</span>
+    </div>
+
+    <div class="subtitle">
+        ADMIN PANEL
+    </div>
+
+    <?php if(isset($loginError)): ?>
+
+        <div class="error">
+            <?= htmlspecialchars($loginError) ?>
+        </div>
+
+    <?php endif; ?>
+
+    <form method="POST">
+
+        <label>
+            Admin password
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Indtast password"
+            required
+            autofocus>
+
+        <button
+            type="submit"
+            name="login">
+
+            🔐 LOG IND
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
+
+<?php
+
+exit;
+
+}
+
+
+/*
+==================================================
+ADMIN ACTIONS
+==================================================
+*/
+
+if (
+    isset($_GET["action"]) &&
+    isset($_GET["id"])
+) {
+
+    $id = intval($_GET["id"]);
+
+    if ($_GET["action"] === "approve") {
+
+        $stmt = $db->prepare("
+            UPDATE applications
+            SET status = 'approved'
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$id]);
+
+    }
+
+
+    if ($_GET["action"] === "deny") {
+
+        $stmt = $db->prepare("
+            UPDATE applications
+            SET status = 'denied'
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$id]);
+
+    }
+
+
+    if ($_GET["action"] === "delete") {
+
+        $stmt = $db->prepare("
+            DELETE FROM applications
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$id]);
+
+    }
+
+    header("Location: admin.php");
+    exit;
+
+}
+
+
+/*
+==================================================
+GET APPLICATIONS
+==================================================
+*/
+
+$stmt = $db->query("
+    SELECT *
+    FROM applications
+    ORDER BY id DESC
+");
+
+$applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$total = count($applications);
+
+$pending = 0;
+$approved = 0;
+$denied = 0;
+
+foreach ($applications as $application) {
+
+    if ($application["status"] === "pending") {
+        $pending++;
+    }
+
+    if ($application["status"] === "approved") {
+        $approved++;
+    }
+
+    if ($application["status"] === "denied") {
+        $denied++;
+    }
+
+}
+
+?>
+
+<!DOCTYPE html>
+
+<html lang="da">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>RX PvP | Admin Panel</title>
 
@@ -48,237 +390,319 @@ usort($applications, function($a, $b){
 }
 
 body{
+
     margin:0;
+
     font-family:Arial,sans-serif;
-    background:
-        radial-gradient(circle at 50% 0%,#4b1010,#07070a 45%);
+
+    background:#07070a;
+
     color:#f5f5f7;
+
 }
 
 header{
-    position:sticky;
-    top:0;
-    z-index:10;
-    background:rgba(7,7,10,.94);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,31,31,.2);
-    padding:20px 6%;
+
+    padding:25px 6%;
+
+    border-bottom:
+        1px solid #29292f;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
 }
 
 .logo{
+
     font-size:25px;
+
     font-weight:950;
-    letter-spacing:2px;
+
 }
 
 .logo span{
+
     color:#ff3d3d;
+
 }
 
 .logout{
-    padding:11px 17px;
-    background:#17181e;
-    border:1px solid #33343b;
-    color:white;
+
+    padding:12px 18px;
+
     border-radius:9px;
+
+    background:#1a1b20;
+
+    border:1px solid #333;
+
+    color:white;
+
     text-decoration:none;
-    font-weight:800;
+
+    font-weight:bold;
+
 }
 
 .container{
-    width:min(1200px,92%);
-    margin:40px auto;
-}
 
-.top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    margin-bottom:30px;
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:40px 6%;
+
 }
 
 h1{
-    margin:0;
+
+    font-size:38px;
+
+    margin-bottom:30px;
+
 }
 
 .stats{
+
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-bottom:30px;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:35px;
+
 }
 
 .stat{
-    background:#101116;
-    border:1px solid #29292f;
+
+    padding:25px;
+
     border-radius:15px;
-    padding:20px;
+
+    background:#101116;
+
+    border:1px solid #29292f;
+
 }
 
 .stat-number{
-    font-size:30px;
+
+    font-size:35px;
+
     font-weight:950;
-    color:#ff4a4a;
+
+    color:#ff3d3d;
+
 }
 
-.stat-title{
+.stat-label{
+
     color:#999;
+
     margin-top:5px;
+
 }
 
 .application{
-    background:#101116;
-    border:1px solid #29292f;
-    border-radius:18px;
-    padding:25px;
-    margin-bottom:20px;
-}
 
-.application:hover{
-    border-color:rgba(255,31,31,.5);
+    background:#101116;
+
+    border:1px solid #29292f;
+
+    border-radius:16px;
+
+    margin-bottom:20px;
+
+    padding:25px;
+
 }
 
 .application-header{
+
     display:flex;
+
     justify-content:space-between;
+
+    gap:20px;
+
     align-items:center;
-    gap:15px;
+
     flex-wrap:wrap;
+
 }
 
-.application-header h2{
+.application h2{
+
     margin:0;
+
+    font-size:23px;
+
 }
 
-.badge{
-    padding:7px 12px;
-    border-radius:20px;
-    font-size:12px;
+.type{
+
+    color:#ff4a4a;
+
     font-weight:900;
-}
 
-.pending{
-    background:rgba(255,180,0,.12);
-    color:#ffc44d;
-    border:1px solid rgba(255,180,0,.3);
-}
-
-.accepted{
-    background:rgba(0,255,100,.1);
-    color:#6cff9d;
-    border:1px solid rgba(0,255,100,.3);
-}
-
-.denied{
-    background:rgba(255,31,31,.12);
-    color:#ff7777;
-    border:1px solid rgba(255,31,31,.3);
 }
 
 .info{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin:20px 0;
+
+    color:#aaa;
+
+    margin:8px 0;
+
 }
 
-.info-box{
+.content{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:12px;
+
     background:#090a0d;
-    border:1px solid #24252b;
-    border-radius:10px;
-    padding:13px;
+
+    line-height:1.6;
+
 }
 
-.info-box small{
-    display:block;
-    color:#777;
-    margin-bottom:5px;
-}
+.content strong{
 
-.info-box strong{
-    color:white;
-}
+    color:#fff;
 
-.answer{
-    margin-top:15px;
-}
-
-.answer-title{
-    font-weight:900;
-    margin-bottom:7px;
-    color:#ff4a4a;
-}
-
-.answer-text{
-    color:#b6b7bd;
-    background:#090a0d;
-    border:1px solid #24252b;
-    padding:15px;
-    border-radius:10px;
-    white-space:pre-wrap;
-    line-height:1.5;
 }
 
 .actions{
+
     display:flex;
+
     gap:10px;
-    flex-wrap:wrap;
+
     margin-top:20px;
+
+    flex-wrap:wrap;
+
 }
 
-.actions form{
-    margin:0;
-}
+.actions a{
 
-.btn{
-    padding:12px 17px;
-    border-radius:9px;
-    border:0;
-    color:white;
+    padding:11px 16px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
     font-weight:900;
-    cursor:pointer;
+
 }
 
-.accept{
-    background:#168542;
+.approve{
+
+    background:#168a46;
+
+    color:white;
+
 }
 
 .deny{
+
     background:#a51d1d;
+
+    color:white;
+
 }
 
 .delete{
-    background:#25262d;
+
+    background:#24252b;
+
+    color:#ff5555;
+
+}
+
+.status{
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:900;
+
+}
+
+.status.pending{
+
+    background:#3d3210;
+
+    color:#ffd84d;
+
+}
+
+.status.approved{
+
+    background:#103d24;
+
+    color:#5cff9a;
+
+}
+
+.status.denied{
+
+    background:#3d1010;
+
+    color:#ff6868;
+
 }
 
 .empty{
+
     text-align:center;
-    padding:60px 20px;
-    background:#101116;
-    border:1px solid #29292f;
-    border-radius:18px;
-    color:#888;
+
+    padding:60px;
+
+    color:#777;
+
+    border:1px dashed #333;
+
+    border-radius:15px;
+
 }
 
-@media(max-width:700px){
+@media(max-width:800px){
 
-    .stats,
-    .info{
-        grid-template-columns:1fr;
+    .stats{
+
+        grid-template-columns:
+            1fr 1fr;
     }
 
-    .top{
+    .application-header{
+
         align-items:flex-start;
+
         flex-direction:column;
     }
 
-    .application{
-        padding:18px;
+}
+
+@media(max-width:500px){
+
+    .stats{
+
+        grid-template-columns:1fr;
     }
+
 }
 
 </style>
@@ -290,260 +714,289 @@ h1{
 <header>
 
     <div class="logo">
-        RX <span>PVP</span> ADMIN
+
+        RX <span>PVP</span>
+        ADMIN
+
     </div>
 
-    <a class="logout" href="logout.php">
+    <a
+        class="logout"
+        href="logout.php">
+
         🚪 Log ud
+
     </a>
 
 </header>
 
+
 <div class="container">
 
-    <div class="top">
+    <h1>
+        👑 Admin Panel
+    </h1>
 
-        <div>
-            <h1>📝 Ansøgninger</h1>
-            <p style="color:#888;">
-                Administrer RX PvP ansøgninger
-            </p>
-        </div>
-
-    </div>
-
-<?php
-
-$total = count($applications);
-
-$pending = 0;
-$accepted = 0;
-$denied = 0;
-
-foreach ($applications as $app) {
-
-    if (($app["status"] ?? "") === "pending") {
-        $pending++;
-    }
-
-    if (($app["status"] ?? "") === "accepted") {
-        $accepted++;
-    }
-
-    if (($app["status"] ?? "") === "denied") {
-        $denied++;
-    }
-}
-
-?>
 
     <div class="stats">
 
         <div class="stat">
+
             <div class="stat-number">
                 <?= $total ?>
             </div>
-            <div class="stat-title">
+
+            <div class="stat-label">
                 Alle ansøgninger
             </div>
+
         </div>
 
+
         <div class="stat">
+
             <div class="stat-number">
                 <?= $pending ?>
             </div>
-            <div class="stat-title">
+
+            <div class="stat-label">
                 Afventer
             </div>
+
         </div>
+
 
         <div class="stat">
+
             <div class="stat-number">
-                <?= $accepted ?>
+                <?= $approved ?>
             </div>
-            <div class="stat-title">
+
+            <div class="stat-label">
                 Godkendt
             </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                <?= $denied ?>
+            </div>
+
+            <div class="stat-label">
+                Afvist
+            </div>
+
         </div>
 
     </div>
 
-<?php if (empty($applications)): ?>
 
-    <div class="empty">
-        <h2>📭 Ingen ansøgninger</h2>
-        <p>
-            Der er endnu ikke kommet nogen ansøgninger.
-        </p>
-    </div>
+    <?php if(empty($applications)): ?>
 
-<?php else: ?>
+        <div class="empty">
 
-<?php foreach ($applications as $app): ?>
-
-    <?php
-
-    $status = $app["status"] ?? "pending";
-
-    $statusText = match($status) {
-        "accepted" => "GODKENDT",
-        "denied" => "AFVIST",
-        default => "AFVENTER"
-    };
-
-    ?>
-
-    <div class="application">
-
-        <div class="application-header">
-
-            <h2>
-                <?= htmlspecialchars($app["type"] ?? "Ukendt") ?>
-            </h2>
-
-            <span class="badge <?= htmlspecialchars($status) ?>">
-                <?= $statusText ?>
-            </span>
+            📭 Der er ingen ansøgninger endnu.
 
         </div>
 
-        <div class="info">
+    <?php endif; ?>
 
-            <div class="info-box">
-                <small>Navn</small>
+
+    <?php foreach($applications as $application): ?>
+
+        <div class="application">
+
+            <div class="application-header">
+
+                <div>
+
+                    <div class="type">
+
+                        <?= htmlspecialchars(
+                            $application["type"]
+                        ) ?>
+
+                    </div>
+
+                    <h2>
+
+                        <?= htmlspecialchars(
+                            $application["name"]
+                        ) ?>
+
+                    </h2>
+
+                </div>
+
+
+                <div>
+
+                    <span
+                        class="status <?= htmlspecialchars(
+                            $application["status"]
+                        ) ?>">
+
+                        <?php
+
+                        if(
+                            $application["status"]
+                            === "pending"
+                        ){
+
+                            echo "AFVENTER";
+
+                        } elseif(
+                            $application["status"]
+                            === "approved"
+                        ){
+
+                            echo "GODKENDT";
+
+                        } else {
+
+                            echo "AFVIST";
+
+                        }
+
+                        ?>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                💬 Discord:
                 <strong>
-                    <?= htmlspecialchars($app["name"] ?? "") ?>
+                    <?= htmlspecialchars(
+                        $application["discord"]
+                    ) ?>
                 </strong>
-            </div>
 
-            <div class="info-box">
-                <small>Discord</small>
+                &nbsp; | &nbsp;
+
+                🎂 Alder:
                 <strong>
-                    <?= htmlspecialchars($app["discord"] ?? "") ?>
+                    <?= intval(
+                        $application["age"]
+                    ) ?>
                 </strong>
+
             </div>
 
-            <div class="info-box">
-                <small>Alder</small>
-                <strong>
-                    <?= htmlspecialchars($app["age"] ?? "") ?>
-                </strong>
+
+            <div class="content">
+
+                <p>
+
+                    <strong>
+                        Om personen:
+                    </strong>
+
+                    <br>
+
+                    <?= nl2br(
+                        htmlspecialchars(
+                            $application["about"]
+                        )
+                    ) ?>
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Hvorfor skal vi vælge personen?
+                    </strong>
+
+                    <br>
+
+                    <?= nl2br(
+                        htmlspecialchars(
+                            $application["reason"]
+                        )
+                    ) ?>
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Erfaring:
+                    </strong>
+
+                    <br>
+
+                    <?= nl2br(
+                        htmlspecialchars(
+                            $application["experience"]
+                        )
+                    ) ?>
+
+                </p>
+
             </div>
 
-        </div>
 
-        <div class="info">
+            <div class="actions">
 
-            <div class="info-box">
-                <small>Sendt</small>
-                <strong>
-                    <?= htmlspecialchars($app["created_at"] ?? "") ?>
-                </strong>
-            </div>
+                <?php if(
+                    $application["status"]
+                    !== "approved"
+                ): ?>
 
-            <div class="info-box">
-                <small>ID</small>
-                <strong>
-                    <?= htmlspecialchars($app["id"] ?? "") ?>
-                </strong>
-            </div>
+                    <a
+                        class="approve"
+                        href="?action=approve&id=<?= $application["id"] ?>">
 
-        </div>
-
-        <div class="answer">
-
-            <div class="answer-title">
-                Om personen
-            </div>
-
-            <div class="answer-text">
-                <?= htmlspecialchars($app["about"] ?? "") ?>
-            </div>
-
-        </div>
-
-        <div class="answer">
-
-            <div class="answer-title">
-                Hvorfor skal vi vælge dig?
-            </div>
-
-            <div class="answer-text">
-                <?= htmlspecialchars($app["reason"] ?? "") ?>
-            </div>
-
-        </div>
-
-        <div class="answer">
-
-            <div class="answer-title">
-                Erfaring
-            </div>
-
-            <div class="answer-text">
-                <?= htmlspecialchars($app["experience"] ?? "") ?>
-            </div>
-
-        </div>
-
-        <div class="actions">
-
-            <?php if ($status === "pending"): ?>
-
-                <form method="POST" action="admin-action.php">
-
-                    <input type="hidden" name="id"
-                           value="<?= htmlspecialchars($app["id"]) ?>">
-
-                    <input type="hidden" name="action"
-                           value="accept">
-
-                    <button class="btn accept" type="submit">
                         ✅ Godkend
-                    </button>
 
-                </form>
+                    </a>
 
-                <form method="POST" action="admin-action.php">
+                <?php endif; ?>
 
-                    <input type="hidden" name="id"
-                           value="<?= htmlspecialchars($app["id"]) ?>">
 
-                    <input type="hidden" name="action"
-                           value="deny">
+                <?php if(
+                    $application["status"]
+                    !== "denied"
+                ): ?>
 
-                    <button class="btn deny" type="submit">
+                    <a
+                        class="deny"
+                        href="?action=deny&id=<?= $application["id"] ?>">
+
                         ❌ Afvis
-                    </button>
 
-                </form>
+                    </a>
 
-            <?php endif; ?>
+                <?php endif; ?>
 
-            <form method="POST" action="admin-action.php"
-                  onsubmit="return confirm('Er du sikker på, at du vil slette ansøgningen?');">
 
-                <input type="hidden" name="id"
-                       value="<?= htmlspecialchars($app["id"]) ?>">
+                <a
+                    class="delete"
+                    href="?action=delete&id=<?= $application["id"] ?>"
+                    onclick="return confirm('Er du sikker på, at du vil slette denne ansøgning?');">
 
-                <input type="hidden" name="action"
-                       value="delete">
-
-                <button class="btn delete" type="submit">
                     🗑️ Slet
-                </button>
 
-            </form>
+                </a>
+
+            </div>
 
         </div>
 
-    </div>
-
-<?php endforeach; ?>
-
-<?php endif; ?>
+    <?php endforeach; ?>
 
 </div>
 
 </body>
+
 </html>
