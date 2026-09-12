@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -17,6 +16,7 @@
     --red:#ff2020;
     --red2:#ff5050;
     --green:#38e58a;
+    --yellow:#ffbd45;
 }
 
 *{box-sizing:border-box}
@@ -34,8 +34,6 @@ body{
     overflow-x:hidden;
 }
 
-/* BACKGROUND */
-
 body:before{
     content:"";
     position:fixed;
@@ -46,7 +44,6 @@ body:before{
         linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
         linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
     background-size:45px 45px;
-    mask-image:linear-gradient(to bottom,black,transparent 85%);
 }
 
 body:after{
@@ -77,7 +74,7 @@ nav{
     justify-content:space-between;
     border:1px solid rgba(255,255,255,.08);
     border-radius:16px;
-    background:rgba(8,8,11,.78);
+    background:rgba(8,8,11,.82);
     backdrop-filter:blur(22px);
     box-shadow:0 15px 60px rgba(0,0,0,.45);
 }
@@ -103,7 +100,6 @@ nav a{
 }
 
 nav a:hover{color:white}
-nav a:last-child{color:var(--red2)}
 
 /* HERO */
 
@@ -142,11 +138,6 @@ nav a:last-child{color:var(--red2)}
     background:var(--green);
     border-radius:50%;
     box-shadow:0 0 15px var(--green);
-    animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-    50%{opacity:.3;transform:scale(.65)}
 }
 
 .hero h1{
@@ -213,10 +204,6 @@ nav a:last-child{color:var(--red2)}
     box-shadow:0 10px 35px rgba(255,20,20,.25);
 }
 
-.primary:hover{
-    box-shadow:0 15px 45px rgba(255,20,20,.5);
-}
-
 /* STATS */
 
 .stats{
@@ -230,7 +217,6 @@ nav a:last-child{color:var(--red2)}
     border-radius:18px;
     overflow:hidden;
     background:rgba(12,12,16,.9);
-    backdrop-filter:blur(15px);
 }
 
 .stat{
@@ -244,14 +230,12 @@ nav a:last-child{color:var(--red2)}
 .stat strong{
     display:block;
     font-size:28px;
-    color:white;
 }
 
 .stat span{
     color:#777781;
     font-size:11px;
     font-weight:900;
-    letter-spacing:1px;
 }
 
 /* SECTIONS */
@@ -276,7 +260,6 @@ section{
 h2{
     margin:8px 0;
     font-size:42px;
-    letter-spacing:-1px;
 }
 
 .sub{
@@ -298,27 +281,13 @@ h2{
     min-height:230px;
     border:1px solid var(--line);
     border-radius:18px;
-    background:
-        linear-gradient(145deg,rgba(255,255,255,.035),transparent 50%),
-        #0c0c10;
+    background:#0c0c10;
     transition:.3s;
-}
-
-.card:before{
-    content:"";
-    position:absolute;
-    width:100px;
-    height:100px;
-    right:-50px;
-    top:-50px;
-    background:rgba(255,20,20,.2);
-    filter:blur(35px);
 }
 
 .card:hover{
     transform:translateY(-7px);
     border-color:rgba(255,40,40,.55);
-    box-shadow:0 20px 60px rgba(0,0,0,.4);
 }
 
 .icon{
@@ -368,13 +337,11 @@ h2{
 
 .feature-main h3{
     font-size:34px;
-    margin:20px 0 10px;
 }
 
 .feature-main p{
     color:var(--muted);
     line-height:1.7;
-    max-width:650px;
 }
 
 .feature-list{
@@ -437,9 +404,13 @@ h2{
     background:#0c0c10;
 }
 
-.application-form.active{display:block}
+.application-form.active{
+    display:block;
+}
 
-.form-group{margin-bottom:16px}
+.form-group{
+    margin-bottom:16px;
+}
 
 .form-group label{
     display:block;
@@ -448,7 +419,7 @@ h2{
     font-size:13px;
 }
 
-input,textarea{
+input,textarea,select{
     width:100%;
     padding:14px;
     border-radius:10px;
@@ -463,9 +434,10 @@ textarea{
     resize:vertical;
 }
 
-input:focus,textarea:focus{
+input:focus,
+textarea:focus,
+select:focus{
     border-color:var(--red);
-    box-shadow:0 0 20px rgba(255,30,30,.1);
 }
 
 /* RULES */
@@ -486,16 +458,15 @@ input:focus,textarea:focus{
 .rule b{
     display:block;
     margin-bottom:7px;
-    color:white;
 }
 
-.rule span{color:var(--muted)}
+.rule span{
+    color:var(--muted);
+}
 
 /* DISCORD */
 
 .discord{
-    position:relative;
-    overflow:hidden;
     padding:45px;
     border-radius:22px;
     border:1px solid rgba(255,40,40,.4);
@@ -504,14 +475,282 @@ input:focus,textarea:focus{
         linear-gradient(135deg,#180b0b,#0b0b0f);
 }
 
-.discord h2{
-    margin-top:10px;
-}
-
 .discord p{
     max-width:650px;
     color:#aaa;
     line-height:1.7;
+}
+
+/* ADMIN */
+
+.admin-section{
+    margin-top:100px;
+}
+
+.admin-login{
+    max-width:550px;
+    margin:auto;
+    padding:35px;
+    border:1px solid rgba(255,30,30,.35);
+    border-radius:20px;
+    background:
+        radial-gradient(circle at 100% 0,rgba(255,20,20,.14),transparent 40%),
+        #0c0c10;
+}
+
+.admin-login h2{
+    font-size:30px;
+}
+
+.admin-login p{
+    color:var(--muted);
+}
+
+.admin-panel{
+    display:none;
+    margin-top:25px;
+}
+
+.admin-panel.active{
+    display:block;
+}
+
+.admin-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+    padding:22px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#0c0c10;
+}
+
+.admin-top h2{
+    margin:0;
+    font-size:28px;
+}
+
+.admin-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.admin-stat{
+    padding:20px;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:#0c0c10;
+}
+
+.admin-stat strong{
+    display:block;
+    font-size:27px;
+}
+
+.admin-stat span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.admin-tools{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.admin-tools input{
+    flex:1;
+}
+
+.application-list{
+    display:grid;
+    gap:15px;
+}
+
+.admin-application{
+    padding:24px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#0c0c10;
+}
+
+.application-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.application-header h3{
+    margin:0;
+    font-size:21px;
+}
+
+.application-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:12px 0;
+}
+
+.badge{
+    display:inline-flex;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:900;
+    background:#18181e;
+    border:1px solid #292930;
+}
+
+.badge.pending{
+    color:var(--yellow);
+    border-color:rgba(255,189,69,.3);
+}
+
+.badge.approved{
+    color:var(--green);
+    border-color:rgba(56,229,138,.3);
+}
+
+.badge.denied{
+    color:#ff5555;
+    border-color:rgba(255,30,30,.3);
+}
+
+.application-content{
+    margin-top:15px;
+    padding-top:15px;
+    border-top:1px solid var(--line);
+}
+
+.application-content div{
+    margin:10px 0;
+    color:#aaa;
+    line-height:1.6;
+}
+
+.application-content strong{
+    color:white;
+}
+
+.application-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:20px;
+}
+
+.application-actions .btn{
+    margin:0;
+    min-height:42px;
+    padding:0 15px;
+}
+
+.approve{
+    background:rgba(56,229,138,.1);
+    border-color:rgba(56,229,138,.3);
+    color:#72efac;
+}
+
+.deny{
+    background:rgba(255,30,30,.1);
+    border-color:rgba(255,30,30,.3);
+    color:#ff6b6b;
+}
+
+.delete{
+    color:#ff6b6b;
+}
+
+.role-select{
+    min-width:190px;
+    margin:0;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(10px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(600px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:30px;
+    border:1px solid rgba(255,30,30,.4);
+    border-radius:20px;
+    background:#0d0d11;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+
+.modal-box h2{
+    margin-top:0;
+}
+
+.role-info{
+    padding:15px;
+    border-radius:12px;
+    background:#08080b;
+    border:1px solid var(--line);
+    color:var(--muted);
+    margin:15px 0;
+}
+
+.close-modal{
+    float:right;
+    border:0;
+    background:none;
+    color:#aaa;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:5000;
+    padding:15px 20px;
+    border-radius:12px;
+    background:#111116;
+    border:1px solid var(--line);
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    transform:translateY(120px);
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.toast.success{
+    border-color:rgba(56,229,138,.4);
+}
+
+.toast.error{
+    border-color:rgba(255,30,30,.4);
 }
 
 /* FOOTER */
@@ -563,8 +802,20 @@ footer strong{
     .grid,
     .feature,
     .application-grid,
-    .rules{
+    .rules,
+    .admin-stats{
         grid-template-columns:1fr;
+    }
+
+    .admin-top,
+    .admin-tools{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .application-header{
+        flex-direction:column;
+        align-items:flex-start;
     }
 
     section{
@@ -600,6 +851,7 @@ footer strong{
         <a href="#apply">Ansøg</a>
         <a href="#rules">Regler</a>
         <a href="#discord">Discord</a>
+        <a href="#admin">Admin</a>
     </div>
 </nav>
 
@@ -621,19 +873,24 @@ footer strong{
         </p>
 
         <div class="buttons">
-            <a class="btn primary" href="https://discord.gg/rxpvp" target="_blank">
+
+            <a class="btn primary"
+               href="https://discord.gg/rxpvp"
+               target="_blank">
                 🔴 JOIN DISCORD
             </a>
 
             <a class="btn" href="#apply">
                 📝 ANSØG NU
             </a>
+
         </div>
 
     </div>
 </header>
 
 <div class="stats">
+
     <div class="stat">
         <strong>24/7</strong>
         <span>SERVER</span>
@@ -648,6 +905,7 @@ footer strong{
         <strong>RX</strong>
         <span>PVP NETWORK</span>
     </div>
+
 </div>
 
 <section id="server">
@@ -655,7 +913,9 @@ footer strong{
     <div class="section-title">
         <div class="eyebrow">WHY RX PVP?</div>
         <h2>Bygget til PvP.</h2>
-        <p class="sub">Alt du skal bruge for en fed PvP-oplevelse.</p>
+        <p class="sub">
+            Alt du skal bruge for en fed PvP-oplevelse.
+        </p>
     </div>
 
     <div class="grid">
@@ -689,13 +949,15 @@ footer strong{
     <div class="feature">
 
         <div class="feature-main">
+
             <div class="eyebrow">RX EXPERIENCE</div>
 
             <h3>Spil. Grind. Dominer.</h3>
 
             <p>
-                RX PvP handler om mere end bare at vinde. Det handler om
-                community, competition og at blive bedre hver eneste dag.
+                RX PvP handler om mere end bare at vinde.
+                Det handler om community, competition og at blive
+                bedre hver eneste dag.
             </p>
 
             <div class="feature-list">
@@ -703,19 +965,26 @@ footer strong{
                 <div>🏆 Events og konkurrencer</div>
                 <div>⚡ Aktivt staff team</div>
             </div>
+
         </div>
 
         <div class="feature-side">
+
             <div class="eyebrow">COMMUNITY</div>
+
             <h3>Bliv en del af RX.</h3>
+
             <p class="sub">
-                Join Discord og få adgang til updates, tickets,
-                events og community.
+                Join Discord og få adgang til updates,
+                tickets, events og community.
             </p>
 
-            <a class="btn primary" href="https://discord.gg/rxpvp" target="_blank">
+            <a class="btn primary"
+               href="https://discord.gg/rxpvp"
+               target="_blank">
                 JOIN DISCORD
             </a>
+
         </div>
 
     </div>
@@ -727,39 +996,57 @@ footer strong{
     <div class="section-title">
         <div class="eyebrow">JOIN THE TEAM</div>
         <h2>Ansøg hos RX PvP.</h2>
-        <p class="sub">Vælg den position du vil søge.</p>
+        <p class="sub">
+            Vælg den position du vil søge.
+        </p>
     </div>
 
     <div class="application-grid">
 
         <div class="application-card">
             <h3>👮 Staff</h3>
-            <p>Bliv en del af RX PvP Staff Team.</p>
-            <button class="btn primary" onclick="openApplication('Staff')">
+            <p>
+                Bliv en del af RX PvP Staff Team.
+            </p>
+
+            <button class="btn primary"
+                    onclick="openApplication('Staff')">
                 ANSØG
             </button>
         </div>
 
         <div class="application-card">
             <h3>💻 Developer</h3>
-            <p>Hjælp med udvikling og videreudvikling af RX PvP.</p>
-            <button class="btn primary" onclick="openApplication('Developer')">
+            <p>
+                Hjælp med udvikling og videreudvikling af RX PvP.
+            </p>
+
+            <button class="btn primary"
+                    onclick="openApplication('Developer')">
                 ANSØG
             </button>
         </div>
 
         <div class="application-card">
             <h3>🎯 PvP Crew</h3>
-            <p>Bliv en del af vores PvP crew.</p>
-            <button class="btn primary" onclick="openApplication('PvP Crew')">
+            <p>
+                Bliv en del af vores PvP crew.
+            </p>
+
+            <button class="btn primary"
+                    onclick="openApplication('PvP Crew')">
                 ANSØG
             </button>
         </div>
 
         <div class="application-card">
             <h3>🤝 Partnerskab</h3>
-            <p>Vil du samarbejde med RX PvP?</p>
-            <button class="btn primary" onclick="openApplication('Partnerskab')">
+            <p>
+                Vil du samarbejde med RX PvP?
+            </p>
+
+            <button class="btn primary"
+                    onclick="openApplication('Partnerskab')">
                 ANSØG
             </button>
         </div>
@@ -768,7 +1055,9 @@ footer strong{
 
     <div class="application-form" id="applicationForm">
 
-        <h2 id="applicationTitle">Ansøgning</h2>
+        <h2 id="applicationTitle">
+            Ansøgning
+        </h2>
 
         <form onsubmit="submitApplication(event)">
 
@@ -776,47 +1065,66 @@ footer strong{
 
             <div class="form-group">
                 <label>Dit navn</label>
-                <input id="name" required placeholder="Dit navn">
+                <input id="name"
+                       required
+                       placeholder="Dit navn">
             </div>
 
             <div class="form-group">
                 <label>Discord</label>
-                <input id="discordName" required placeholder="Dit Discord navn">
+                <input id="discordName"
+                       required
+                       placeholder="fx max123">
             </div>
 
             <div class="form-group">
                 <label>Alder</label>
-                <input id="age" type="number" min="1" max="100" required>
+                <input id="age"
+                       type="number"
+                       min="1"
+                       max="100"
+                       required>
             </div>
 
             <div class="form-group">
                 <label>Fortæl om dig selv</label>
-                <textarea id="about" required></textarea>
+                <textarea id="about"
+                          required
+                          placeholder="Fortæl lidt om dig selv..."></textarea>
             </div>
 
             <div class="form-group">
                 <label>Hvorfor skal vi vælge dig?</label>
-                <textarea id="reason" required></textarea>
+                <textarea id="reason"
+                          required
+                          placeholder="Hvorfor passer du til rollen?"></textarea>
             </div>
 
             <div class="form-group">
                 <label>Erfaring</label>
-                <textarea id="experience"></textarea>
+                <textarea id="experience"
+                          placeholder="Tidligere staff-, PvP- eller anden relevant erfaring"></textarea>
             </div>
 
-            <button class="btn primary" type="submit">
+            <div class="form-group">
+                <label>Ekstra information</label>
+                <textarea id="extra"
+                          placeholder="Noget andet vi skal vide?"></textarea>
+            </div>
+
+            <button class="btn primary"
+                    type="submit">
                 🔴 SEND ANSØGNING
             </button>
 
-            <button class="btn" type="button" onclick="closeApplication()">
+            <button class="btn"
+                    type="button"
+                    onclick="closeApplication()">
                 LUK
             </button>
 
-            <div id="success" style="display:none;color:#62e99a;margin-top:15px">
-                ✅ Din ansøgning er sendt!
-            </div>
-
         </form>
+
     </div>
 
 </section>
@@ -826,39 +1134,53 @@ footer strong{
     <div class="section-title">
         <div class="eyebrow">SERVER RULES</div>
         <h2>Regler.</h2>
-        <p class="sub">Hold serveren fair og respektfuld.</p>
+        <p class="sub">
+            Hold serveren fair og respektfuld.
+        </p>
     </div>
 
     <div class="rules">
 
         <div class="rule">
             <b>01 — Respekt</b>
-            <span>Ingen racisme, chikane eller unødvendig toxic opførsel.</span>
+            <span>
+                Ingen racisme, chikane eller unødvendig toxic opførsel.
+            </span>
         </div>
 
         <div class="rule">
             <b>02 — Fair Play</b>
-            <span>Cheats, exploits og unfair fordele er ikke tilladt.</span>
+            <span>
+                Cheats, exploits og unfair fordele er ikke tilladt.
+            </span>
         </div>
 
         <div class="rule">
             <b>03 — RDM / VDM</b>
-            <span>Random kills og vehicle abuse er ikke tilladt.</span>
+            <span>
+                Random kills og vehicle abuse er ikke tilladt.
+            </span>
         </div>
 
         <div class="rule">
             <b>04 — Metagaming</b>
-            <span>OOC-information må ikke bruges til IC-fordele.</span>
+            <span>
+                OOC-information må ikke bruges til IC-fordele.
+            </span>
         </div>
 
         <div class="rule">
             <b>05 — Combat Logging</b>
-            <span>Forlad ikke en situation for at undgå konsekvenser.</span>
+            <span>
+                Forlad ikke en situation for at undgå konsekvenser.
+            </span>
         </div>
 
         <div class="rule">
             <b>06 — Staff</b>
-            <span>Respekter staff og brug tickets ved problemer.</span>
+            <span>
+                Respekter staff og brug tickets ved problemer.
+            </span>
         </div>
 
     </div>
@@ -869,7 +1191,9 @@ footer strong{
 
     <div class="discord">
 
-        <div class="eyebrow">OFFICIAL COMMUNITY</div>
+        <div class="eyebrow">
+            OFFICIAL COMMUNITY
+        </div>
 
         <h2>RX PvP Discord.</h2>
 
@@ -878,11 +1202,9 @@ footer strong{
             giveaways, tickets og alt det nyeste fra RX PvP.
         </p>
 
-        <a
-            class="btn primary"
-            href="https://discord.gg/rxpvp"
-            target="_blank"
-        >
+        <a class="btn primary"
+           href="https://discord.gg/rxpvp"
+           target="_blank">
             🔴 JOIN RX PVP
         </a>
 
@@ -890,65 +1212,1230 @@ footer strong{
 
 </section>
 
+
+<!-- =========================
+     ADMIN SYSTEM
+========================= -->
+
+<section id="admin" class="admin-section">
+
+    <div class="section-title">
+        <div class="eyebrow">
+            RX PVP MANAGEMENT
+        </div>
+
+        <h2>Admin Panel.</h2>
+
+        <p class="sub">
+            Kun autoriserede admins kan administrere ansøgninger.
+        </p>
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div class="admin-login" id="adminLogin">
+
+        <div class="eyebrow">
+            SECURE ACCESS
+        </div>
+
+        <h2>🔐 Admin Login</h2>
+
+        <p>
+            Log ind for at administrere RX PvP ansøgninger.
+        </p>
+
+        <div class="form-group">
+
+            <label>Admin password</label>
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Indtast password"
+                onkeydown="if(event.key==='Enter')loginAdmin()"
+            >
+
+        </div>
+
+        <button class="btn primary"
+                onclick="loginAdmin()">
+            🔓 LOG IND
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN PANEL -->
+
+    <div class="admin-panel" id="adminPanel">
+
+        <div class="admin-top">
+
+            <div>
+                <div class="eyebrow">
+                    ADMINISTRATOR
+                </div>
+
+                <h2>
+                    RX PvP Dashboard
+                </h2>
+            </div>
+
+            <button class="btn"
+                    onclick="logoutAdmin()">
+                🚪 LOG UD
+            </button>
+
+        </div>
+
+
+        <div class="admin-stats">
+
+            <div class="admin-stat">
+                <strong id="totalApplications">0</strong>
+                <span>ALLE ANSØGNINGER</span>
+            </div>
+
+            <div class="admin-stat">
+                <strong id="pendingApplications">0</strong>
+                <span>AFVENTER</span>
+            </div>
+
+            <div class="admin-stat">
+                <strong id="approvedApplications">0</strong>
+                <span>GODKENDT</span>
+            </div>
+
+            <div class="admin-stat">
+                <strong id="deniedApplications">0</strong>
+                <span>AFSLÅET</span>
+            </div>
+
+        </div>
+
+
+        <div class="admin-tools">
+
+            <input
+                id="adminSearch"
+                placeholder="🔎 Søg efter navn eller Discord..."
+                oninput="renderApplications()"
+            >
+
+            <select id="statusFilter"
+                    onchange="renderApplications()">
+
+                <option value="all">
+                    Alle
+                </option>
+
+                <option value="pending">
+                    Afventer
+                </option>
+
+                <option value="approved">
+                    Godkendte
+                </option>
+
+                <option value="denied">
+                    Afslåede
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="applicationList"
+             class="application-list">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- APPROVE MODAL -->
+
+<div class="modal" id="approveModal">
+
+    <div class="modal-box">
+
+        <button class="close-modal"
+                onclick="closeApproveModal()">
+            ×
+        </button>
+
+        <div class="eyebrow">
+            APPROVE APPLICATION
+        </div>
+
+        <h2>
+            Godkend ansøgning
+        </h2>
+
+        <div class="role-info"
+             id="approvePlayerInfo">
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Vælg Discord-rolle
+            </label>
+
+            <select id="roleSelect">
+
+                <option value="Staff">
+                    👮 Staff
+                </option>
+
+                <option value="Moderator">
+                    🛡️ Moderator
+                </option>
+
+                <option value="Trial Staff">
+                    🔰 Trial Staff
+                </option>
+
+                <option value="Developer">
+                    💻 Developer
+                </option>
+
+                <option value="PvP Crew">
+                    🎯 PvP Crew
+                </option>
+
+                <option value="Partner">
+                    🤝 Partner
+                </option>
+
+                <option value="Head Staff">
+                    👑 Head Staff
+                </option>
+
+                <option value="Admin">
+                    ⚡ Admin
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Admin kommentar
+            </label>
+
+            <textarea
+                id="approveComment"
+                placeholder="Fx Godkendt efter gennemgang."
+            ></textarea>
+
+        </div>
+
+        <button class="btn primary"
+                onclick="approveApplication()">
+            ✅ GODKEND + TILDEL ROLLE
+        </button>
+
+        <button class="btn"
+                onclick="closeApproveModal()">
+            ANNULLER
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- DENY MODAL -->
+
+<div class="modal" id="denyModal">
+
+    <div class="modal-box">
+
+        <button class="close-modal"
+                onclick="closeDenyModal()">
+            ×
+        </button>
+
+        <div class="eyebrow">
+            DENY APPLICATION
+        </div>
+
+        <h2>
+            Afslå ansøgning
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Afslagsgrund
+            </label>
+
+            <textarea
+                id="denyReason"
+                placeholder="Skriv hvorfor ansøgningen bliver afslået..."
+                required
+            ></textarea>
+
+        </div>
+
+        <button class="btn primary"
+                onclick="denyApplication()">
+            ❌ AFSLÅ ANSØGNING
+        </button>
+
+        <button class="btn"
+                onclick="closeDenyModal()">
+            ANNULLER
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="toast"
+     id="toast">
+</div>
+
+
 <footer>
-    <strong>RX PVP</strong><br><br>
+
+    <strong>RX PVP</strong>
+
+    <br><br>
+
     Official RX PvP Website · © 2026
+
 </footer>
+
 
 <script>
 
+/* ==========================================
+   SETTINGS
+========================================== */
+
+const ADMIN_PASSWORD = "RXADMIN123";
+
+const STORAGE_KEY =
+    "rxpvpapplikationer";
+
+let selectedApplicationId = null;
+
+
+/* ==========================================
+   APPLICATION FORM
+========================================== */
+
 function openApplication(type){
 
-    document.getElementById("applicationForm").classList.add("active");
+    document
+        .getElementById("applicationForm")
+        .classList
+        .add("active");
 
-    document.getElementById("applicationType").value = type;
+    document
+        .getElementById("applicationType")
+        .value = type;
 
-    document.getElementById("applicationTitle").textContent =
-        "📝 " + type + " ansøgning";
+    document
+        .getElementById("applicationTitle")
+        .textContent = "📝 " + type + " ansøgning";
 
-    document.getElementById("applicationForm").scrollIntoView({
-        behavior:"smooth"
-    });
+    document
+        .getElementById("applicationForm")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
 }
+
 
 function closeApplication(){
-    document.getElementById("applicationForm").classList.remove("active");
+
+    document
+        .getElementById("applicationForm")
+        .classList
+        .remove("active");
+
 }
+
 
 function submitApplication(e){
 
     e.preventDefault();
 
     const application = {
+
         id:Date.now(),
-        type:document.getElementById("applicationType").value,
-        name:document.getElementById("name").value,
-        discord:document.getElementById("discordName").value,
-        age:document.getElementById("age").value,
-        about:document.getElementById("about").value,
-        reason:document.getElementById("reason").value,
-        experience:document.getElementById("experience").value,
+
+        type:
+            document
+            .getElementById("applicationType")
+            .value,
+
+        name:
+            document
+            .getElementById("name")
+            .value,
+
+        discord:
+            document
+            .getElementById("discordName")
+            .value,
+
+        age:
+            document
+            .getElementById("age")
+            .value,
+
+        about:
+            document
+            .getElementById("about")
+            .value,
+
+        reason:
+            document
+            .getElementById("reason")
+            .value,
+
+        experience:
+            document
+            .getElementById("experience")
+            .value,
+
+        extra:
+            document
+            .getElementById("extra")
+            .value,
+
         status:"pending",
-        date:new Date().toLocaleString("da-DK")
+
+        role:"",
+
+        adminComment:"",
+
+        denyReason:"",
+
+        date:
+            new Date()
+            .toLocaleString("da-DK")
+
     };
 
+
     const applications =
-        JSON.parse(localStorage.getItem("rxpvpapplikationer") || "[]");
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
 
     applications.push(application);
 
+
     localStorage.setItem(
-        "rxpvpapplikationer",
+        STORAGE_KEY,
         JSON.stringify(applications)
     );
 
-    document.getElementById("success").style.display="block";
 
     e.target.reset();
+
+    closeApplication();
+
+    showToast(
+        "Ansøgning sendt! Vi vender tilbage.",
+        "success"
+    );
+
 }
+
+
+/* ==========================================
+   ADMIN LOGIN
+========================================== */
+
+function loginAdmin(){
+
+    const password =
+        document
+        .getElementById("adminPassword")
+        .value;
+
+
+    if(password !== ADMIN_PASSWORD){
+
+        showToast(
+            "Forkert admin password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    sessionStorage.setItem(
+        "rxAdminLoggedIn",
+        "true"
+    );
+
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "none";
+
+
+    document
+        .getElementById("adminPanel")
+        .classList
+        .add("active");
+
+
+    renderApplications();
+
+
+    showToast(
+        "Du er nu logget ind som admin.",
+        "success"
+    );
+
+}
+
+
+function logoutAdmin(){
+
+    sessionStorage.removeItem(
+        "rxAdminLoggedIn"
+    );
+
+
+    document
+        .getElementById("adminPanel")
+        .classList
+        .remove("active");
+
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "block";
+
+
+    document
+        .getElementById("adminPassword")
+        .value = "";
+
+}
+
+
+/* ==========================================
+   CHECK ADMIN
+========================================== */
+
+function checkAdmin(){
+
+    if(
+        sessionStorage.getItem(
+            "rxAdminLoggedIn"
+        ) === "true"
+    ){
+
+        document
+            .getElementById("adminLogin")
+            .style.display = "none";
+
+        document
+            .getElementById("adminPanel")
+            .classList
+            .add("active");
+
+        renderApplications();
+    }
+
+}
+
+
+/* ==========================================
+   GET APPLICATIONS
+========================================== */
+
+function getApplications(){
+
+    return JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        ) || "[]"
+    );
+
+}
+
+
+/* ==========================================
+   SAVE APPLICATIONS
+========================================== */
+
+function saveApplications(applications){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(applications)
+    );
+
+}
+
+
+/* ==========================================
+   RENDER APPLICATIONS
+========================================== */
+
+function renderApplications(){
+
+    const list =
+        document
+        .getElementById("applicationList");
+
+
+    if(!list) return;
+
+
+    const search =
+        document
+        .getElementById("adminSearch")
+        .value
+        .toLowerCase();
+
+
+    const filter =
+        document
+        .getElementById("statusFilter")
+        .value;
+
+
+    let applications =
+        getApplications();
+
+
+    applications =
+        applications
+        .filter(app => {
+
+            const matchesSearch =
+                app.name
+                .toLowerCase()
+                .includes(search)
+                ||
+                app.discord
+                .toLowerCase()
+                .includes(search);
+
+            const matchesFilter =
+                filter === "all"
+                ||
+                app.status === filter;
+
+            return matchesSearch &&
+                   matchesFilter;
+
+        });
+
+
+    updateStats();
+
+
+    if(applications.length === 0){
+
+        list.innerHTML = `
+            <div class="admin-application">
+                <h3>Ingen ansøgninger</h3>
+                <p style="color:#888">
+                    Der er ingen ansøgninger
+                    der matcher søgningen.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        applications
+        .sort((a,b) => b.id - a.id)
+        .map(app => applicationHTML(app))
+        .join("");
+
+}
+
+
+/* ==========================================
+   APPLICATION HTML
+========================================== */
+
+function applicationHTML(app){
+
+    let statusText =
+        app.status === "pending"
+        ? "AFVENTER"
+        : app.status === "approved"
+        ? "GODKENDT"
+        : "AFSLÅET";
+
+
+    return `
+
+        <div class="admin-application">
+
+            <div class="application-header">
+
+                <div>
+
+                    <h3>
+                        ${escapeHTML(app.name)}
+                    </h3>
+
+                    <div class="application-meta">
+
+                        <span class="badge">
+                            ${escapeHTML(app.type)}
+                        </span>
+
+                        <span class="badge ${app.status}">
+                            ${statusText}
+                        </span>
+
+                        ${
+                            app.role
+                            ? `
+                            <span class="badge approved">
+                                🎭 ${escapeHTML(app.role)}
+                            </span>
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+                <span style="color:#666;font-size:12px">
+                    ${escapeHTML(app.date)}
+                </span>
+
+            </div>
+
+
+            <div class="application-content">
+
+                <div>
+                    <strong>Discord:</strong>
+                    ${escapeHTML(app.discord)}
+                </div>
+
+                <div>
+                    <strong>Alder:</strong>
+                    ${escapeHTML(app.age)}
+                </div>
+
+                <div>
+                    <strong>Om personen:</strong><br>
+                    ${escapeHTML(app.about)}
+                </div>
+
+                <div>
+                    <strong>Hvorfor:</strong><br>
+                    ${escapeHTML(app.reason)}
+                </div>
+
+                <div>
+                    <strong>Erfaring:</strong><br>
+                    ${escapeHTML(app.experience || "Ikke udfyldt")}
+                </div>
+
+                <div>
+                    <strong>Ekstra:</strong><br>
+                    ${escapeHTML(app.extra || "Ikke udfyldt")}
+                </div>
+
+
+                ${
+                    app.adminComment
+                    ? `
+                    <div>
+                        <strong>Admin kommentar:</strong><br>
+                        ${escapeHTML(app.adminComment)}
+                    </div>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    app.denyReason
+                    ? `
+                    <div style="color:#ff6666">
+                        <strong>Afslagsgrund:</strong><br>
+                        ${escapeHTML(app.denyReason)}
+                    </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+
+            <div class="application-actions">
+
+                ${
+                    app.status !== "approved"
+                    ? `
+                    <button
+                        class="btn approve"
+                        onclick="openApproveModal(${app.id})">
+                        ✅ GODKEND
+                    </button>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    app.status !== "denied"
+                    ? `
+                    <button
+                        class="btn deny"
+                        onclick="openDenyModal(${app.id})">
+                        ❌ AFSLÅ
+                    </button>
+                    `
+                    : ""
+                }
+
+
+                <button
+                    class="btn"
+                    onclick="setPending(${app.id})">
+                    🔄 PENDING
+                </button>
+
+
+                <button
+                    class="btn delete"
+                    onclick="deleteApplication(${app.id})">
+                    🗑️ SLET
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   APPROVE
+========================================== */
+
+function openApproveModal(id){
+
+    selectedApplicationId = id;
+
+
+    const applications =
+        getApplications();
+
+
+    const app =
+        applications.find(
+            a => a.id === id
+        );
+
+
+    if(!app) return;
+
+
+    document
+        .getElementById("approvePlayerInfo")
+        .innerHTML = `
+
+            <strong>
+                ${escapeHTML(app.name)}
+            </strong>
+
+            <br>
+
+            Discord:
+            ${escapeHTML(app.discord)}
+
+            <br>
+
+            Ansøgning:
+            ${escapeHTML(app.type)}
+
+        `;
+
+
+    document
+        .getElementById("approveComment")
+        .value = app.adminComment || "";
+
+
+    document
+        .getElementById("approveModal")
+        .classList
+        .add("active");
+
+}
+
+
+function closeApproveModal(){
+
+    document
+        .getElementById("approveModal")
+        .classList
+        .remove("active");
+
+    selectedApplicationId = null;
+
+}
+
+
+function approveApplication(){
+
+    if(!selectedApplicationId)
+        return;
+
+
+    const role =
+        document
+        .getElementById("roleSelect")
+        .value;
+
+
+    const comment =
+        document
+        .getElementById("approveComment")
+        .value;
+
+
+    const applications =
+        getApplications();
+
+
+    const index =
+        applications.findIndex(
+            a => a.id === selectedApplicationId
+        );
+
+
+    if(index === -1)
+        return;
+
+
+    applications[index].status =
+        "approved";
+
+    applications[index].role =
+        role;
+
+    applications[index].adminComment =
+        comment;
+
+    applications[index].approvedAt =
+        new Date().toLocaleString("da-DK");
+
+
+    saveApplications(applications);
+
+
+    closeApproveModal();
+
+    renderApplications();
+
+
+    showToast(
+        "Ansøgningen er godkendt og rollen er registreret.",
+        "success"
+    );
+
+}
+
+
+/* ==========================================
+   DENY
+========================================== */
+
+function openDenyModal(id){
+
+    selectedApplicationId = id;
+
+    document
+        .getElementById("denyReason")
+        .value = "";
+
+    document
+        .getElementById("denyModal")
+        .classList
+        .add("active");
+
+}
+
+
+function closeDenyModal(){
+
+    document
+        .getElementById("denyModal")
+        .classList
+        .remove("active");
+
+    selectedApplicationId = null;
+
+}
+
+
+function denyApplication(){
+
+    const reason =
+        document
+        .getElementById("denyReason")
+        .value
+        .trim();
+
+
+    if(!reason){
+
+        showToast(
+            "Skriv en afslagsgrund.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const applications =
+        getApplications();
+
+
+    const index =
+        applications.findIndex(
+            a => a.id === selectedApplicationId
+        );
+
+
+    if(index === -1)
+        return;
+
+
+    applications[index].status =
+        "denied";
+
+    applications[index].denyReason =
+        reason;
+
+    applications[index].deniedAt =
+        new Date().toLocaleString("da-DK");
+
+
+    saveApplications(applications);
+
+
+    closeDenyModal();
+
+    renderApplications();
+
+
+    showToast(
+        "Ansøgningen er afslået.",
+        "success"
+    );
+
+}
+
+
+/* ==========================================
+   PENDING
+========================================== */
+
+function setPending(id){
+
+    const applications =
+        getApplications();
+
+
+    const app =
+        applications.find(
+            a => a.id === id
+        );
+
+
+    if(!app) return;
+
+
+    app.status = "pending";
+
+    app.role = "";
+
+    app.denyReason = "";
+
+
+    saveApplications(applications);
+
+    renderApplications();
+
+
+    showToast(
+        "Ansøgningen er sat til pending.",
+        "success"
+    );
+
+}
+
+
+/* ==========================================
+   DELETE
+========================================== */
+
+function deleteApplication(id){
+
+    if(
+        !confirm(
+            "Er du sikker på at du vil slette denne ansøgning?"
+        )
+    )
+        return;
+
+
+    let applications =
+        getApplications();
+
+
+    applications =
+        applications.filter(
+            a => a.id !== id
+        );
+
+
+    saveApplications(applications);
+
+    renderApplications();
+
+
+    showToast(
+        "Ansøgningen er slettet.",
+        "success"
+    );
+
+}
+
+
+/* ==========================================
+   STATS
+========================================== */
+
+function updateStats(){
+
+    const applications =
+        getApplications();
+
+
+    document
+        .getElementById("totalApplications")
+        .textContent =
+        applications.length;
+
+
+    document
+        .getElementById("pendingApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "pending"
+        ).length;
+
+
+    document
+        .getElementById("approvedApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "approved"
+        ).length;
+
+
+    document
+        .getElementById("deniedApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "denied"
+        ).length;
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(message,type){
+
+    const toast =
+        document
+        .getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.className =
+        "toast show " + type;
+
+
+    setTimeout(() => {
+
+        toast.className =
+            "toast";
+
+    },3500);
+
+}
+
+
+/* ==========================================
+   SECURITY / HTML ESCAPE
+========================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        checkAdmin();
+
+    }
+);
 
 </script>
 
 </body>
 </html>
-```
