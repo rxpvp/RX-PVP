@@ -54,11 +54,11 @@ nav{
 
     z-index:100;
 
-    background:rgba(7,7,10,.88);
+    background:rgba(7,7,10,.90);
 
     backdrop-filter:blur(16px);
 
-    border-bottom:1px solid rgba(255,31,31,.15);
+    border-bottom:1px solid rgba(255,31,31,.18);
 
     display:flex;
     align-items:center;
@@ -85,7 +85,7 @@ nav a{
 
     text-decoration:none;
 
-    margin-left:24px;
+    margin-left:22px;
 
     font-size:14px;
 
@@ -103,7 +103,7 @@ nav a:hover{
 
 
 /* =========================
-   MOBILE MENU BUTTON
+   MOBILE BUTTON
 ========================= */
 
 .mobile-menu-btn{
@@ -111,7 +111,7 @@ nav a:hover{
 
     position:fixed;
 
-    top:12px;
+    top:11px;
     right:6%;
 
     z-index:200;
@@ -119,11 +119,11 @@ nav a:hover{
     width:46px;
     height:46px;
 
-    border:1px solid rgba(255,31,31,.4);
+    border:1px solid rgba(255,31,31,.45);
 
     border-radius:12px;
 
-    background:rgba(15,15,18,.96);
+    background:rgba(15,15,18,.97);
 
     color:white;
 
@@ -208,7 +208,7 @@ nav a:hover{
 
     text-shadow:
         0 0 25px rgba(255,31,31,.55),
-        0 0 60px rgba(255,31,31,.3);
+        0 0 60px rgba(255,31,31,.30);
 }
 
 .hero p{
@@ -259,7 +259,7 @@ nav a:hover{
     color:white;
 
     box-shadow:
-        0 12px 35px rgba(255,31,31,.3);
+        0 12px 35px rgba(255,31,31,.30);
 }
 
 .primary:hover{
@@ -343,7 +343,7 @@ h2{
     transform:translateY(-4px);
 
     box-shadow:
-        0 12px 35px rgba(255,31,31,.1);
+        0 12px 35px rgba(255,31,31,.10);
 }
 
 .icon{
@@ -376,10 +376,62 @@ h2{
     background:
         radial-gradient(
             circle at top right,
-            rgba(255,31,31,.2),
+            rgba(255,31,31,.20),
             transparent 45%
         ),
         #111019;
+}
+
+
+/* =========================
+   APPLICATION
+========================= */
+
+.apply-box{
+    position:relative;
+
+    overflow:hidden;
+
+    text-align:center;
+
+    border:1px solid #c93636;
+
+    border-radius:22px;
+
+    padding:45px 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #221313,
+            #0d0e12 60%,
+            #251010
+        );
+
+    box-shadow:
+        0 0 65px rgba(255,31,31,.14);
+}
+
+.apply-box h3{
+    font-size:30px;
+
+    margin:15px 0 10px;
+}
+
+.apply-box p{
+    max-width:650px;
+
+    margin:0 auto 20px;
+
+    color:var(--muted);
+
+    line-height:1.6;
+}
+
+.apply-button{
+    font-size:16px;
+
+    padding:17px 32px;
 }
 
 
@@ -636,7 +688,8 @@ footer strong{
         color:var(--red2);
     }
 
-    .mobile-discord{
+    .mobile-discord,
+    .mobile-apply{
         margin-top:8px !important;
 
         text-align:center;
@@ -654,7 +707,8 @@ footer strong{
             0 8px 25px rgba(255,31,31,.25);
     }
 
-    .mobile-discord:hover{
+    .mobile-discord:hover,
+    .mobile-apply:hover{
         background:
             linear-gradient(
                 135deg,
@@ -704,6 +758,10 @@ footer strong{
         padding:25px;
     }
 
+    .apply-box{
+        padding:35px 20px;
+    }
+
 }
 
 
@@ -734,7 +792,9 @@ footer strong{
 <body>
 
 
-<!-- NAVIGATION -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
 <nav>
 
@@ -750,6 +810,8 @@ footer strong{
 
         <a href="#booster">Booster</a>
 
+        <a href="#apply">Ansøg</a>
+
         <a href="#rules">Regler</a>
 
         <a href="#support">Discord</a>
@@ -759,20 +821,23 @@ footer strong{
 </nav>
 
 
-<!-- MOBILE MENU BUTTON -->
+<!-- =========================
+     MOBILE BUTTON
+========================= -->
 
 <button
     class="mobile-menu-btn"
     id="menuButton"
-    onclick="toggleMenu()"
-    aria-label="Åbn menu">
+    onclick="toggleMenu()">
 
     ☰
 
 </button>
 
 
-<!-- MOBILE MENU -->
+<!-- =========================
+     MOBILE MENU
+========================= -->
 
 <div
     class="mobile-menu"
@@ -790,6 +855,10 @@ footer strong{
         💎 Booster
     </a>
 
+    <a href="#apply" onclick="toggleMenu()">
+        📝 Ansøg
+    </a>
+
     <a href="#rules" onclick="toggleMenu()">
         📜 Regler
     </a>
@@ -799,18 +868,20 @@ footer strong{
     </a>
 
     <a
-        class="mobile-discord"
-        href="https://discord.gg/rxpvp"
+        class="mobile-apply"
+        href="DIN-ANSØG-LINK-HER"
         target="_blank">
 
-        🔴 Join Discord
+        📝 ANSØG HER
 
     </a>
 
 </div>
 
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
 <header
     class="hero"
@@ -854,7 +925,9 @@ footer strong{
 </header>
 
 
-<!-- SERVER -->
+<!-- =========================
+     SERVER
+========================= -->
 
 <section id="server">
 
@@ -928,7 +1001,9 @@ footer strong{
 </section>
 
 
-<!-- BOOSTER -->
+<!-- =========================
+     BOOSTER
+========================= -->
 
 <section id="booster">
 
@@ -1017,7 +1092,53 @@ footer strong{
 </section>
 
 
-<!-- RULES -->
+<!-- =========================
+     APPLICATION
+========================= -->
+
+<section id="apply">
+
+    <h2>
+        📝 Ansøg
+    </h2>
+
+    <p class="sub">
+        Vil du være en del af RX PvP? Send din ansøgning her.
+    </p>
+
+
+    <div class="apply-box">
+
+        <div class="tag">
+            RX PVP APPLICATIONS
+        </div>
+
+        <h3>
+            Klar til at blive en del af teamet?
+        </h3>
+
+        <p>
+            Udfyld din ansøgning og fortæl os,
+            hvorfor du gerne vil være en del af RX PvP.
+        </p>
+
+        <a
+            class="btn primary apply-button"
+            href="DIN-ANSØG-LINK-HER"
+            target="_blank">
+
+            📝 ANSØG HER
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RULES
+========================= -->
 
 <section id="rules">
 
@@ -1109,7 +1230,9 @@ footer strong{
 </section>
 
 
-<!-- DISCORD -->
+<!-- =========================
+     DISCORD
+========================= -->
 
 <section id="support">
 
@@ -1171,7 +1294,9 @@ footer strong{
 </section>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -1187,7 +1312,9 @@ footer strong{
 </footer>
 
 
-<!-- JAVASCRIPT -->
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script>
 
@@ -1214,7 +1341,7 @@ function toggleMenu(){
 }
 
 
-/* Luk menu når man klikker udenfor */
+/* Luk menu hvis man klikker udenfor */
 
 document.addEventListener("click", function(event){
 
