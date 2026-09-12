@@ -17,6 +17,7 @@
 
     --red:#ff1f1f;
     --red2:#ff4a4a;
+    --darkred:#b91515;
 }
 
 *{
@@ -41,7 +42,6 @@ body{
     color:var(--text);
 }
 
-
 /* =========================
    NAVBAR
 ========================= */
@@ -54,7 +54,7 @@ nav{
 
     z-index:100;
 
-    background:rgba(7,7,10,.90);
+    background:rgba(7,7,10,.92);
 
     backdrop-filter:blur(16px);
 
@@ -82,13 +82,11 @@ nav{
 
 nav a{
     color:#ddd;
-
     text-decoration:none;
 
     margin-left:22px;
 
     font-size:14px;
-
     font-weight:700;
 
     transition:.2s;
@@ -100,7 +98,6 @@ nav a:hover{
     text-shadow:
         0 0 12px rgba(255,31,31,.5);
 }
-
 
 /* =========================
    MOBILE BUTTON
@@ -133,17 +130,7 @@ nav a:hover{
 
     box-shadow:
         0 0 20px rgba(255,31,31,.15);
-
-    transition:.2s;
 }
-
-.mobile-menu-btn:hover{
-    border-color:var(--red);
-
-    box-shadow:
-        0 0 30px rgba(255,31,31,.35);
-}
-
 
 /* =========================
    MOBILE MENU
@@ -153,7 +140,6 @@ nav a:hover{
     display:none;
 }
 
-
 /* =========================
    HERO
 ========================= */
@@ -162,7 +148,6 @@ nav a:hover{
     min-height:92vh;
 
     display:grid;
-
     place-items:center;
 
     text-align:center;
@@ -184,7 +169,6 @@ nav a:hover{
     border-radius:20px;
 
     font-size:11px;
-
     font-weight:900;
 
     letter-spacing:1px;
@@ -223,7 +207,6 @@ nav a:hover{
     line-height:1.6;
 }
 
-
 /* =========================
    BUTTONS
 ========================= */
@@ -242,6 +225,10 @@ nav a:hover{
     margin:5px;
 
     transition:.2s;
+
+    border:none;
+
+    cursor:pointer;
 }
 
 .btn:hover{
@@ -281,7 +268,6 @@ nav a:hover{
     color:var(--red2);
 }
 
-
 /* =========================
    SECTIONS
 ========================= */
@@ -305,7 +291,6 @@ h2{
 
     margin-bottom:35px;
 }
-
 
 /* =========================
    CARDS
@@ -365,7 +350,6 @@ h2{
     padding-left:20px;
 }
 
-
 /* =========================
    BOOSTER
 ========================= */
@@ -382,7 +366,6 @@ h2{
         #111019;
 }
 
-
 /* =========================
    APPLICATION
 ========================= */
@@ -391,8 +374,6 @@ h2{
     position:relative;
 
     overflow:hidden;
-
-    text-align:center;
 
     border:1px solid #c93636;
 
@@ -434,6 +415,174 @@ h2{
     padding:17px 32px;
 }
 
+/* =========================
+   APPLICATION CARDS
+========================= */
+
+.application-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+
+    margin-top:25px;
+}
+
+.application-card{
+    background:
+        linear-gradient(
+            180deg,
+            #121319,
+            #0d0e12
+        );
+
+    border:1px solid var(--line);
+
+    border-radius:16px;
+
+    padding:25px;
+
+    transition:.2s;
+}
+
+.application-card:hover{
+    border-color:rgba(255,31,31,.55);
+
+    box-shadow:
+        0 10px 35px rgba(255,31,31,.12);
+}
+
+.application-card h3{
+    margin:0 0 15px;
+
+    font-size:21px;
+}
+
+.application-card p{
+    color:var(--muted);
+
+    line-height:1.5;
+
+    min-height:48px;
+}
+
+.application-card button{
+    width:100%;
+
+    margin-top:10px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.application-form{
+    display:none;
+
+    margin-top:30px;
+
+    background:#0e0f13;
+
+    border:1px solid rgba(255,31,31,.35);
+
+    border-radius:18px;
+
+    padding:30px;
+}
+
+.application-form.active{
+    display:block;
+}
+
+.application-form h3{
+    margin-top:0;
+
+    font-size:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:7px;
+
+    font-weight:800;
+
+    font-size:14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:1px solid #303139;
+
+    background:#08090c;
+
+    color:white;
+
+    outline:none;
+
+    font-family:Arial,sans-serif;
+
+    font-size:15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+    border-color:var(--red);
+    box-shadow:0 0 15px rgba(255,31,31,.12);
+}
+
+.form-group textarea{
+    min-height:130px;
+
+    resize:vertical;
+}
+
+.form-actions{
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success-message{
+    display:none;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,31,31,.4);
+
+    background:rgba(255,31,31,.08);
+
+    color:#ffb2b2;
+
+    font-weight:700;
+}
+
+.success-message.show{
+    display:block;
+}
 
 /* =========================
    RULES
@@ -473,10 +622,7 @@ h2{
     display:block;
 
     margin-bottom:5px;
-
-    color:white;
 }
-
 
 /* =========================
    DISCORD
@@ -577,7 +723,6 @@ h2{
     margin-top:12px;
 }
 
-
 /* =========================
    FOOTER
 ========================= */
@@ -598,7 +743,6 @@ footer strong{
     text-shadow:
         0 0 15px rgba(255,31,31,.3);
 }
-
 
 /* =========================
    MOBILE
@@ -688,8 +832,8 @@ footer strong{
         color:var(--red2);
     }
 
-    .mobile-discord,
-    .mobile-apply{
+    .mobile-apply,
+    .mobile-discord{
         margin-top:8px !important;
 
         text-align:center;
@@ -705,18 +849,6 @@ footer strong{
 
         box-shadow:
             0 8px 25px rgba(255,31,31,.25);
-    }
-
-    .mobile-discord:hover,
-    .mobile-apply:hover{
-        background:
-            linear-gradient(
-                135deg,
-                #ff3030,
-                #ff5555
-            ) !important;
-
-        color:white !important;
     }
 
     .hero{
@@ -744,7 +876,8 @@ footer strong{
     }
 
     .grid,
-    .rules{
+    .rules,
+    .application-grid{
         grid-template-columns:1fr;
     }
 
@@ -762,8 +895,10 @@ footer strong{
         padding:35px 20px;
     }
 
+    .application-form{
+        padding:20px;
+    }
 }
-
 
 /* =========================
    SMALL PHONES
@@ -788,9 +923,7 @@ footer strong{
 </style>
 </head>
 
-
 <body>
-
 
 <!-- =========================
      NAVIGATION
@@ -820,7 +953,6 @@ footer strong{
 
 </nav>
 
-
 <!-- =========================
      MOBILE BUTTON
 ========================= -->
@@ -833,7 +965,6 @@ footer strong{
     ☰
 
 </button>
-
 
 <!-- =========================
      MOBILE MENU
@@ -856,7 +987,7 @@ footer strong{
     </a>
 
     <a href="#apply" onclick="toggleMenu()">
-        📝 Ansøg
+        📝 Ansøgninger
     </a>
 
     <a href="#rules" onclick="toggleMenu()">
@@ -869,15 +1000,14 @@ footer strong{
 
     <a
         class="mobile-apply"
-        href="DIN-ANSØG-LINK-HER"
-        target="_blank">
+        href="#apply"
+        onclick="toggleMenu()">
 
         📝 ANSØG HER
 
     </a>
 
 </div>
-
 
 <!-- =========================
      HERO
@@ -924,7 +1054,6 @@ footer strong{
 
 </header>
 
-
 <!-- =========================
      SERVER
 ========================= -->
@@ -940,7 +1069,6 @@ footer strong{
     </p>
 
     <div class="grid">
-
 
         <div class="card">
 
@@ -959,7 +1087,6 @@ footer strong{
 
         </div>
 
-
         <div class="card">
 
             <div class="icon">
@@ -976,7 +1103,6 @@ footer strong{
             </p>
 
         </div>
-
 
         <div class="card">
 
@@ -995,11 +1121,9 @@ footer strong{
 
         </div>
 
-
     </div>
 
 </section>
-
 
 <!-- =========================
      BOOSTER
@@ -1017,7 +1141,6 @@ footer strong{
 
     <div class="grid">
 
-
         <div class="card booster">
 
             <span class="tag">
@@ -1029,17 +1152,12 @@ footer strong{
             </h3>
 
             <ul>
-
                 <li>💎 RX Booster rolle</li>
-
                 <li>🎁 Booster reward</li>
-
                 <li>💬 Booster chat</li>
-
             </ul>
 
         </div>
-
 
         <div class="card booster">
 
@@ -1052,17 +1170,12 @@ footer strong{
             </h3>
 
             <ul>
-
                 <li>🚗 Eksklusiv reward</li>
-
                 <li>🎨 Booster clothing</li>
-
                 <li>🎁 Ekstra rewards</li>
-
             </ul>
 
         </div>
-
 
         <div class="card booster">
 
@@ -1075,66 +1188,240 @@ footer strong{
             </h3>
 
             <ul>
-
                 <li>👑 Elite Booster status</li>
-
                 <li>🏆 Booster events</li>
-
                 <li>🎁 Eksklusive rewards</li>
-
             </ul>
 
         </div>
-
 
     </div>
 
 </section>
 
-
 <!-- =========================
-     APPLICATION
+     APPLICATIONS
 ========================= -->
 
 <section id="apply">
 
     <h2>
-        📝 Ansøg
+        📝 Ansøgninger
     </h2>
 
     <p class="sub">
-        Vil du være en del af RX PvP? Send din ansøgning her.
+        Vælg den ansøgning du gerne vil sende.
     </p>
 
+    <div class="application-grid">
 
-    <div class="apply-box">
+        <div class="application-card">
 
-        <div class="tag">
-            RX PVP APPLICATIONS
+            <h3>👮 Staff</h3>
+
+            <p>
+                Ansøg om at blive en del af RX PvP Staff Team.
+            </p>
+
+            <button
+                class="btn primary"
+                onclick="openApplication('Staff')">
+
+                Ansøg nu
+
+            </button>
+
         </div>
 
-        <h3>
-            Klar til at blive en del af teamet?
+        <div class="application-card">
+
+            <h3>💻 Developer</h3>
+
+            <p>
+                Har du erfaring med udvikling og vil hjælpe RX PvP?
+            </p>
+
+            <button
+                class="btn primary"
+                onclick="openApplication('Developer')">
+
+                Ansøg nu
+
+            </button>
+
+        </div>
+
+        <div class="application-card">
+
+            <h3>🤝 Partnerskab</h3>
+
+            <p>
+                Vil du lave et partnerskab med RX PvP?
+            </p>
+
+            <button
+                class="btn primary"
+                onclick="openApplication('Partnerskab')">
+
+                Ansøg nu
+
+            </button>
+
+        </div>
+
+        <div class="application-card">
+
+            <h3>🎯 PvP Crew</h3>
+
+            <p>
+                Ansøg om at blive en del af RX PvP Crew.
+            </p>
+
+            <button
+                class="btn primary"
+                onclick="openApplication('PvP Crew')">
+
+                Ansøg nu
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FORM -->
+
+    <div
+        class="application-form"
+        id="applicationForm">
+
+        <h3 id="applicationTitle">
+            Ansøgning
         </h3>
 
-        <p>
-            Udfyld din ansøgning og fortæl os,
-            hvorfor du gerne vil være en del af RX PvP.
-        </p>
+        <form onsubmit="submitApplication(event)">
 
-        <a
-            class="btn primary apply-button"
-            href="DIN-ANSØG-LINK-HER"
-            target="_blank">
+            <input
+                type="hidden"
+                id="applicationType"
+                name="applicationType">
 
-            📝 ANSØG HER
+            <div class="form-group">
 
-        </a>
+                <label>
+                    Dit navn
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    required
+                    placeholder="Skriv dit navn">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Discord navn
+                </label>
+
+                <input
+                    type="text"
+                    id="discord"
+                    required
+                    placeholder="fx Amir">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Alder
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    required
+                    min="1"
+                    max="100"
+                    placeholder="Din alder">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Fortæl lidt om dig selv
+                </label>
+
+                <textarea
+                    id="about"
+                    required
+                    placeholder="Skriv lidt om dig selv..."></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Hvorfor skal vi vælge dig?
+                </label>
+
+                <textarea
+                    id="reason"
+                    required
+                    placeholder="Skriv hvorfor du søger..."></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Erfaring
+                </label>
+
+                <textarea
+                    id="experience"
+                    placeholder="Fortæl om tidligere erfaring med staff, udvikling, PvP osv."></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn primary">
+
+                    🔴 Send ansøgning
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    onclick="closeApplication()">
+
+                    Luk
+
+                </button>
+
+            </div>
+
+            <div
+                class="success-message"
+                id="successMessage">
+
+                ✅ Din ansøgning er blevet gemt.
+
+            </div>
+
+        </form>
 
     </div>
 
 </section>
-
 
 <!-- =========================
      RULES
@@ -1152,7 +1439,6 @@ footer strong{
 
     <div class="rules">
 
-
         <div class="rule">
 
             <b>
@@ -1163,7 +1449,6 @@ footer strong{
             unødvendig toxic opførsel.
 
         </div>
-
 
         <div class="rule">
 
@@ -1176,7 +1461,6 @@ footer strong{
 
         </div>
 
-
         <div class="rule">
 
             <b>
@@ -1187,7 +1471,6 @@ footer strong{
             som våben er ikke tilladt.
 
         </div>
-
 
         <div class="rule">
 
@@ -1200,7 +1483,6 @@ footer strong{
 
         </div>
 
-
         <div class="rule">
 
             <b>
@@ -1211,7 +1493,6 @@ footer strong{
             undgå en situation eller straf.
 
         </div>
-
 
         <div class="rule">
 
@@ -1224,11 +1505,9 @@ footer strong{
 
         </div>
 
-
     </div>
 
 </section>
-
 
 <!-- =========================
      DISCORD
@@ -1244,19 +1523,15 @@ footer strong{
         Join vores Discord og bliv en del af communityet.
     </p>
 
-
     <div class="discord-box">
 
         <div class="discord-glow"></div>
 
-
         <div class="discord-content">
-
 
             <div class="discord-icon">
                 💬
             </div>
-
 
             <div>
 
@@ -1274,7 +1549,6 @@ footer strong{
                     og vær med til RX PvP events.
                 </p>
 
-
                 <a
                     class="btn primary discord-btn"
                     href="https://discord.gg/rxpvp"
@@ -1286,13 +1560,11 @@ footer strong{
 
             </div>
 
-
         </div>
 
     </div>
 
 </section>
-
 
 <!-- =========================
      FOOTER
@@ -1310,7 +1582,6 @@ footer strong{
     Official RX PvP Website · © 2026
 
 </footer>
-
 
 <!-- =========================
      JAVASCRIPT
@@ -1341,7 +1612,7 @@ function toggleMenu(){
 }
 
 
-/* Luk menu hvis man klikker udenfor */
+/* Luk mobilmenu hvis man klikker udenfor */
 
 document.addEventListener("click", function(event){
 
@@ -1365,8 +1636,105 @@ document.addEventListener("click", function(event){
 
 });
 
-</script>
 
+/* =========================
+   APPLICATION SYSTEM
+========================= */
+
+function openApplication(type){
+
+    const form =
+        document.getElementById("applicationForm");
+
+    const title =
+        document.getElementById("applicationTitle");
+
+    const typeInput =
+        document.getElementById("applicationType");
+
+    title.innerHTML =
+        "📝 " + type + " ansøgning";
+
+    typeInput.value = type;
+
+    form.classList.add("active");
+
+    form.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+
+function closeApplication(){
+
+    const form =
+        document.getElementById("applicationForm");
+
+    form.classList.remove("active");
+
+}
+
+
+function submitApplication(event){
+
+    event.preventDefault();
+
+    const application = {
+
+        type:
+            document.getElementById("applicationType").value,
+
+        name:
+            document.getElementById("name").value,
+
+        discord:
+            document.getElementById("discord").value,
+
+        age:
+            document.getElementById("age").value,
+
+        about:
+            document.getElementById("about").value,
+
+        reason:
+            document.getElementById("reason").value,
+
+        experience:
+            document.getElementById("experience").value,
+
+        date:
+            new Date().toLocaleString("da-DK")
+
+    };
+
+
+    let applications =
+        JSON.parse(
+            localStorage.getItem("rxpvpApplications")
+        ) || [];
+
+
+    applications.push(application);
+
+
+    localStorage.setItem(
+        "rxpvpApplications",
+        JSON.stringify(applications)
+    );
+
+
+    document
+        .getElementById("successMessage")
+        .classList.add("show");
+
+
+    event.target.reset();
+
+}
+
+</script>
 
 </body>
 </html>
