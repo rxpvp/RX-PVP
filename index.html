@@ -8,15 +8,27 @@
 <title>RX PvP | Official</title>
 
 <style>
+
+/* =========================
+   COLORS
+========================= */
+
 :root{
     --bg:#07070a;
     --card:#101116;
-    --line:#25262d;
+    --line:#29292f;
     --text:#f5f5f7;
     --muted:#a5a6ad;
-    --accent:#ff1f1f;
-    --accent2:#ff4a4a;
+
+    --red:#ff1f1f;
+    --red2:#ff4a4a;
+    --red-dark:#8f1111;
 }
+
+
+/* =========================
+   RESET
+========================= */
 
 *{
     box-sizing:border-box;
@@ -29,24 +41,35 @@ html{
 body{
     margin:0;
     font-family:Arial, sans-serif;
+
     background:
-        radial-gradient(circle at 50% -10%,#4b1010 0,#07070a 38%);
+        radial-gradient(
+            circle at 50% -10%,
+            #4b1010 0,
+            #07070a 40%
+        );
+
     color:var(--text);
 }
 
-/* NAVBAR */
+
+/* =========================
+   NAVBAR
+========================= */
 
 nav{
     position:fixed;
     top:0;
     left:0;
     right:0;
-    z-index:10;
 
-    background:rgba(7,7,10,.82);
-    backdrop-filter:blur(14px);
+    z-index:100;
 
-    border-bottom:1px solid rgba(255,255,255,.06);
+    background:rgba(7,7,10,.88);
+
+    backdrop-filter:blur(16px);
+
+    border-bottom:1px solid rgba(255,50,50,.15);
 
     display:flex;
     align-items:center;
@@ -62,27 +85,95 @@ nav{
 }
 
 .logo span{
-    color:var(--accent2);
+    color:var(--red2);
+
+    text-shadow:
+        0 0 20px rgba(255,31,31,.5);
 }
 
 nav a{
     color:#ddd;
+
     text-decoration:none;
+
     margin-left:24px;
+
     font-size:14px;
+
     font-weight:700;
+
+    transition:.2s;
 }
 
 nav a:hover{
-    color:#fff;
+    color:var(--red2);
+
+    text-shadow:
+        0 0 12px rgba(255,31,31,.5);
 }
 
-/* HERO */
+
+/* =========================
+   MOBILE BUTTON
+========================= */
+
+.mobile-menu-btn{
+    display:none;
+
+    position:fixed;
+
+    top:12px;
+    right:6%;
+
+    z-index:200;
+
+    width:46px;
+    height:46px;
+
+    border:1px solid rgba(255,31,31,.35);
+
+    border-radius:12px;
+
+    background:rgba(15,15,18,.95);
+
+    color:white;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 20px rgba(255,31,31,.12);
+
+    transition:.2s;
+}
+
+.mobile-menu-btn:hover{
+    border-color:var(--red);
+
+    box-shadow:
+        0 0 25px rgba(255,31,31,.3);
+}
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+.mobile-menu{
+    display:none;
+}
+
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
     min-height:92vh;
 
     display:grid;
+
     place-items:center;
 
     text-align:center;
@@ -95,7 +186,7 @@ nav a:hover{
 
     background:rgba(255,31,31,.13);
 
-    border:1px solid rgba(255,74,74,.3);
+    border:1px solid rgba(255,74,74,.35);
 
     color:#ffb2b2;
 
@@ -108,6 +199,9 @@ nav a:hover{
     font-weight:900;
 
     letter-spacing:1px;
+
+    box-shadow:
+        0 0 20px rgba(255,31,31,.08);
 }
 
 .hero h1{
@@ -121,10 +215,11 @@ nav a:hover{
 }
 
 .hero h1 span{
-    color:var(--accent2);
+    color:var(--red2);
 
     text-shadow:
-        0 0 45px rgba(255,31,31,.5);
+        0 0 25px rgba(255,31,31,.5),
+        0 0 60px rgba(255,31,31,.25);
 }
 
 .hero p{
@@ -139,7 +234,10 @@ nav a:hover{
     line-height:1.6;
 }
 
-/* BUTTONS */
+
+/* =========================
+   BUTTONS
+========================= */
 
 .btn{
     display:inline-block;
@@ -158,17 +256,26 @@ nav a:hover{
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+    transform:translateY(-3px);
 }
 
 .primary{
     background:
-        linear-gradient(135deg,#ff1f1f,#ff4a4a);
+        linear-gradient(
+            135deg,
+            #ff1f1f,
+            #ff4a4a
+        );
 
     color:white;
 
     box-shadow:
         0 12px 35px rgba(255,31,31,.3);
+}
+
+.primary:hover{
+    box-shadow:
+        0 15px 45px rgba(255,31,31,.5);
 }
 
 .secondary{
@@ -179,75 +286,21 @@ nav a:hover{
     background:#111218;
 }
 
-/* SECTIONS */
+.secondary:hover{
+    border-color:var(--red);
+
+    color:var(--red2);
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
 
 section{
     padding:85px 7%;
 
     max-width:1200px;
 
-    margin:auto;
-}
-
-h2{
-    font-size:38px;
-
-    margin:0 0 10px;
-}
-
-.sub{
-    color:var(--muted);
-
-    margin-bottom:35px;
-}
-
-/* CARDS */
-
-.grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:18px;
-}
-
-.card{
-    background:
-        linear-gradient(180deg,#121319,#0d0e12);
-
-    border:1px solid var(--line);
-
-    border-radius:16px;
-
-    padding:25px;
-}
-
-.icon{
-    font-size:30px;
-}
-
-.card h3{
-    margin:14px 0 8px;
-}
-
-.card p,
-.card li{
-    color:var(--muted);
-
-    line-height:1.6;
-}
-
-.card ul{
-    padding-left:20px;
-}
-
-/* BOOSTER */
-
-.booster{
-    border:1px solid #d93636;
-
-    background:
-        radial-gradient(
-            cir
+    m
 ```
