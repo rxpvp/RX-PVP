@@ -4,416 +4,2327 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RX PvP | Official</title>
+
 <style>
 :root{
-    --bg:#07070a;--card:#101116;--card2:#0d0e12;--line:#29292f;
-    --text:#f5f5f7;--muted:#a5a6ad;--red:#ff1f1f;--red2:#ff4a4a;
-    --green:#35d07f;--yellow:#ffb020;
+    --bg:#07070a;
+    --card:#101116;
+    --card2:#0d0e12;
+    --line:#29292f;
+    --text:#f5f5f7;
+    --muted:#a5a6ad;
+    --red:#ff1f1f;
+    --red2:#ff4a4a;
+    --green:#35d07f;
+    --yellow:#ffb020;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Arial,sans-serif;background:radial-gradient(circle at 50% -10%,#4b1010 0,#07070a 40%);color:var(--text)}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,10,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,31,31,.18);display:flex;align-items:center;justify-content:space-between;padding:16px 7%}
-.logo{font-weight:950;font-size:23px;letter-spacing:2px}.logo span{color:var(--red2);text-shadow:0 0 20px rgba(255,31,31,.5)}
-nav a{color:#ddd;text-decoration:none;margin-left:22px;font-size:14px;font-weight:700;transition:.2s}nav a:hover{color:var(--red2)}
-.mobile-menu-btn{display:none;position:fixed;top:11px;right:6%;z-index:200;width:46px;height:46px;border:1px solid rgba(255,31,31,.45);border-radius:12px;background:rgba(15,15,18,.97);color:white;font-size:25px;cursor:pointer}
-.mobile-menu{display:none}
-.hero{min-height:92vh;display:grid;place-items:center;text-align:center;padding:130px 20px 80px}
-.tag{display:inline-block;background:rgba(255,31,31,.13);border:1px solid rgba(255,74,74,.35);color:#ffb2b2;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:900;letter-spacing:1px}
-.hero h1{font-size:clamp(60px,12vw,130px);margin:18px 0 0;font-weight:950;letter-spacing:-7px}.hero h1 span{color:var(--red2);text-shadow:0 0 25px rgba(255,31,31,.55),0 0 60px rgba(255,31,31,.30)}
-.hero p{max-width:680px;margin:24px auto;color:var(--muted);font-size:18px;line-height:1.6}
-.btn{display:inline-block;padding:15px 25px;border-radius:11px;text-decoration:none;font-weight:900;margin:5px;transition:.2s;border:none;cursor:pointer}.btn:hover{transform:translateY(-3px)}
-.primary{background:linear-gradient(135deg,#ff1f1f,#ff4a4a);color:white;box-shadow:0 12px 35px rgba(255,31,31,.30)}.primary:hover{box-shadow:0 15px 45px rgba(255,31,31,.55)}
-.secondary{border:1px solid var(--line);color:white;background:#111218}.secondary:hover{border-color:var(--red);color:var(--red2)}
-.danger{border:1px solid #722020;color:#ff7777;background:#180b0b}.success-btn{background:#145b3a;color:white}
-section{padding:85px 7%;max-width:1200px;margin:auto}h2{font-size:38px;margin:0 0 10px}.sub{color:var(--muted);margin-bottom:35px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card,.application-card{background:linear-gradient(180deg,#121319,#0d0e12);border:1px solid var(--line);border-radius:16px;padding:25px;transition:.2s}
-.card:hover,.application-card:hover{border-color:rgba(255,31,31,.5);transform:translateY(-4px);box-shadow:0 12px 35px rgba(255,31,31,.10)}
-.icon{font-size:30px}.card h3{margin:14px 0 8px}.card p,.card li{color:var(--muted);line-height:1.6}.card ul{padding-left:20px}
-.booster{border:1px solid #b92d2d;background:radial-gradient(circle at top right,rgba(255,31,31,.20),transparent 45%),#111019}
-.application-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}.application-card h3{margin:0 0 15px;font-size:21px}.application-card p{color:var(--muted);line-height:1.5;min-height:48px}.application-card button{width:100%;margin-top:10px}
-.application-form{display:none;margin-top:30px;background:#0e0f13;border:1px solid rgba(255,31,31,.35);border-radius:18px;padding:30px}.application-form.active{display:block}.application-form h3{margin-top:0;font-size:25px}
-.form-group{margin-bottom:18px}.form-group label{display:block;margin-bottom:7px;font-weight:800;font-size:14px}
-.form-group input,.form-group textarea,.admin-input,.search-input,.edit-input,.edit-textarea,.status-select{width:100%;padding:14px;border-radius:10px;border:1px solid #303139;background:#08090c;color:white;outline:none;font-family:Arial,sans-serif;font-size:15px}
-.form-group input:focus,.form-group textarea:focus,.admin-input:focus,.search-input:focus,.edit-input:focus,.edit-textarea:focus{border-color:var(--red);box-shadow:0 0 15px rgba(255,31,31,.12)}
-.form-group textarea,.edit-textarea{min-height:130px;resize:vertical}.form-actions{display:flex;gap:10px;flex-wrap:wrap}
-.success-message,.error-message{display:none;margin-top:20px;padding:18px;border-radius:12px;font-weight:700}.success-message{border:1px solid rgba(53,208,127,.5);background:rgba(53,208,127,.08);color:#8ff0ba}.error-message{border:1px solid var(--red);background:rgba(255,31,31,.10);color:#ffb2b2}.success-message.show,.error-message.show{display:block}
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:15px}.rule{padding:18px;border:1px solid var(--line);border-radius:12px;background:#0e0f13;transition:.2s}.rule:hover{border-color:rgba(255,31,31,.45)}.rule b{display:block;margin-bottom:5px}
-.discord-box{position:relative;overflow:hidden;border:1px solid #c93636;border-radius:22px;padding:38px;background:linear-gradient(135deg,#221313,#0d0e12 62%,#251010);box-shadow:0 0 65px rgba(255,31,31,.14)}
-.discord-glow{position:absolute;width:300px;height:300px;right:-90px;top:-140px;border-radius:50%;background:rgba(255,31,31,.24);filter:blur(45px)}.discord-content{position:relative;display:flex;gap:25px;align-items:center}.discord-icon{width:76px;height:76px;display:grid;place-items:center;border-radius:20px;background:linear-gradient(135deg,#ff1f1f,#b91515);font-size:36px;box-shadow:0 12px 38px rgba(255,31,31,.32);flex-shrink:0}.discord-content h3{font-size:29px;margin:12px 0 8px}.discord-content p{color:var(--muted);line-height:1.6;max-width:720px}.discord-btn{margin-left:0;margin-top:12px}
-.admin-section{display:none;max-width:1200px;margin:auto;padding:100px 7%}.admin-section.active{display:block}
-.admin-login{max-width:450px;margin:120px auto 80px;padding:35px;background:linear-gradient(180deg,#121319,#0d0e12);border:1px solid var(--line);border-radius:18px}.admin-login h2{margin-bottom:10px}.admin-login p{color:var(--muted);line-height:1.5}.admin-input{margin:15px 0}.admin-error{display:none;color:#ff7777;margin-top:10px;font-weight:bold}.admin-error.show{display:block}
-.admin-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px}.admin-header h2{margin:0}
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:25px}.stat{background:#101116;border:1px solid var(--line);border-radius:16px;padding:25px}.stat-number{font-size:38px;font-weight:900;color:var(--red2)}.stat-label{color:var(--muted);margin-top:5px}
-.admin-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.search-input{flex:1;min-width:220px}.filter-btn{padding:12px 18px;border-radius:10px;border:1px solid var(--line);background:#111218;color:white;cursor:pointer;font-weight:bold}.filter-btn.active,.filter-btn:hover{background:var(--red);border-color:var(--red)}
-.application-list{display:grid;gap:18px}.admin-application{background:linear-gradient(180deg,#121319,#0d0e12);border:1px solid var(--line);border-radius:16px;padding:25px}.admin-application.pending{border-left:4px solid var(--yellow)}.admin-application.approved{border-left:4px solid var(--green)}.admin-application.denied{border-left:4px solid var(--red)}
-.application-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap}.application-top h3{margin:0 0 7px}.application-type{color:var(--red2);font-weight:bold}
-.status{padding:7px 12px;border-radius:20px;font-size:12px;font-weight:900}.status.pending{background:rgba(255,176,32,.12);color:#ffc55c}.status.approved{background:rgba(53,208,127,.12);color:#62e99a}.status.denied{background:rgba(255,31,31,.12);color:#ff7777}
-.application-info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.info-box{background:#08090c;border:1px solid #25262c;padding:13px;border-radius:10px}.info-box small{display:block;color:#777;margin-bottom:5px}.info-box strong{color:#eee;word-break:break-word}
-.answer-box{margin-top:15px}.answer-box h4{color:var(--red2);margin:0 0 7px}.answer-box p{color:#bbb;line-height:1.6;white-space:pre-wrap}
-.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}.admin-actions .btn{margin:0}
-.admin-empty{text-align:center;padding:70px 20px;background:#101116;border:1px solid var(--line);border-radius:16px;color:var(--muted)}.admin-empty .big{font-size:50px;margin-bottom:10px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:500;padding:25px;overflow:auto}.modal.active{display:flex;align-items:center;justify-content:center}.modal-box{width:min(760px,100%);background:#101116;border:1px solid #4a2222;border-radius:18px;padding:28px;box-shadow:0 25px 80px rgba(0,0,0,.7)}.modal-box h3{margin-top:0;font-size:25px}.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.edit-group{margin-bottom:15px}.edit-group label{display:block;font-weight:800;font-size:14px;margin-bottom:7px}.edit-textarea{min-height:110px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:10px}
-.toast{position:fixed;right:20px;bottom:20px;background:#121319;border:1px solid #33353d;border-radius:12px;padding:15px 18px;z-index:800;display:none;box-shadow:0 15px 45px rgba(0,0,0,.5)}.toast.show{display:block}
-footer{text-align:center;padding:55px 20px;border-top:1px solid var(--line);color:#777}footer strong{color:var(--red2)}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:radial-gradient(circle at 50% -10%,#4b1010 0,#07070a 40%);
+    color:var(--text);
+}
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+    background:rgba(7,7,10,.94);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,31,31,.18);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 7%;
+}
+
+.logo{
+    font-weight:950;
+    font-size:23px;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:var(--red2);
+    text-shadow:0 0 20px rgba(255,31,31,.5);
+}
+
+nav a{
+    color:#ddd;
+    text-decoration:none;
+    margin-left:22px;
+    font-size:14px;
+    font-weight:700;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--red2);
+}
+
+.mobile-menu-btn{
+    display:none;
+    position:fixed;
+    top:11px;
+    right:6%;
+    z-index:200;
+    width:46px;
+    height:46px;
+    border:1px solid rgba(255,31,31,.45);
+    border-radius:12px;
+    background:rgba(15,15,18,.97);
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+.hero{
+    min-height:92vh;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    padding:130px 20px 80px;
+}
+
+.tag{
+    display:inline-block;
+    background:rgba(255,31,31,.13);
+    border:1px solid rgba(255,74,74,.35);
+    color:#ffb2b2;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.hero h1{
+    font-size:clamp(60px,12vw,130px);
+    margin:18px 0 0;
+    font-weight:950;
+    letter-spacing:-7px;
+}
+
+.hero h1 span{
+    color:var(--red2);
+    text-shadow:
+        0 0 25px rgba(255,31,31,.55),
+        0 0 60px rgba(255,31,31,.30);
+}
+
+.hero p{
+    max-width:680px;
+    margin:24px auto;
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.6;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 25px;
+    border-radius:11px;
+    text-decoration:none;
+    font-weight:900;
+    margin:5px;
+    transition:.2s;
+    border:none;
+    cursor:pointer;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.primary{
+    background:linear-gradient(135deg,#ff1f1f,#ff4a4a);
+    color:white;
+    box-shadow:0 12px 35px rgba(255,31,31,.30);
+}
+
+.primary:hover{
+    box-shadow:0 15px 45px rgba(255,31,31,.55);
+}
+
+.secondary{
+    border:1px solid var(--line);
+    color:white;
+    background:#111218;
+}
+
+.secondary:hover{
+    border-color:var(--red);
+    color:var(--red2);
+}
+
+.danger{
+    border:1px solid #722020;
+    color:#ff7777;
+    background:#180b0b;
+}
+
+.success-btn{
+    background:#145b3a;
+    color:white;
+}
+
+section{
+    padding:85px 7%;
+    max-width:1200px;
+    margin:auto;
+}
+
+h2{
+    font-size:38px;
+    margin:0 0 10px;
+}
+
+.sub{
+    color:var(--muted);
+    margin-bottom:35px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.card,
+.application-card{
+    background:linear-gradient(180deg,#121319,#0d0e12);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:25px;
+    transition:.2s;
+}
+
+.card:hover,
+.application-card:hover{
+    border-color:rgba(255,31,31,.5);
+    transform:translateY(-4px);
+    box-shadow:0 12px 35px rgba(255,31,31,.10);
+}
+
+.icon{
+    font-size:30px;
+}
+
+.card h3{
+    margin:14px 0 8px;
+}
+
+.card p,
+.card li{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.card ul{
+    padding-left:20px;
+}
+
+.booster{
+    border:1px solid #b92d2d;
+    background:
+        radial-gradient(circle at top right,rgba(255,31,31,.20),transparent 45%),
+        #111019;
+}
+
+.application-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:25px;
+}
+
+.application-card h3{
+    margin:0 0 15px;
+    font-size:21px;
+}
+
+.application-card p{
+    color:var(--muted);
+    line-height:1.5;
+    min-height:48px;
+}
+
+.application-card button{
+    width:100%;
+    margin-top:10px;
+}
+
+.application-form{
+    display:none;
+    margin-top:30px;
+    background:#0e0f13;
+    border:1px solid rgba(255,31,31,.35);
+    border-radius:18px;
+    padding:30px;
+}
+
+.application-form.active{
+    display:block;
+}
+
+.application-form h3{
+    margin-top:0;
+    font-size:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:800;
+    font-size:14px;
+}
+
+.form-group input,
+.form-group textarea,
+.admin-input,
+.search-input,
+.edit-input,
+.edit-textarea{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #303139;
+    background:#08090c;
+    color:white;
+    outline:none;
+    font-family:Arial,sans-serif;
+    font-size:15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.admin-input:focus,
+.search-input:focus,
+.edit-input:focus,
+.edit-textarea:focus{
+    border-color:var(--red);
+    box-shadow:0 0 15px rgba(255,31,31,.12);
+}
+
+.form-group textarea,
+.edit-textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+.form-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.success-message,
+.error-message{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    border-radius:12px;
+    font-weight:700;
+}
+
+.success-message{
+    border:1px solid rgba(53,208,127,.5);
+    background:rgba(53,208,127,.08);
+    color:#8ff0ba;
+}
+
+.error-message{
+    border:1px solid var(--red);
+    background:rgba(255,31,31,.10);
+    color:#ffb2b2;
+}
+
+.success-message.show,
+.error-message.show{
+    display:block;
+}
+
+.rules{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.rule{
+    padding:18px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#0e0f13;
+    transition:.2s;
+}
+
+.rule:hover{
+    border-color:rgba(255,31,31,.45);
+}
+
+.rule b{
+    display:block;
+    margin-bottom:5px;
+}
+
+.discord-box{
+    position:relative;
+    overflow:hidden;
+    border:1px solid #c93636;
+    border-radius:22px;
+    padding:38px;
+    background:
+        linear-gradient(135deg,#221313,#0d0e12 62%,#251010);
+    box-shadow:0 0 65px rgba(255,31,31,.14);
+}
+
+.discord-glow{
+    position:absolute;
+    width:300px;
+    height:300px;
+    right:-90px;
+    top:-140px;
+    border-radius:50%;
+    background:rgba(255,31,31,.24);
+    filter:blur(45px);
+}
+
+.discord-content{
+    position:relative;
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+.discord-icon{
+    width:76px;
+    height:76px;
+    display:grid;
+    place-items:center;
+    border-radius:20px;
+    background:linear-gradient(135deg,#ff1f1f,#b91515);
+    font-size:36px;
+    box-shadow:0 12px 38px rgba(255,31,31,.32);
+    flex-shrink:0;
+}
+
+.discord-content h3{
+    font-size:29px;
+    margin:12px 0 8px;
+}
+
+.discord-content p{
+    color:var(--muted);
+    line-height:1.6;
+    max-width:720px;
+}
+
+.discord-btn{
+    margin-left:0;
+    margin-top:12px;
+}
+
+.admin-login{
+    max-width:450px;
+    margin:120px auto 80px;
+    padding:35px;
+    background:linear-gradient(180deg,#121319,#0d0e12);
+    border:1px solid var(--line);
+    border-radius:18px;
+}
+
+.admin-login h2{
+    margin-bottom:10px;
+}
+
+.admin-login p{
+    color:var(--muted);
+    line-height:1.5;
+}
+
+.admin-input{
+    margin:15px 0;
+}
+
+.admin-error{
+    display:none;
+    color:#ff7777;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.admin-error.show{
+    display:block;
+}
+
+.admin-section{
+    display:none;
+    max-width:1200px;
+    margin:auto;
+    padding:100px 7%;
+}
+
+.admin-section.active{
+    display:block;
+}
+
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.admin-header h2{
+    margin:0;
+}
+
+.admin-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:#101116;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:25px;
+}
+
+.stat-number{
+    font-size:38px;
+    font-weight:900;
+    color:var(--red2);
+}
+
+.stat-label{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.admin-tools{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.search-input{
+    flex:1;
+    min-width:220px;
+}
+
+.filter-btn{
+    padding:12px 18px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:#111218;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.filter-btn.active,
+.filter-btn:hover{
+    background:var(--red);
+    border-color:var(--red);
+}
+
+.application-list{
+    display:grid;
+    gap:18px;
+}
+
+.admin-application{
+    background:linear-gradient(180deg,#121319,#0d0e12);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:25px;
+}
+
+.admin-application.pending{
+    border-left:4px solid var(--yellow);
+}
+
+.admin-application.approved{
+    border-left:4px solid var(--green);
+}
+
+.admin-application.denied{
+    border-left:4px solid var(--red);
+}
+
+.application-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.application-top h3{
+    margin:0 0 7px;
+}
+
+.application-type{
+    color:var(--red2);
+    font-weight:bold;
+}
+
+.status{
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:900;
+}
+
+.status.pending{
+    background:rgba(255,176,32,.12);
+    color:#ffc55c;
+}
+
+.status.approved{
+    background:rgba(53,208,127,.12);
+    color:#62e99a;
+}
+
+.status.denied{
+    background:rgba(255,31,31,.12);
+    color:#ff7777;
+}
+
+.application-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:20px 0;
+}
+
+.info-box{
+    background:#08090c;
+    border:1px solid #25262c;
+    padding:13px;
+    border-radius:10px;
+}
+
+.info-box small{
+    display:block;
+    color:#777;
+    margin-bottom:5px;
+}
+
+.info-box strong{
+    color:#eee;
+    word-break:break-word;
+}
+
+.answer-box{
+    margin-top:15px;
+}
+
+.answer-box h4{
+    color:var(--red2);
+    margin:0 0 7px;
+}
+
+.answer-box p{
+    color:#bbb;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.admin-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+}
+
+.admin-actions .btn{
+    margin:0;
+}
+
+.admin-empty{
+    text-align:center;
+    padding:70px 20px;
+    background:#101116;
+    border:1px solid var(--line);
+    border-radius:16px;
+    color:var(--muted);
+}
+
+.admin-empty .big{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    z-index:500;
+    padding:25px;
+    overflow:auto;
+}
+
+.modal.active{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
+    width:min(760px,100%);
+    background:#101116;
+    border:1px solid #4a2222;
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 25px 80px rgba(0,0,0,.7);
+}
+
+.modal-box h3{
+    margin-top:0;
+    font-size:25px;
+}
+
+.edit-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.edit-group{
+    margin-bottom:15px;
+}
+
+.edit-group label{
+    display:block;
+    font-weight:800;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.edit-textarea{
+    min-height:110px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#121319;
+    border:1px solid #33353d;
+    border-radius:12px;
+    padding:15px 18px;
+    z-index:800;
+    display:none;
+    box-shadow:0 15px 45px rgba(0,0,0,.5);
+}
+
+.toast.show{
+    display:block;
+}
+
+footer{
+    text-align:center;
+    padding:55px 20px;
+    border-top:1px solid var(--line);
+    color:#777;
+}
+
+footer strong{
+    color:var(--red2);
+}
+
 @media(max-width:800px){
-nav{padding:15px 6%}nav>div:last-child{display:none}.mobile-menu-btn{display:block}.mobile-menu{position:fixed;top:72px;left:5%;right:5%;display:flex;flex-direction:column;padding:12px;background:rgba(10,10,13,.98);border:1px solid rgba(255,31,31,.4);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.65);opacity:0;visibility:hidden;transform:translateY(-15px);transition:.25s ease;z-index:150}.mobile-menu.active{opacity:1;visibility:visible;transform:translateY(0)}.mobile-menu a{color:#ddd;text-decoration:none;font-size:16px;font-weight:800;padding:16px;border-radius:11px}.mobile-menu a:hover{background:rgba(255,31,31,.12);color:var(--red2)}.mobile-apply{margin-top:8px!important;text-align:center;background:linear-gradient(135deg,#ff1f1f,#ff4a4a);color:white!important}
-.hero{min-height:90vh;padding:120px 20px 60px}.hero h1{font-size:clamp(55px,18vw,100px);letter-spacing:-5px}.hero p{font-size:16px}section,.admin-section{padding:65px 6%}h2{font-size:32px}.grid,.rules,.application-grid,.admin-stats,.application-info,.edit-grid{grid-template-columns:1fr}.discord-content{align-items:flex-start;flex-direction:column}.discord-box{padding:25px}.application-form{padding:20px}.admin-header{align-items:flex-start;flex-direction:column}
+
+    nav{
+        padding:15px 6%;
+    }
+
+    nav > div:last-child{
+        display:none;
+    }
+
+    .mobile-menu-btn{
+        display:block;
+    }
+
+    .mobile-menu{
+        position:fixed;
+        top:72px;
+        left:5%;
+        right:5%;
+        display:flex;
+        flex-direction:column;
+        padding:12px;
+        background:rgba(10,10,13,.98);
+        border:1px solid rgba(255,31,31,.4);
+        border-radius:18px;
+        box-shadow:0 20px 60px rgba(0,0,0,.65);
+        opacity:0;
+        visibility:hidden;
+        transform:translateY(-15px);
+        transition:.25s ease;
+        z-index:150;
+    }
+
+    .mobile-menu.active{
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0);
+    }
+
+    .mobile-menu a{
+        color:#ddd;
+        text-decoration:none;
+        font-size:16px;
+        font-weight:800;
+        padding:16px;
+        border-radius:11px;
+    }
+
+    .mobile-menu a:hover{
+        background:rgba(255,31,31,.12);
+        color:var(--red2);
+    }
+
+    .mobile-apply{
+        margin-top:8px !important;
+        text-align:center;
+        background:linear-gradient(135deg,#ff1f1f,#ff4a4a);
+        color:white !important;
+    }
+
+    .hero{
+        min-height:90vh;
+        padding:120px 20px 60px;
+    }
+
+    .hero h1{
+        font-size:clamp(55px,18vw,100px);
+        letter-spacing:-5px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    section,
+    .admin-section{
+        padding:65px 6%;
+    }
+
+    h2{
+        font-size:32px;
+    }
+
+    .grid,
+    .rules,
+    .application-grid,
+    .admin-stats,
+    .application-info,
+    .edit-grid{
+        grid-template-columns:1fr;
+    }
+
+    .discord-content{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .discord-box{
+        padding:25px;
+    }
+
+    .application-form{
+        padding:20px;
+    }
+
+    .admin-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
 }
-@media(max-width:400px){.hero h1{font-size:55px;letter-spacing:-4px}.btn{width:100%;margin:5px 0}}
+
+@media(max-width:400px){
+
+    .hero h1{
+        font-size:55px;
+        letter-spacing:-4px;
+    }
+
+    .btn{
+        width:100%;
+        margin:5px 0;
+    }
+}
 </style>
 </head>
+
 <body>
 
+<!-- NAVIGATION -->
 <nav>
-<div class="logo">RX <span>PVP</span></div>
-<div>
-<a href="#home">Forside</a><a href="#server">Server</a><a href="#booster">Booster</a>
-<a href="#apply">Ansøg</a><a href="#rules">Regler</a><a href="#support">Discord</a><a href="#admin">Admin</a>
-</div>
+    <div class="logo">
+        RX <span>PVP</span>
+    </div>
+
+    <div>
+        <a href="#home">Forside</a>
+        <a href="#server">Server</a>
+        <a href="#booster">Booster</a>
+        <a href="#apply">Ansøg</a>
+        <a href="#rules">Regler</a>
+        <a href="#support">Discord</a>
+        <a href="#admin">Admin</a>
+    </div>
 </nav>
 
+<!-- MOBILE MENU -->
 <button class="mobile-menu-btn" id="menuButton" onclick="toggleMenu()">☰</button>
+
 <div class="mobile-menu" id="mobileMenu">
-<a href="#home" onclick="toggleMenu()">🏠 Forside</a><a href="#server" onclick="toggleMenu()">🎯 Server</a>
-<a href="#booster" onclick="toggleMenu()">💎 Booster</a><a href="#apply" onclick="toggleMenu()">📝 Ansøgninger</a>
-<a href="#rules" onclick="toggleMenu()">📜 Regler</a><a href="#support" onclick="toggleMenu()">💬 Discord</a>
-<a href="#admin" onclick="toggleMenu()">🔐 Admin</a><a class="mobile-apply" href="#apply" onclick="toggleMenu()">📝 ANSØG HER</a>
+    <a href="#home" onclick="toggleMenu()">🏠 Forside</a>
+    <a href="#server" onclick="toggleMenu()">🎯 Server</a>
+    <a href="#booster" onclick="toggleMenu()">💎 Booster</a>
+    <a href="#apply" onclick="toggleMenu()">📝 Ansøgninger</a>
+    <a href="#rules" onclick="toggleMenu()">📜 Regler</a>
+    <a href="#support" onclick="toggleMenu()">💬 Discord</a>
+    <a href="#admin" onclick="toggleMenu()">🔐 Admin</a>
+    <a class="mobile-apply" href="#apply" onclick="toggleMenu()">📝 ANSØG HER</a>
 </div>
 
+<!-- HERO -->
 <header class="hero" id="home">
-<div>
-<div class="tag">⚡ OFFICIAL RX PVP</div>
-<h1>RX <span>PVP</span></h1>
-<p>Velkommen til RX PvP — et community bygget til hurtig PvP, konkurrencer og en seriøs gaming-oplevelse.</p>
-<a class="btn primary" href="https://discord.gg/rxpvp" target="_blank">🔴 JOIN DISCORD</a>
-<a class="btn secondary" href="#server">SE SERVEREN</a>
-</div>
+    <div>
+
+        <div class="tag">
+            ⚡ OFFICIAL RX PVP
+        </div>
+
+        <h1>
+            RX <span>PVP</span>
+        </h1>
+
+        <p>
+            Velkommen til RX PvP — et community bygget til hurtig PvP,
+            konkurrencer og en seriøs gaming-oplevelse.
+        </p>
+
+        <a
+            class="btn primary"
+            href="https://discord.gg/rxpvp"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            🔴 JOIN DISCORD
+        </a>
+
+        <a class="btn secondary" href="#server">
+            SE SERVEREN
+        </a>
+
+    </div>
 </header>
 
+<!-- SERVER -->
 <section id="server">
-<h2>🔥 RX PvP</h2><p class="sub">Alt det vigtigste samlet ét sted.</p>
-<div class="grid">
-<div class="card"><div class="icon">🎯</div><h3>Competitive PvP</h3><p>Test dine skills, grind ranks og bliv en af de bedste spillere på RX PvP.</p></div>
-<div class="card"><div class="icon">🏆</div><h3>Leaderboard</h3><p>Hold øje med top-spillerne og kæmp om pladsen på leaderboardet.</p></div>
-<div class="card"><div class="icon">🎬</div><h3>Community</h3><p>Del dine clips, deltag i events og vær en del af RX PvP communityet.</p></div>
-</div>
+
+    <h2>🔥 RX PvP</h2>
+
+    <p class="sub">
+        Alt det vigtigste samlet ét sted.
+    </p>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="icon">🎯</div>
+            <h3>Competitive PvP</h3>
+            <p>
+                Test dine skills, grind ranks og bliv en af de bedste
+                spillere på RX PvP.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏆</div>
+            <h3>Leaderboard</h3>
+            <p>
+                Hold øje med top-spillerne og kæmp om pladsen
+                på leaderboardet.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🎬</div>
+            <h3>Community</h3>
+            <p>
+                Del dine clips, deltag i events og vær en del af
+                RX PvP communityet.
+            </p>
+        </div>
+
+    </div>
+
 </section>
 
+<!-- BOOSTER -->
 <section id="booster">
-<h2>💎 Booster</h2><p class="sub">Støt RX PvP på Discord og få eksklusive rewards.</p>
-<div class="grid">
-<div class="card booster"><span class="tag">1 BOOST</span><h3>Starter</h3><ul><li>💎 RX Booster rolle</li><li>🎁 Booster reward</li><li>💬 Booster chat</li></ul></div>
-<div class="card booster"><span class="tag">2 BOOSTS</span><h3>Premium</h3><ul><li>🚗 Eksklusiv reward</li><li>🎨 Booster clothing</li><li>🎁 Ekstra rewards</li></ul></div>
-<div class="card booster"><span class="tag">3+ BOOSTS</span><h3>Elite</h3><ul><li>👑 Elite Booster status</li><li>🏆 Booster events</li><li>🎁 Eksklusive rewards</li></ul></div>
-</div>
+
+    <h2>💎 Booster</h2>
+
+    <p class="sub">
+        Støt RX PvP på Discord og få eksklusive rewards.
+    </p>
+
+    <div class="grid">
+
+        <div class="card booster">
+            <span class="tag">1 BOOST</span>
+            <h3>Starter</h3>
+
+            <ul>
+                <li>💎 RX Booster rolle</li>
+                <li>🎁 Booster reward</li>
+                <li>💬 Booster chat</li>
+            </ul>
+        </div>
+
+        <div class="card booster">
+            <span class="tag">2 BOOSTS</span>
+            <h3>Premium</h3>
+
+            <ul>
+                <li>🚗 Eksklusiv reward</li>
+                <li>🎨 Booster clothing</li>
+                <li>🎁 Ekstra rewards</li>
+            </ul>
+        </div>
+
+        <div class="card booster">
+            <span class="tag">3+ BOOSTS</span>
+            <h3>Elite</h3>
+
+            <ul>
+                <li>👑 Elite Booster status</li>
+                <li>🏆 Booster events</li>
+                <li>🎁 Eksklusive rewards</li>
+            </ul>
+        </div>
+
+    </div>
+
 </section>
 
+<!-- APPLICATIONS -->
 <section id="apply">
-<h2>📝 Ansøgninger</h2><p class="sub">Vælg den ansøgning du gerne vil sende.</p>
-<div class="application-grid">
-<div class="application-card"><h3>👮 Staff</h3><p>Ansøg om at blive en del af RX PvP Staff Team.</p><button class="btn primary" onclick="openApplication('Staff')">Ansøg nu</button></div>
-<div class="application-card"><h3>💻 Developer</h3><p>Har du erfaring med udvikling og vil hjælpe RX PvP?</p><button class="btn primary" onclick="openApplication('Developer')">Ansøg nu</button></div>
-<div class="application-card"><h3>🤝 Partnerskab</h3><p>Vil du lave et partnerskab med RX PvP?</p><button class="btn primary" onclick="openApplication('Partnerskab')">Ansøg nu</button></div>
-<div class="application-card"><h3>🎯 PvP Crew</h3><p>Ansøg om at blive en del af RX PvP Crew.</p><button class="btn primary" onclick="openApplication('PvP Crew')">Ansøg nu</button></div>
-</div>
 
-<div class="application-form" id="applicationForm">
-<h3 id="applicationTitle">Ansøgning</h3>
-<form onsubmit="submitApplication(event)">
-<input type="hidden" id="applicationType">
-<div class="form-group"><label>Dit navn</label><input type="text" id="name" required placeholder="Skriv dit navn"></div>
-<div class="form-group"><label>Discord navn</label><input type="text" id="discord" required placeholder="fx Amir"></div>
-<div class="form-group"><label>Alder</label><input type="number" id="age" required min="1" max="100" placeholder="Din alder"></div>
-<div class="form-group"><label>Fortæl lidt om dig selv</label><textarea id="about" required placeholder="Skriv lidt om dig selv..."></textarea></div>
-<div class="form-group"><label>Hvorfor skal vi vælge dig?</label><textarea id="reason" required placeholder="Skriv hvorfor du søger..."></textarea></div>
-<div class="form-group"><label>Erfaring</label><textarea id="experience" placeholder="Fortæl om tidligere erfaring med staff, udvikling, PvP osv."></textarea></div>
-<div class="form-actions"><button type="submit" class="btn primary">🔴 Send ansøgning</button><button type="button" class="btn secondary" onclick="closeApplication()">Luk</button></div>
-<div class="success-message" id="successMessage">✅ Din ansøgning er sendt!</div>
-<div class="error-message" id="errorMessage">❌ Der skete en fejl.</div>
-</form>
-</div>
+    <h2>📝 Ansøgninger</h2>
+
+    <p class="sub">
+        Vælg den ansøgning du gerne vil sende.
+    </p>
+
+    <div class="application-grid">
+
+        <div class="application-card">
+            <h3>👮 Staff</h3>
+            <p>
+                Ansøg om at blive en del af RX PvP Staff Team.
+            </p>
+            <button class="btn primary" onclick="openApplication('Staff')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <h3>💻 Developer</h3>
+            <p>
+                Har du erfaring med udvikling og vil hjælpe RX PvP?
+            </p>
+            <button class="btn primary" onclick="openApplication('Developer')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <h3>🤝 Partnerskab</h3>
+            <p>
+                Vil du lave et partnerskab med RX PvP?
+            </p>
+            <button class="btn primary" onclick="openApplication('Partnerskab')">
+                Ansøg nu
+            </button>
+        </div>
+
+        <div class="application-card">
+            <h3>🎯 PvP Crew</h3>
+            <p>
+                Ansøg om at blive en del af RX PvP Crew.
+            </p>
+            <button class="btn primary" onclick="openApplication('PvP Crew')">
+                Ansøg nu
+            </button>
+        </div>
+
+    </div>
+
+    <!-- APPLICATION FORM -->
+    <div class="application-form" id="applicationForm">
+
+        <h3 id="applicationTitle">
+            Ansøgning
+        </h3>
+
+        <form onsubmit="submitApplication(event)">
+
+            <input type="hidden" id="applicationType">
+
+            <div class="form-group">
+                <label>Dit navn</label>
+                <input
+                    type="text"
+                    id="name"
+                    required
+                    placeholder="Skriv dit navn"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Discord navn</label>
+                <input
+                    type="text"
+                    id="discord"
+                    required
+                    placeholder="fx Amir"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Alder</label>
+                <input
+                    type="number"
+                    id="age"
+                    required
+                    min="1"
+                    max="100"
+                    placeholder="Din alder"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Fortæl lidt om dig selv</label>
+                <textarea
+                    id="about"
+                    required
+                    placeholder="Skriv lidt om dig selv..."
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Hvorfor skal vi vælge dig?</label>
+                <textarea
+                    id="reason"
+                    required
+                    placeholder="Skriv hvorfor du søger..."
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Erfaring</label>
+                <textarea
+                    id="experience"
+                    placeholder="Fortæl om tidligere erfaring med staff, udvikling, PvP osv."
+                ></textarea>
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn primary">
+                    🔴 Send ansøgning
+                </button>
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    onclick="closeApplication()"
+                >
+                    Luk
+                </button>
+
+            </div>
+
+            <div class="success-message" id="successMessage">
+                ✅ Din ansøgning er sendt!
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                ❌ Der skete en fejl.
+            </div>
+
+        </form>
+
+    </div>
+
 </section>
 
+<!-- RULES -->
 <section id="rules">
-<h2>📜 Regler</h2><p class="sub">Spil fair. Respekter andre. Hav det sjovt.</p>
-<div class="rules">
-<div class="rule"><b>01 — Respekt</b>Ingen grov chikane, racisme eller unødvendig toxic opførsel.</div>
-<div class="rule"><b>02 — Fair Play</b>Cheats, exploits og unfair fordele er ikke tilladt.</div>
-<div class="rule"><b>03 — RDM / VDM</b>Random drab eller misbrug af køretøjer som våben er ikke tilladt.</div>
-<div class="rule"><b>04 — Metagaming</b>Brug ikke information fra Discord eller andre OOC-kilder til at få en fordel.</div>
-<div class="rule"><b>05 — Combat Logging</b>Du må ikke forlade serveren for at undgå en situation eller straf.</div>
-<div class="rule"><b>06 — Staff</b>Respekter staff. Klager og reports skal tages gennem en ticket.</div>
-</div>
+
+    <h2>📜 Regler</h2>
+
+    <p class="sub">
+        Spil fair. Respekter andre. Hav det sjovt.
+    </p>
+
+    <div class="rules">
+
+        <div class="rule">
+            <b>01 — Respekt</b>
+            Ingen grov chikane, racisme eller unødvendig toxic opførsel.
+        </div>
+
+        <div class="rule">
+            <b>02 — Fair Play</b>
+            Cheats, exploits og unfair fordele er ikke tilladt.
+        </div>
+
+        <div class="rule">
+            <b>03 — RDM / VDM</b>
+            Random drab eller misbrug af køretøjer som våben er ikke tilladt.
+        </div>
+
+        <div class="rule">
+            <b>04 — Metagaming</b>
+            Brug ikke information fra Discord eller andre OOC-kilder
+            til at få en fordel.
+        </div>
+
+        <div class="rule">
+            <b>05 — Combat Logging</b>
+            Du må ikke forlade serveren for at undgå en situation eller straf.
+        </div>
+
+        <div class="rule">
+            <b>06 — Staff</b>
+            Respekter staff. Klager og reports skal tages gennem en ticket.
+        </div>
+
+    </div>
+
 </section>
 
+<!-- DISCORD -->
 <section id="support">
-<h2>💬 RX PVP DISCORD</h2><p class="sub">Join vores Discord og bliv en del af communityet.</p>
-<div class="discord-box"><div class="discord-glow"></div><div class="discord-content">
-<div class="discord-icon">💬</div><div><span class="tag">OFFICIAL COMMUNITY</span><h3>Kom med på RX PvP Discord</h3>
-<p>Få de nyeste annonceringer, snak med andre spillere, åbn tickets, deltag i giveaways og vær med til RX PvP events.</p>
-<a class="btn primary discord-btn" href="https://discord.gg/rxpvp" target="_blank">🔴 JOIN RX PVP DISCORD</a></div>
-</div></div>
+
+    <h2>💬 RX PVP DISCORD</h2>
+
+    <p class="sub">
+        Join vores Discord og bliv en del af communityet.
+    </p>
+
+    <div class="discord-box">
+
+        <div class="discord-glow"></div>
+
+        <div class="discord-content">
+
+            <div class="discord-icon">
+                💬
+            </div>
+
+            <div>
+
+                <span class="tag">
+                    OFFICIAL COMMUNITY
+                </span>
+
+                <h3>
+                    Kom med på RX PvP Discord
+                </h3>
+
+                <p>
+                    Få de nyeste annonceringer, snak med andre spillere,
+                    åbn tickets, deltag i giveaways og vær med til
+                    RX PvP events.
+                </p>
+
+                <a
+                    class="btn primary discord-btn"
+                    href="https://discord.gg/rxpvp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🔴 JOIN RX PVP DISCORD
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
+<!-- ADMIN -->
 <section id="admin">
-<div class="admin-login" id="adminLogin">
-<h2>🔐 RX PVP ADMIN</h2><p>Log ind for at administrere RX PvP ansøgninger.</p>
-<input type="password" class="admin-input" id="adminPassword" placeholder="Admin password">
-<button class="btn primary" style="width:100%;margin:0" onclick="adminLogin()">🔐 Log ind</button>
-<div class="admin-error" id="adminError">❌ Forkert password.</div>
-</div>
 
-<div class="admin-section" id="adminPanel">
-<div class="admin-header"><div><h2>📋 Ansøgninger</h2><p class="sub">Administrer, rediger, godkend, afvis og slet RX PvP ansøgninger.</p></div>
-<button class="btn secondary" onclick="adminLogout()">🚪 Log ud</button></div>
+    <div class="admin-login" id="adminLogin">
 
-<div class="admin-stats">
-<div class="stat"><div class="stat-number" id="totalApplications">0</div><div class="stat-label">Alle ansøgninger</div></div>
-<div class="stat"><div class="stat-number" id="pendingApplications">0</div><div class="stat-label">Afventer</div></div>
-<div class="stat"><div class="stat-number" id="approvedApplications">0</div><div class="stat-label">Godkendt</div></div>
-<div class="stat"><div class="stat-number" id="deniedApplications">0</div><div class="stat-label">Afvist</div></div>
-</div>
+        <h2>🔐 RX PVP ADMIN</h2>
 
-<div class="admin-tools">
-<input class="search-input" id="applicationSearch" type="text" placeholder="🔎 Søg efter navn, Discord eller ansøgningstype..." oninput="renderApplications()">
-<button class="filter-btn active" onclick="setFilter('all',this)">Alle</button>
-<button class="filter-btn" onclick="setFilter('pending',this)">Afventer</button>
-<button class="filter-btn" onclick="setFilter('approved',this)">Godkendt</button>
-<button class="filter-btn" onclick="setFilter('denied',this)">Afvist</button>
-<button class="filter-btn" onclick="exportApplications()">⬇️ Eksportér</button>
-</div>
+        <p>
+            Log ind for at administrere RX PvP ansøgninger.
+        </p>
 
-<div class="application-list" id="applicationList"></div>
-</div>
+        <input
+            type="password"
+            class="admin-input"
+            id="adminPassword"
+            placeholder="Admin password"
+        >
+
+        <button
+            class="btn primary"
+            style="width:100%;margin:0"
+            onclick="adminLogin()"
+        >
+            🔐 Log ind
+        </button>
+
+        <div class="admin-error" id="adminError">
+            ❌ Forkert password.
+        </div>
+
+    </div>
+
+    <div class="admin-section" id="adminPanel">
+
+        <div class="admin-header">
+
+            <div>
+                <h2>📋 Ansøgninger</h2>
+
+                <p class="sub">
+                    Administrer, rediger, godkend, afvis og slet
+                    RX PvP ansøgninger.
+                </p>
+            </div>
+
+            <button
+                class="btn secondary"
+                onclick="adminLogout()"
+            >
+                🚪 Log ud
+            </button>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="admin-stats">
+
+            <div class="stat">
+                <div class="stat-number" id="totalApplications">0</div>
+                <div class="stat-label">Alle ansøgninger</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="pendingApplications">0</div>
+                <div class="stat-label">Afventer</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="approvedApplications">0</div>
+                <div class="stat-label">Godkendt</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="deniedApplications">0</div>
+                <div class="stat-label">Afvist</div>
+            </div>
+
+        </div>
+
+        <!-- ADMIN TOOLS -->
+        <div class="admin-tools">
+
+            <input
+                class="search-input"
+                id="applicationSearch"
+                type="text"
+                placeholder="🔎 Søg efter navn, Discord eller ansøgningstype..."
+                oninput="renderApplications()"
+            >
+
+            <button
+                class="filter-btn active"
+                onclick="setFilter('all',this)"
+            >
+                Alle
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('pending',this)"
+            >
+                Afventer
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('approved',this)"
+            >
+                Godkendt
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="setFilter('denied',this)"
+            >
+                Afvist
+            </button>
+
+            <button
+                class="filter-btn"
+                onclick="exportApplications()"
+            >
+                ⬇️ Eksportér
+            </button>
+
+        </div>
+
+        <div class="application-list" id="applicationList"></div>
+
+    </div>
+
 </section>
 
+<!-- EDIT MODAL -->
 <div class="modal" id="editModal">
-<div class="modal-box">
-<h3>✏️ Rediger ansøgning</h3>
-<input type="hidden" id="editId">
-<div class="edit-grid">
-<div class="edit-group"><label>Navn</label><input class="edit-input" id="editName"></div>
-<div class="edit-group"><label>Discord</label><input class="edit-input" id="editDiscord"></div>
-<div class="edit-group"><label>Alder</label><input class="edit-input" id="editAge" type="number" min="1" max="100"></div>
-<div class="edit-group"><label>Type</label><input class="edit-input" id="editType"></div>
-</div>
-<div class="edit-group"><label>Om personen</label><textarea class="edit-textarea" id="editAbout"></textarea></div>
-<div class="edit-group"><label>Hvorfor skal vi vælge personen?</label><textarea class="edit-textarea" id="editReason"></textarea></div>
-<div class="edit-group"><label>Erfaring</label><textarea class="edit-textarea" id="editExperience"></textarea></div>
-<div class="modal-actions"><button class="btn secondary" onclick="closeEditModal()">Annuller</button><button class="btn primary" onclick="saveEditedApplication()">💾 Gem ændringer</button></div>
-</div>
+
+    <div class="modal-box">
+
+        <h3>✏️ Rediger ansøgning</h3>
+
+        <input type="hidden" id="editId">
+
+        <div class="edit-grid">
+
+            <div class="edit-group">
+                <label>Navn</label>
+                <input class="edit-input" id="editName">
+            </div>
+
+            <div class="edit-group">
+                <label>Discord</label>
+                <input class="edit-input" id="editDiscord">
+            </div>
+
+            <div class="edit-group">
+                <label>Alder</label>
+                <input
+                    class="edit-input"
+                    id="editAge"
+                    type="number"
+                    min="1"
+                    max="100"
+                >
+            </div>
+
+            <div class="edit-group">
+                <label>Type</label>
+                <input class="edit-input" id="editType">
+            </div>
+
+        </div>
+
+        <div class="edit-group">
+            <label>Om personen</label>
+            <textarea class="edit-textarea" id="editAbout"></textarea>
+        </div>
+
+        <div class="edit-group">
+            <label>Hvorfor skal vi vælge personen?</label>
+            <textarea class="edit-textarea" id="editReason"></textarea>
+        </div>
+
+        <div class="edit-group">
+            <label>Erfaring</label>
+            <textarea class="edit-textarea" id="editExperience"></textarea>
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeEditModal()"
+            >
+                Annuller
+            </button>
+
+            <button
+                class="btn primary"
+                onclick="saveEditedApplication()"
+            >
+                💾 Gem ændringer
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<footer><strong>RX PVP</strong><br><br>Official RX PvP Website · © 2026</footer>
+<!-- FOOTER -->
+<footer>
+    <strong>RX PVP</strong>
+    <br>
+    <br>
+    Official RX PvP Website · © 2026
+</footer>
 
 <script>
+
 const ADMIN_PASSWORD = "RXADMIN123";
 const STORAGE_KEY = "rxpvpapplikationer";
+
 let currentFilter = "all";
 
+/* MOBILE MENU */
+
 function toggleMenu(){
-    const menu=document.getElementById("mobileMenu"),button=document.getElementById("menuButton");
+
+    const menu = document.getElementById("mobileMenu");
+    const button = document.getElementById("menuButton");
+
     menu.classList.toggle("active");
-    button.innerHTML=menu.classList.contains("active")?"✕":"☰";
+
+    button.innerHTML =
+        menu.classList.contains("active")
+        ? "✕"
+        : "☰";
 }
-document.addEventListener("click",e=>{
-    const menu=document.getElementById("mobileMenu"),button=document.getElementById("menuButton");
-    if(menu.classList.contains("active")&&!menu.contains(e.target)&&!button.contains(e.target)){
-        menu.classList.remove("active");button.innerHTML="☰";
+
+document.addEventListener("click", function(e){
+
+    const menu = document.getElementById("mobileMenu");
+    const button = document.getElementById("menuButton");
+
+    if(
+        menu.classList.contains("active") &&
+        !menu.contains(e.target) &&
+        !button.contains(e.target)
+    ){
+
+        menu.classList.remove("active");
+        button.innerHTML = "☰";
     }
+
 });
 
+/* APPLICATION FORM */
+
 function openApplication(type){
-    const form=document.getElementById("applicationForm");
-    document.getElementById("applicationTitle").textContent="📝 "+type+" ansøgning";
-    document.getElementById("applicationType").value=type;
-    document.getElementById("successMessage").classList.remove("show");
-    document.getElementById("errorMessage").classList.remove("show");
+
+    const form = document.getElementById("applicationForm");
+
+    document.getElementById("applicationTitle").textContent =
+        "📝 " + type + " ansøgning";
+
+    document.getElementById("applicationType").value = type;
+
+    document.getElementById("successMessage")
+        .classList.remove("show");
+
+    document.getElementById("errorMessage")
+        .classList.remove("show");
+
     form.classList.add("active");
-    form.scrollIntoView({behavior:"smooth",block:"start"});
+
+    form.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
 }
-function closeApplication(){document.getElementById("applicationForm").classList.remove("active")}
+
+function closeApplication(){
+
+    document
+        .getElementById("applicationForm")
+        .classList.remove("active");
+}
+
+/* STORAGE */
 
 function getApplications(){
-    try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||[]}
-    catch(e){return[]}
-}
-function saveApplications(applications){
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(applications));
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || [];
+
+    }catch(e){
+
+        return [];
+    }
 }
 
+function saveApplications(applications){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(applications)
+    );
+}
+
+/* SUBMIT */
+
 function submitApplication(event){
+
     event.preventDefault();
-    const success=document.getElementById("successMessage"),error=document.getElementById("errorMessage");
-    success.classList.remove("show");error.classList.remove("show");
-    const application={
-        id:Date.now(),
-        type:document.getElementById("applicationType").value,
-        name:document.getElementById("name").value.trim(),
-        discord:document.getElementById("discord").value.trim(),
-        age:Number(document.getElementById("age").value),
-        about:document.getElementById("about").value.trim(),
-        reason:document.getElementById("reason").value.trim(),
-        experience:document.getElementById("experience").value.trim(),
+
+    const success =
+        document.getElementById("successMessage");
+
+    const error =
+        document.getElementById("errorMessage");
+
+    success.classList.remove("show");
+    error.classList.remove("show");
+
+    const application = {
+
+        id: Date.now(),
+
+        type:
+            document
+            .getElementById("applicationType")
+            .value,
+
+        name:
+            document
+            .getElementById("name")
+            .value
+            .trim(),
+
+        discord:
+            document
+            .getElementById("discord")
+            .value
+            .trim(),
+
+        age:
+            Number(
+                document
+                .getElementById("age")
+                .value
+            ),
+
+        about:
+            document
+            .getElementById("about")
+            .value
+            .trim(),
+
+        reason:
+            document
+            .getElementById("reason")
+            .value
+            .trim(),
+
+        experience:
+            document
+            .getElementById("experience")
+            .value
+            .trim(),
+
         status:"pending",
-        date:new Date().toLocaleString("da-DK")
+
+        date:
+            new Date()
+            .toLocaleString("da-DK")
     };
+
     try{
-        const applications=getApplications();
+
+        const applications = getApplications();
+
         applications.push(application);
+
         saveApplications(applications);
-        success.textContent="✅ Din ansøgning er sendt!";
+
+        success.textContent =
+            "✅ Din ansøgning er sendt!";
+
         success.classList.add("show");
+
         event.target.reset();
+
         renderApplications();
+
     }catch(err){
+
         console.error(err);
-        error.textContent="❌ Ansøgningen kunne ikke gemmes.";
+
+        error.textContent =
+            "❌ Ansøgningen kunne ikke gemmes.";
+
         error.classList.add("show");
     }
 }
 
+/* ADMIN LOGIN */
+
 function adminLogin(){
-    const password=document.getElementById("adminPassword").value;
-    const error=document.getElementById("adminError");
-    if(password===ADMIN_PASSWORD){
-        sessionStorage.setItem("rxpv_admin","true");
+
+    const password =
+        document
+        .getElementById("adminPassword")
+        .value;
+
+    const error =
+        document
+        .getElementById("adminError");
+
+    if(password === ADMIN_PASSWORD){
+
+        sessionStorage.setItem(
+            "rxpv_admin",
+            "true"
+        );
+
         error.classList.remove("show");
+
         showAdminPanel();
-    }else error.classList.add("show");
+
+    }else{
+
+        error.classList.add("show");
+    }
 }
+
 function showAdminPanel(){
-    document.getElementById("adminLogin").style.display="none";
-    document.getElementById("adminPanel").classList.add("active");
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "none";
+
+    document
+        .getElementById("adminPanel")
+        .classList.add("active");
+
     renderApplications();
 }
+
 function adminLogout(){
+
     sessionStorage.removeItem("rxpv_admin");
-    document.getElementById("adminPanel").classList.remove("active");
-    document.getElementById("adminLogin").style.display="block";
-    document.getElementById("adminPassword").value="";
+
+    document
+        .getElementById("adminPanel")
+        .classList.remove("active");
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "block";
+
+    document
+        .getElementById("adminPassword")
+        .value = "";
 }
+
+/* FILTER */
+
 function setFilter(filter,button){
-    currentFilter=filter;
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    if(button)button.classList.add("active");
+
+    currentFilter = filter;
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(function(b){
+            b.classList.remove("active");
+        });
+
+    if(button){
+        button.classList.add("active");
+    }
+
     renderApplications();
 }
+
+/* RENDER APPLICATIONS */
 
 function renderApplications(){
-    const list=document.getElementById("applicationList");
-    const applications=getApplications();
-    document.getElementById("totalApplications").textContent=applications.length;
-    document.getElementById("pendingApplications").textContent=applications.filter(a=>a.status==="pending").length;
-    document.getElementById("approvedApplications").textContent=applications.filter(a=>a.status==="approved").length;
-    document.getElementById("deniedApplications").textContent=applications.filter(a=>a.status==="denied").length;
 
-    const search=(document.getElementById("applicationSearch")?.value||"").toLowerCase().trim();
-    let filtered=applications.filter(app=>{
-        const filterOK=currentFilter==="all"||app.status===currentFilter;
-        const searchOK=!search||[app.name,app.discord,app.type,app.about,app.reason,app.experience].some(v=>String(v||"").toLowerCase().includes(search));
-        return filterOK&&searchOK;
-    });
+    const list =
+        document.getElementById("applicationList");
+
+    const applications = getApplications();
+
+    document.getElementById("totalApplications")
+        .textContent = applications.length;
+
+    document.getElementById("pendingApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "pending"
+        ).length;
+
+    document.getElementById("approvedApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "approved"
+        ).length;
+
+    document.getElementById("deniedApplications")
+        .textContent =
+        applications.filter(
+            a => a.status === "denied"
+        ).length;
+
+    const search =
+        (
+            document
+            .getElementById("applicationSearch")
+            ?.value || ""
+        )
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        applications.filter(function(app){
+
+            const filterOK =
+                currentFilter === "all" ||
+                app.status === currentFilter;
+
+            const searchOK =
+                !search ||
+                [
+                    app.name,
+                    app.discord,
+                    app.type,
+                    app.about,
+                    app.reason,
+                    app.experience
+                ]
+                .some(function(v){
+
+                    return String(v || "")
+                        .toLowerCase()
+                        .includes(search);
+                });
+
+            return filterOK && searchOK;
+        });
 
     if(!filtered.length){
-        list.innerHTML='<div class="admin-empty"><div class="big">📭</div><h3>Ingen ansøgninger</h3><p>Der er ingen ansøgninger i denne kategori.</p></div>';
+
+        list.innerHTML = `
+            <div class="admin-empty">
+                <div class="big">📭</div>
+                <h3>Ingen ansøgninger</h3>
+                <p>
+                    Der er ingen ansøgninger i denne kategori.
+                </p>
+            </div>
+        `;
+
         return;
     }
-    list.innerHTML=filtered.slice().reverse().map(createApplicationHTML).join("");
+
+    list.innerHTML =
+        filtered
+        .slice()
+        .reverse()
+        .map(createApplicationHTML)
+        .join("");
 }
+
+/* APPLICATION HTML */
 
 function createApplicationHTML(app){
-    const statusText=app.status==="approved"?"GODKENDT":app.status==="denied"?"AFVIST":"AFVENTER";
+
+    const statusText =
+        app.status === "approved"
+        ? "GODKENDT"
+        : app.status === "denied"
+        ? "AFVIST"
+        : "AFVENTER";
+
     return `
-    <div class="admin-application ${app.status}">
-        <div class="application-top">
-            <div><h3>${escapeHTML(app.name)}</h3><div class="application-type">${escapeHTML(app.type)}</div></div>
-            <span class="status ${app.status}">${statusText}</span>
+        <div class="admin-application ${app.status}">
+
+            <div class="application-top">
+
+                <div>
+                    <h3>
+                        ${escapeHTML(app.name)}
+                    </h3>
+
+                    <div class="application-type">
+                        ${escapeHTML(app.type)}
+                    </div>
+                </div>
+
+                <span class="status ${app.status}">
+                    ${statusText}
+                </span>
+
+            </div>
+
+            <div class="application-info">
+
+                <div class="info-box">
+                    <small>Discord</small>
+                    <strong>
+                        ${escapeHTML(app.discord)}
+                    </strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Alder</small>
+                    <strong>
+                        ${escapeHTML(app.age)}
+                    </strong>
+                </div>
+
+                <div class="info-box">
+                    <small>Sendt</small>
+                    <strong>
+                        ${escapeHTML(app.date)}
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="answer-box">
+                <h4>Om personen</h4>
+                <p>
+                    ${escapeHTML(app.about)}
+                </p>
+            </div>
+
+            <div class="answer-box">
+                <h4>
+                    Hvorfor skal vi vælge personen?
+                </h4>
+
+                <p>
+                    ${escapeHTML(app.reason)}
+                </p>
+            </div>
+
+            <div class="answer-box">
+                <h4>Erfaring</h4>
+
+                <p>
+                    ${escapeHTML(
+                        app.experience || "Ikke udfyldt"
+                    )}
+                </p>
+            </div>
+
+            <div class="admin-actions">
+
+                <button
+                    class="btn primary"
+                    onclick="openEditModal(${app.id})"
+                >
+                    ✏️ Rediger
+                </button>
+
+                ${
+                    app.status !== "approved"
+                    ? `
+                        <button
+                            class="btn success-btn"
+                            onclick="updateApplication(${app.id}, 'approved')"
+                        >
+                            ✅ Godkend
+                        </button>
+                    `
+                    : ""
+                }
+
+                ${
+                    app.status !== "denied"
+                    ? `
+                        <button
+                            class="btn secondary"
+                            onclick="updateApplication(${app.id}, 'denied')"
+                        >
+                            ❌ Afvis
+                        </button>
+                    `
+                    : ""
+                }
+
+                ${
+                    app.status !== "pending"
+                    ? `
+                        <button
+                            class="btn secondary"
+                            onclick="updateApplication(${app.id}, 'pending')"
+                        >
+                            ↩️ Sæt afventer
+                        </button>
+                    `
+                    : ""
+                }
+
+                <button
+                    class="btn danger"
+                    onclick="deleteApplication(${app.id})"
+                >
+                    🗑️ Slet
+                </button>
+
+            </div>
+
         </div>
-        <div class="application-info">
-            <div class="info-box"><small>Discord</small><strong>${escapeHTML(app.discord)}</strong></div>
-            <div class="info-box"><small>Alder</small><strong>${escapeHTML(app.age)}</strong></div>
-            <div class="info-box"><small>Sendt</small><strong>${escapeHTML(app.date)}</strong></div>
-        </div>
-        <div class="answer-box"><h4>Om personen</h4><p>${escapeHTML(app.about)}</p></div>
-        <div class="answer-box"><h4>Hvorfor skal vi vælge personen?</h4><p>${escapeHTML(app.reason)}</p></div>
-        <div class="answer-box"><h4>Erfaring</h4><p>${escapeHTML(app.experience||"Ikke udfyldt")}</p></div>
-        <div class="admin-actions">
-            <button class="btn primary" onclick="openEditModal(${app.id})">✏️ Rediger</button>
-            ${app.status!=="approved"?'<button class="btn success-btn" onclick="updateApplication('+app.id+',\\'approved\\')">✅ Godkend</button>':""}
-            ${app.status!=="denied"?'<button class="btn secondary" onclick="updateApplication('+app.id+',\\'denied\\')">❌ Afvis</button>':""}
-            ${app.status!=="pending"?'<button class="btn secondary" onclick="updateApplication('+app.id+',\\'pending\\')">↩️ Sæt afventer</button>':""}
-            <button class="btn danger" onclick="deleteApplication(${app.id})">🗑️ Slet</button>
-        </div>
-    </div>`;
+    `;
 }
+
+/* EDIT */
 
 function openEditModal(id){
-    const app=getApplications().find(a=>a.id===id);
-    if(!app)return;
-    document.getElementById("editId").value=app.id;
-    document.getElementById("editName").value=app.name||"";
-    document.getElementById("editDiscord").value=app.discord||"";
-    document.getElementById("editAge").value=app.age||"";
-    document.getElementById("editType").value=app.type||"";
-    document.getElementById("editAbout").value=app.about||"";
-    document.getElementById("editReason").value=app.reason||"";
-    document.getElementById("editExperience").value=app.experience||"";
-    document.getElementById("editModal").classList.add("active");
-}
-function closeEditModal(){document.getElementById("editModal").classList.remove("active")}
-function saveEditedApplication(){
-    const id=Number(document.getElementById("editId").value);
-    const applications=getApplications();
-    const index=applications.findIndex(a=>a.id===id);
-    if(index===-1)return;
-    applications[index].name=document.getElementById("editName").value.trim();
-    applications[index].discord=document.getElementById("editDiscord").value.trim();
-    applications[index].age=Number(document.getElementById("editAge").value);
-    applications[index].type=document.getElementById("editType").value.trim();
-    applications[index].about=document.getElementById("editAbout").value.trim();
-    applications[index].reason=document.getElementById("editReason").value.trim();
-    applications[index].experience=document.getElementById("editExperience").value.trim();
-    saveApplications(applications);
-    closeEditModal();
-    renderApplications();
-    showToast("✅ Ansøgningen er blevet gemt.");
+
+    const app =
+        getApplications()
+        .find(a => a.id === id);
+
+    if(!app){
+        return;
+    }
+
+    document.getElementById("editId").value =
+        app.id;
+
+    document.getElementById("editName").value =
+        app.name || "";
+
+    document.getElementById("editDiscord").value =
+        app.discord || "";
+
+    document.getElementById("editAge").value =
+        app.age || "";
+
+    document.getElementById("editType").value =
+        app.type || "";
+
+    document.getElementById("editAbout").value =
+        app.about || "";
+
+    document.getElementById("editReason").value =
+        app.reason || "";
+
+    document.getElementById("editExperience").value =
+        app.experience || "";
+
+    document
+        .getElementById("editModal")
+        .classList.add("active");
 }
 
-function updateApplication(id,status){
-    const applications=getApplications(),index=applications.findIndex(a=>a.id===id);
-    if(index===-1)return;
-    applications[index].status=status;
+function closeEditModal(){
+
+    document
+        .getElementById("editModal")
+        .classList.remove("active");
+}
+
+function saveEditedApplication(){
+
+    const id =
+        Number(
+            document
+            .getElementById("editId")
+            .value
+        );
+
+    const applications = getApplications();
+
+    const index =
+        applications.findIndex(
+            a => a.id === id
+        );
+
+    if(index === -1){
+        return;
+    }
+
+    applications[index].name =
+        document
+        .getElementById("editName")
+        .value
+        .trim();
+
+    applications[index].discord =
+        document
+        .getElementById("editDiscord")
+        .value
+        .trim();
+
+    applications[index].age =
+        Number(
+            document
+            .getElementById("editAge")
+            .value
+        );
+
+    applications[index].type =
+        document
+        .getElementById("editType")
+        .value
+        .trim();
+
+    applications[index].about =
+        document
+        .getElementById("editAbout")
+        .value
+        .trim();
+
+    applications[index].reason =
+        document
+        .getElementById("editReason")
+        .value
+        .trim();
+
+    applications[index].experience =
+        document
+        .getElementById("editExperience")
+        .value
+        .trim();
+
     saveApplications(applications);
+
+    closeEditModal();
+
     renderApplications();
-    showToast(status==="approved"?"✅ Ansøgningen er godkendt.":status==="denied"?"❌ Ansøgningen er afvist.":"↩️ Ansøgningen er sat til afventer.");
+
+    showToast(
+        "✅ Ansøgningen er blevet gemt."
+    );
 }
+
+/* UPDATE STATUS */
+
+function updateApplication(id,status){
+
+    const applications = getApplications();
+
+    const index =
+        applications.findIndex(
+            a => a.id === id
+        );
+
+    if(index === -1){
+        return;
+    }
+
+    applications[index].status = status;
+
+    saveApplications(applications);
+
+    renderApplications();
+
+    if(status === "approved"){
+
+        showToast(
+            "✅ Ansøgningen er godkendt."
+        );
+
+    }else if(status === "denied"){
+
+        showToast(
+            "❌ Ansøgningen er afvist."
+        );
+
+    }else{
+
+        showToast(
+            "↩️ Ansøgningen er sat til afventer."
+        );
+    }
+}
+
+/* DELETE */
+
 function deleteApplication(id){
-    if(!confirm("Er du sikker på, at du vil slette denne ansøgning?"))return;
-    saveApplications(getApplications().filter(a=>a.id!==id));
+
+    if(
+        !confirm(
+            "Er du sikker på, at du vil slette denne ansøgning?"
+        )
+    ){
+        return;
+    }
+
+    saveApplications(
+        getApplications()
+        .filter(a => a.id !== id)
+    );
+
     renderApplications();
-    showToast("🗑️ Ansøgningen er slettet.");
+
+    showToast(
+        "🗑️ Ansøgningen er slettet."
+    );
 }
+
+/* EXPORT */
+
 function exportApplications(){
-    const data=JSON.stringify(getApplications(),null,2);
-    const blob=new Blob([data],{type:"application/json"});
-    const url=URL.createObjectURL(blob),a=document.createElement("a");
-    a.href=url;a.download="rx-pvp-ansogninger.json";a.click();URL.revokeObjectURL(url);
-    showToast("⬇️ Ansøgninger eksporteret.");
+
+    const data =
+        JSON.stringify(
+            getApplications(),
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [data],
+            {type:"application/json"}
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "rx-pvp-ansogninger.json";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+        "⬇️ Ansøgninger eksporteret."
+    );
 }
+
+/* SECURITY */
+
 function escapeHTML(value){
-    return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
+
+/* TOAST */
+
 function showToast(message){
-    const toast=document.getElementById("toast");toast.textContent=message;toast.classList.add("show");
-    clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2500);
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(function(){
+
+            toast.classList.remove("show");
+
+        },2500);
 }
-document.getElementById("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
-document.getElementById("editModal").addEventListener("click",e=>{if(e.target.id==="editModal")closeEditModal()});
-if(sessionStorage.getItem("rxpv_admin")==="true")showAdminPanel();
+
+/* KEYBOARD */
+
+document
+    .getElementById("adminPassword")
+    .addEventListener(
+        "keydown",
+        function(e){
+
+            if(e.key === "Enter"){
+                adminLogin();
+            }
+
+        }
+    );
+
+/* CLOSE MODAL */
+
+document
+    .getElementById("editModal")
+    .addEventListener(
+        "click",
+        function(e){
+
+            if(e.target.id === "editModal"){
+                closeEditModal();
+            }
+
+        }
+    );
+
+/* AUTO LOGIN */
+
+if(
+    sessionStorage.getItem("rxpv_admin") === "true"
+){
+    showAdminPanel();
+}
+
 </script>
+
 </body>
 </html>
